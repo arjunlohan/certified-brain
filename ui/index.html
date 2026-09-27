@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certified Brain Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+:root{--bg:#F6F3EC;--surface:#FFFDF8;--sunk:#EEEADF;--ink:#1B1E24;--muted:#5F636B;--rule:#DAD4C6;--accent:#23408E;--good:#2E7D4F;--bad:#A33A2B;--warn:#9A6A12;
+--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--serif:"Source Serif 4",Georgia,serif}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#15171B;--surface:#1C1F24;--sunk:#23272D;--ink:#E7E4DC;--muted:#A3A39C;--rule:#343840;--accent:#9DB3EE;--good:#7ACB98;--bad:#EE9C8E;--warn:#E3B55C}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);padding:28px 20px 60px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font:700 32px/1.15 var(--serif);margin:0}
+h2{font:600 20px/1.2 var(--serif);margin:0 0 10px}
+.eyebrow{font:500 11.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{font:500 13px var(--sans);background:var(--surface);color:var(--ink);border:0;padding:7px 12px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:12px 14px}
+.kpi b{display:block;font:700 28px/1.1 var(--serif);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:16px 18px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--sunk);white-space:nowrap}
+.pill{display:inline-block;font:500 11.5px var(--mono);padding:2px 8px;border-radius:999px;border:1px solid}
+.ok{color:var(--good);border-color:var(--good)} .no{color:var(--bad);border-color:var(--bad)}
+.bar{height:8px;background:var(--sunk);border-radius:4px;position:relative;min-width:120px}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:4px}
+.bar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--bad)}
+.muted{color:var(--muted)} .mono{font-family:var(--mono);font-size:12.5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Certified Brain · GBrain contradiction-verdict cache</div>
+    <h1>Which cached verdicts survive the change</h1>
+    <p class="muted" id="sub">Loading report…</p>
+  </header>
+
+  <div class="controls">
+    <div><div class="eyebrow">Change</div><div class="seg" id="edit"></div></div>
+    <div><div class="eyebrow">Error budget α</div><div class="seg" id="alpha"></div></div>
+    <div><div class="eyebrow">Strata</div><div class="seg" id="strat"></div></div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="panel">
+    <h2>Certificate · per stratum</h2>
+    <p class="muted" style="margin:0 0 10px;font-size:13.5px">Strata are frozen by cached verdict before any new judge call. Each stratum is sampled on a doubling schedule; the bar is the empirical-Bernstein upper bound on its flip rate, the red tick is α. Certified strata are reused; refused strata are recomputed.</p>
+    <div class="scroll"><table id="strata"></table></div>
+  </div>
+
+  <div class="two">
+    <div class="panel">
+      <h2>Stock GBrain vs certified</h2>
+      <div class="scroll"><table id="compare"></table></div>
+    </div>
+    <div class="panel">
+      <h2>Does the guarantee hold?</h2>
+      <p class="muted" style="margin:0 0 10px;font-size:13.5px">Same labels, 1,000 sampling replications. An exceedance is a replication that certified a stratum whose true flip rate is above α.</p>
+      <div class="scroll"><table id="reps"></table></div>
+    </div>
+  </div>
+  <p class="muted mono" id="foot"></p>
+</div>
+<script>
+const pct = (x, d = 1) => (x * 100).toFixed(d) + "%";
+const state = { edit: null, alpha: 0.1, strat: "value" };
+let R;
+
+function seg(el, values, key, fmt = (v) => v) {
+  el.innerHTML = "";
+  for (const v of values) {
+    const b = document.createElement("button");
+    b.textContent = fmt(v);
+    b.setAttribute("aria-pressed", String(state[key] === v));
+    b.onclick = () => { state[key] = v; render(); };
+    el.appendChild(b);
+  }
+}
+
+function render() {
+  const edits = [...new Set(R.results.map((r) => r.edit))];
+  state.edit ??= edits[0];
+  seg(document.getElementById("edit"), edits, "edit");
+  seg(document.getElementById("alpha"), [0.05, 0.1, 0.2], "alpha");
+  seg(document.getElementById("strat"), ["value", "value+confidence"], "strat", (v) => (v === "value" ? "cached verdict" : "verdict × confidence"));
+  const r = R.results.find((x) => x.edit === state.edit && x.alpha === state.alpha && x.stratifier === state.strat);
+  if (!r) return;
+  const o = r.once, rep = r.rep, N = o.cells;
+  const stockCost = N * r.costPerCall, certCost = (N - o.reused) * r.costPerCall;
+
+  document.getElementById("kpis").innerHTML = [
+    [pct(o.savings), "cached verdicts certified for reuse"],
+    [`${o.oracleCalls.toLocaleString()} / ${N.toLocaleString()}`, "new judge calls to certify"],
+    [pct(o.presentedError, 2), `realized error on presented cells (α = ${state.alpha})`],
+    [pct(o.populationFlipRate), "cells that actually changed"],
+    [o.strata.filter((s) => !s.certified).length + " refused", "strata recomputed in full"],
+  ].map(([b, s]) => `<div class="kpi"><b>${b}</b><span>${s}</span></div>`).join("");
+
+  document.getElementById("strata").innerHTML =
+    "<tr><th>Stratum</th><th>Size</th><th>Sampled</th><th>Looks (n · flips · bound)</th><th>Bound vs α</th><th>Decision</th><th>Reused</th><th>True flip rate</th></tr>" +
+    o.strata.map((s) => {
+      const last = s.looks[s.looks.length - 1];
+      const ub = last ? last.upperBound : 1;
+      return `<tr><td class="mono">${s.id.replace("v=", "").replaceAll('"', "").replace("|all", "")}</td><td>${s.size}</td><td>${s.sampled}</td>
+      <td class="mono">${s.looks.map((l) => `${l.n}·${l.flips}·${l.upperBound.toFixed(3)}`).join(" → ")}</td>
+      <td><div class="bar"><i style="width:${Math.min(100, ub * 100 / 0.5)}%"></i><em style="left:${state.alpha * 100 / 0.5}%"></em></div></td>
+      <td><span class="pill ${s.certified ? "ok" : "no"}">${s.certified ? "certified" : "refused"}</span></td>
+      <td>${s.reused}</td><td>${pct(s.trueFlipRate)}</td></tr>`;
+    }).join("");
+
+  document.getElementById("compare").innerHTML =
+    "<tr><th></th><th>Stock GBrain</th><th>Certified</th></tr>" +
+    [
+      ["Cache hits after the change", "0", o.reused.toLocaleString()],
+      ["Judge calls to reach the new version", N.toLocaleString(), (N - o.reused).toLocaleString()],
+      ["Judge spend at measured $/call", "$" + stockCost.toFixed(3), "$" + certCost.toFixed(3)],
+      ["Error vs full recompute (presented)", "0 (recomputes all)", pct(o.presentedError, 2)],
+      ["Reuse-all, no guarantee (error)", "", pct(o.populationFlipRate, 2)],
+    ].map((row) => `<tr>${row.map((c, i) => (i ? `<td>${c}</td>` : `<td>${c}</td>`)).join("")}</tr>`).join("");
+
+  document.getElementById("reps").innerHTML =
+    "<tr><th>Metric</th><th>Value</th></tr>" +
+    [
+      ["Replications", rep.runs],
+      ["Certified at least one stratum", pct(rep.certRate, 0)],
+      ["Savings, mean [5th, 95th]", `${pct(rep.savingsMean)} [${pct(rep.savingsP05)}, ${pct(rep.savingsP95)}]`],
+      ["Mean judge calls to certify", Math.round(rep.oracleMean)],
+      ["Worst realized presented error", pct(rep.presentedErrMax, 2)],
+      ["Exceedances (target 0)", `${rep.exceedances} / ${rep.runs}`],
+    ].map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("");
+
+  document.getElementById("sub").textContent =
+    `${N.toLocaleString()} cached contradiction verdicts from GBrain's shipped judge prompt (PROMPT_VERSION 2). δ = 0.1, presented-cells estimand, n₀ = 45 doubling looks.`;
+  document.getElementById("foot").textContent = `report generated ${R.generatedAt} · certifier: sIVM (Lohan 2026), unmodified`;
+}
+
+fetch("data/report.json").then((r) => r.json()).then((j) => { R = j; render(); })
+  .catch(() => (document.getElementById("sub").textContent = "No report yet: run bun run certify"));
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "certified-brain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Certified reuse of GBrain's LLM verdict caches across prompt edits and judge-model swaps (sIVM).",
+  "scripts": {
+    "corpus": "bun run scripts/gen-corpus.ts",
+    "pairs": "bun run scripts/build-pairs.ts",
+    "judge": "bun run scripts/judge-all.ts",
+    "certify": "bun run scripts/certify.ts",
+    "audit": "bun run scripts/audit.ts",
+    "floor": "bun run scripts/floor.ts",
+    "ui": "bun run scripts/serve-ui.ts"
+  }
+}
