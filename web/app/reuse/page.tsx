@@ -10,9 +10,7 @@ export default function ReusePage() {
   return (
     <>
       <PageHeader crumb="Certified reuse" kicker="Reuse, but verify · on GBrain's verdict cache" title={<>Change the judge. <span className="text-signal">Keep the cache</span> you can prove.</>}>
-        GBrain caches an LLM verdict for every pair of notes that might contradict each other. Change the judge's prompt or swap its model and
-        GBrain throws the whole cache away, by design. The common shortcut keeps everything and serves stale verdicts. The certificate samples
-        each group of cached verdicts, bounds how many would flip under the new judge, and reuses a group only when the bound clears the error budget α.
+        GBrain caches an AI verdict for every pair of notes. Change the judge and it throws them all away. We check a sample and keep what still holds.
       </PageHeader>
       <ReuseReplay configs={configs} floors={floors} />
     </>

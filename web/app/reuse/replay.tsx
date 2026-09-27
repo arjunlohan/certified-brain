@@ -12,18 +12,18 @@ import { int, pct, usd } from "@/lib/fmt";
 import { cn } from "@/lib/utils";
 
 const CHANGES = [
-  { edit: "Semantic prompt edit", short: "Semantic rule change", group: "Prompt edit", to: "3-sem" },
-  { edit: "Formatting-only prompt edit", short: "Formatting-only edit", group: "Prompt edit", to: "2-fmt" },
-  { edit: "Swap to owned 9B (trained)", short: "Qwen 9B, trained on River", group: "Judge swap", to: "9b-sft" },
-  { edit: "Swap to 9B (untrained)", short: "Qwen 9B, untrained", group: "Judge swap", to: "9b-base" },
-  { edit: "Same model, owned weights (River)", short: "DeepSeek V4 Flash on River", group: "Judge swap", to: "dsv4" },
-  { edit: "Same model, trained on River", short: "DeepSeek V4 Flash, fine-tuned", group: "Judge swap", to: "dsv4-sft" },
+  { edit: "Semantic prompt edit", short: "Rule change", group: "Change the judge's prompt", to: "3-sem", what: "The judge's instructions gain a new rule about dates and small metric drops." },
+  { edit: "Formatting-only prompt edit", short: "Formatting only", group: "Change the judge's prompt", to: "2-fmt", what: "Same rules, just reworded and numbered. Looks harmless." },
+  { edit: "Swap to owned 9B (trained)", short: "Our 9B, trained", group: "Change the judge's model", to: "9b-sft", what: "Replace the judge with a small Qwen 9B we fine-tuned on River." },
+  { edit: "Swap to 9B (untrained)", short: "9B, untrained", group: "Change the judge's model", to: "9b-base", what: "The same small model before any training." },
+  { edit: "Same model, owned weights (River)", short: "Same model, our weights", group: "Change the judge's model", to: "dsv4", what: "The same DeepSeek model, but weights we host on River." },
+  { edit: "Same model, trained on River", short: "Same model, fine-tuned", group: "Change the judge's model", to: "dsv4-sft", what: "The same DeepSeek model after our fine-tune on River." },
 ] as const;
 const ALPHAS = [0.05, 0.1, 0.2];
 const LANES = [
-  { key: "reuse", name: "Reuse everything", sub: "version check removed", border: "border-t-destructive" },
-  { key: "stock", name: "Stock GBrain", sub: "re-judge every verdict", border: "border-t-muted-foreground" },
-  { key: "cert", name: "Certified", sub: "reuse what the bound covers", border: "border-t-emerald-500" },
+  { key: "reuse", name: "Reuse everything", sub: "free, but serves stale answers", border: "border-t-destructive" },
+  { key: "stock", name: "Stock GBrain", sub: "re-judges everything", border: "border-t-muted-foreground" },
+  { key: "cert", name: "Certified", sub: "samples, keeps what passes", border: "border-t-emerald-500" },
 ] as const;
 type LaneKey = (typeof LANES)[number]["key"];
 
@@ -275,7 +275,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
   };
 
   const at01 = (edit: string) => configs.find((c) => c.edit === edit && c.alpha === 0.1)!;
-  const swaps = CHANGES.filter((c) => c.group === "Judge swap").map((c) => ({ ...c, cfg: at01(c.edit) }));
+  const swaps = CHANGES.filter((c) => c.group === "Change the judge's model").map((c) => ({ ...c, cfg: at01(c.edit) }));
   const [guess, setGuess] = useState<string | null>(null);
   const fmt = at01("Formatting-only prompt edit"), sem = at01("Semantic prompt edit");
   const ncFlip = (c: Config) => c.once.strata.find((s) => label(s.id) === "no_contradiction")!.trueFlipRate;
@@ -284,7 +284,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
     <div className="mx-auto w-full max-w-6xl space-y-14 px-4 py-8 sm:px-6">
       <Section eyebrow="01 · The replay" title="Three caches, one change">
         <div className="flex flex-wrap items-end gap-6">
-          {(["Prompt edit", "Judge swap"] as const).map((g) => (
+          {(["Change the judge's prompt", "Change the judge's model"] as const).map((g) => (
             <div className="space-y-1.5" key={g}>
               <p className="text-muted-foreground text-xs uppercase tracking-wider">{g}</p>
               <div className="flex flex-wrap gap-1.5">
@@ -297,10 +297,10 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
             </div>
           ))}
           <div className="space-y-1.5">
-            <p className="text-muted-foreground text-xs uppercase tracking-wider">Error budget α</p>
+            <p className="text-muted-foreground text-xs uppercase tracking-wider">Max wrong verdicts allowed</p>
             <div className="flex gap-1.5">
               {ALPHAS.map((a) => (
-                <Button key={a} onClick={() => setAlpha(a)} size="sm" variant={a === alpha ? "default" : "outline"}>{a}</Button>
+                <Button key={a} onClick={() => setAlpha(a)} size="sm" variant={a === alpha ? "default" : "outline"}>{a * 100}%</Button>
               ))}
             </div>
           </div>
@@ -313,6 +313,8 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
             <Button onClick={() => { pause(); setClock(cells); }} size="icon" variant="outline" aria-label="Skip to end"><SkipForwardIcon /></Button>
           </div>
         </div>
+
+        <p className="text-sm"><b>{change.short}:</b> <span className="text-muted-foreground">{change.what}</span></p>
 
         <div className="grid gap-4 md:grid-cols-3">
           {LANES.map((lane) => {
@@ -330,7 +332,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
                       {s.stale ? `${int(s.stale)} stale served` : "done · 0 stale"}
                     </Badge>
                   ) : (
-                    <Badge variant="outline">judging…</Badge>
+                    <Badge variant="outline">{clock === 0 ? "ready" : "judging…"}</Badge>
                   )}
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-center tabular-nums">
@@ -345,29 +347,27 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
         </div>
         <Legend />
         <p className="text-muted-foreground text-xs">
-          Each square is one cached verdict ({int(cells)} for this change), grouped by cached verdict. The replay is recorded data (certification seed 1), not a live run:
-          all three lanes advance on the same judge-call clock, so a lane that makes fewer calls finishes earlier at equal throughput. Stale counts are measured by
-          re-judging every cell with the new judge. Stale squares inside a group are placed at random; their number is exact.
+          1 square = 1 cached verdict. Recorded run, all lanes on the same judge-call clock.
         </p>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Stat label={`served stale by reuse-everything (${pct(cfg.once.populationFlipRate, 2)} of the cache)`} tone="bad" value={int(staleAll)} />
-          <Stat label={`served stale by the certificate (${pct(cfg.once.presentedError, 2)}; budget α = ${alpha})`} tone="good" value={int(cfg.once.presentedError * cells)} />
-          <Stat label={`judge calls with the certificate, vs ${int(cells)} for stock`} tone="signal" value={int(certCalls)} />
-          <Stat label={`of ${int(cfg.rep.runs)} replications exceeded α (mean reuse ${pct(cfg.rep.savingsMean)})`} tone="good" value={int(cfg.rep.exceedances)} />
+          <Stat label="wrong verdicts served if you reuse everything" tone="bad" value={int(staleAll)} />
+          <Stat label={`wrong verdicts served with the certificate (budget ${alpha * 100}%)`} tone="good" value={int(cfg.once.presentedError * cells)} />
+          <Stat label={`judge calls with the certificate (stock: ${int(cells)})`} tone="signal" value={int(certCalls)} />
+          <Stat label={`budget breaches in ${int(cfg.rep.runs)} reruns`} tone="good" value={int(cfg.rep.exceedances)} />
         </div>
       </Section>
 
-      <Section eyebrow="02 · Inside the certificate" title="Every group is sampled until the bound clears α, or it is refused">
+      <Section eyebrow="02 · Inside the certificate" title="Sample each group, keep it only if it passes">
         <div className="overflow-x-auto rounded-2xl border bg-card shadow-[var(--card-shadow)]">
           <table className="w-full min-w-[720px] text-sm">
             <thead className="text-left font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
               <tr className="border-b">
-                <th className="px-4 py-3">Cached verdict</th>
+                <th className="px-4 py-3">Group (old verdict)</th>
                 <th className="px-4 py-3 text-right">Cells</th>
-                <th className="px-4 py-3">Upper bound on flip rate vs α</th>
+                <th className="px-4 py-3">Worst-case share that changed vs budget</th>
                 <th className="px-4 py-3 text-right">Sampled</th>
-                <th className="px-4 py-3 text-right">Actual flip rate</th>
+                <th className="px-4 py-3 text-right">Actually changed</th>
                 <th className="px-4 py-3">Decision</th>
               </tr>
             </thead>
@@ -384,7 +384,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
                     <td className="px-4 py-3">
                       <div className="relative h-3 w-56 rounded-full bg-muted">
                         {look ? <div className={cn("h-3 rounded-full transition-[width] duration-[var(--duration-base)]", look.upperBound <= alpha ? "bg-emerald-500" : "bg-signal")} style={{ width: w(look.upperBound) }} /> : null}
-                        <div className="absolute -top-1 h-5 w-0.5 bg-destructive" style={{ left: w(alpha) }} title={`α = ${alpha}`} />
+                        <div className="absolute -top-1 h-5 w-0.5 bg-destructive" style={{ left: w(alpha) }} title={`budget ${alpha * 100}%`} />
                       </div>
                       <div className="mt-1 font-mono text-[11px] text-muted-foreground">
                         {look ? `look ${j + 1}/${st.looks.length} · n=${look.n} · ${look.flips} flips · bound ${look.upperBound >= 0.999 ? "stopped (futility)" : look.upperBound.toFixed(3)}` : "waiting"}
@@ -406,16 +406,15 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
           </table>
         </div>
         <p className="text-muted-foreground text-xs">
-          Bound: empirical-Bernstein upper confidence bound on the flip rate, Bonferroni-corrected across groups and looks, looks on a doubling schedule from 45 samples.
-          Bar scale 0 to 0.5; the red tick is α. Click a row to read real pairs whose verdict flipped.
+          Red tick = the error budget. Click a row to see real verdicts that flipped.
         </p>
       </Section>
 
-      <Section eyebrow="03 · Guess" title="Which edit is safer to reuse the cache across?">
+      <Section eyebrow="03 · Guess" title="Which change breaks fewer verdicts?">
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            { key: "fmt", name: "Formatting-only edit", desc: "Same rules, just unwrapped and numbered. Nothing semantic changed.", c: fmt },
-            { key: "sem", name: "Semantic rule change", desc: "New rule: a metric drop under 10% is evolution; one-sided dates are never supersession.", c: sem },
+            { key: "fmt", name: "Formatting only", desc: "Same rules, reworded and numbered.", c: fmt },
+            { key: "sem", name: "Rule change", desc: "A new rule about dates and small metric drops.", c: sem },
           ].map((o) => (
             <button
               className={cn("space-y-2 rounded-2xl border bg-card p-4 text-left shadow-[var(--card-shadow)] transition-[background-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-standard)] active:scale-[0.99]", guess === o.key && "ring-2 ring-ring")}
@@ -435,10 +434,10 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
         </div>
         {guess ? (
           <p className="max-w-3xl text-sm">
-            <b>{guess === "sem" ? "Right." : "Most people pick this one."}</b> The "harmless" formatting edit flipped {pct(ncFlip(fmt))} of the largest group; the rule change flipped only {pct(ncFlip(sem))} of it. The rule change reuses more, with fewer checks and a third of the error. You cannot eyeball which edit is safe. You have to measure it, and the certificate is that measurement.
+            <b>{guess === "sem" ? "Right." : "Most people pick this one."}</b> The "harmless" edit changed {pct(ncFlip(fmt))} of verdicts in the biggest group, the rule change only {pct(ncFlip(sem))}. You can't eyeball it. You have to measure.
           </p>
         ) : (
-          <p className="text-muted-foreground text-sm">Pick one, then the numbers appear (α = 0.1).</p>
+          <p className="text-muted-foreground text-sm">Pick one.</p>
         )}
       </Section>
 
@@ -447,13 +446,13 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
           <table className="w-full min-w-[720px] text-sm">
             <thead className="text-left font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
               <tr className="border-b">
-                <th className="px-4 py-3">New judge (α = 0.1)</th>
+                <th className="px-4 py-3">New judge (budget 10%)</th>
                 <th className="px-4 py-3 text-right">Agrees with old</th>
                 <th className="px-4 py-3 text-right">Reused (seed 1)</th>
-                <th className="px-4 py-3 text-right">Mean reuse, 1,000 runs</th>
+                <th className="px-4 py-3 text-right">Avg reuse, 1,000 reruns</th>
                 <th className="px-4 py-3 text-right">Judge calls</th>
-                <th className="px-4 py-3 text-right">Realized error</th>
-                <th className="px-4 py-3 text-right">Runs over α</th>
+                <th className="px-4 py-3 text-right">Wrong served</th>
+                <th className="px-4 py-3 text-right">Breaches</th>
               </tr>
             </thead>
             <tbody>
@@ -471,11 +470,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
             </tbody>
           </table>
         </div>
-        <ul className="max-w-3xl list-disc space-y-2 pl-5 text-muted-foreground text-sm">
-          <li>The untrained 9B inherits nothing: every group is refused. Training it on River on 1,500 of the teacher's verdicts lifts agreement and lets it inherit the big group with a certificate.</li>
-          <li>Fine-tuning DeepSeek V4 Flash on River made it worse (lower agreement). The certifier handed it far less of the cache: nothing on seed 1, {pct(swaps[3]!.cfg.rep.savingsMean)} on average across 1,000 runs.</li>
-          <li>Equal reuse percentages across judges are structural, not a coincidence: reuse comes in whole-group steps. Compare judges on calls and realized error instead.</li>
-        </ul>
+        <p className="max-w-3xl text-muted-foreground text-sm">Untrained: nothing carries over. Trained on River: most of the cache does. Fine-tuning DeepSeek made it worse, and the certificate noticed.</p>
         <div className="grid gap-3 sm:grid-cols-4">
           {floors.map((f) => (
             <Stat
@@ -491,9 +486,7 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
           ))}
         </div>
         <p className="max-w-3xl text-muted-foreground text-sm">
-          Self-flip floor: the same judge asked the same question twice at temperature 0. No certificate can beat it. Unpinned, one gateway model id was served by
-          three different hosts in a single run, so a certificate issued against that id can silently expire. Owned weights on River make the floor stationary
-          (one fixed checkpoint), not automatically lower: DeepSeek on River has the same 3.0% floor as the pinned provider.
+          Floor = how often a judge disagrees with itself on the same question. A rented model id moved across three hosts in one run; weights you own stay put.
         </p>
       </Section>
 

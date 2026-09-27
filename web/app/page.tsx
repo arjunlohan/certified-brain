@@ -8,28 +8,28 @@ import { int, pct, usd } from "@/lib/fmt";
 export const dynamic = "force-dynamic";
 
 const TOUR = [
-  { href: "/reuse", kicker: "Watch", title: "Certified reuse", detail: "Three caches race on one judge change. Guess which edit is safer. Swap in your own judge." },
-  { href: "/ask", kicker: "Try it", title: "Ask the brain · A/B", detail: "One question, three cache policies, answers written by DeepSeek on River." },
-  { href: "/infographic", kicker: "See it", title: "Infographics · A/B", detail: "Edit the old image vs re-render. Gateway spec writer vs your River 9B." },
+  { href: "/reuse", kicker: "Watch", title: "Certified reuse", detail: "Three caches race after the judge changes." },
+  { href: "/ask", kicker: "Try it", title: "Ask the brain · A/B", detail: "One question, three answers side by side." },
+  { href: "/infographic", kicker: "See it", title: "Infographics · A/B", detail: "Rented model vs our River model, live." },
 ] as const;
 
 const REPOS = [
   {
     name: "arjunlohan/certified-brain",
     href: "https://github.com/arjunlohan/certified-brain",
-    what: "This app, the certifier (sIVM), the 4,867-pair GBrain verdict cache, River training scripts, every recorded result.",
+    what: "This app, the certifier, River training, all results.",
     status: "built · measured",
   },
   {
     name: "arjunlohan/gbrain · cycle-contradiction-probe",
     href: "https://github.com/arjunlohan/gbrain/tree/cycle-contradiction-probe",
-    what: "GBrain #5559: the contradiction probe never ran in the nightly dream cycle. Adds it as a budgeted phase (off by default). 86/86 tests pass.",
+    what: "#5559: contradiction check now runs in the nightly cycle.",
     status: "fork · tested",
   },
   {
     name: "arjunlohan/qm · fix-1452-recall-providers",
     href: "https://github.com/arjunlohan/qm/tree/fix-1452-recall-providers",
-    what: "QM #1452: turn context called memory.read, so external memory providers like GBrain were never consulted. Now calls recall. New test fails without the fix.",
+    what: "#1452: QM now actually asks external memory like GBrain.",
     status: "fork · tested",
   },
 ] as const;
@@ -71,7 +71,7 @@ function Flywheel() {
         {node(690, 30, 190, "Spec writer on River", "owned 9B, replaces gateway", "built")}
         {node(690, 170, 190, "Hy Image 3.5", "text-to-image · image-to-image", "built")}
         {node(480, 170, 190, "Vision fact-check", "text contract vs pixels", "built")}
-        {node(250, 170, 190, "Write back to brain", "QA outcomes as memory", "designed")}
+        {node(250, 170, 190, "Write back to brain", "fact-checks saved in GBrain", "built")}
         {node(20, 170, 190, "Nightly dream cycle", "contradiction probe (fork)", "fork")}
         <g fill="none" markerEnd="url(#a)" stroke="var(--muted-foreground)" strokeWidth="1.4">
           <line x1="210" x2="248" y1="61" y2="61" />
@@ -120,9 +120,7 @@ export default function HowItWorks() {
   return (
     <>
       <PageHeader crumb="How it works" kicker="YC · Own Your Intelligence hackathon · 27 Sep 2026" title={<>A memory that survives <span className="text-signal">changing its mind</span></>}>
-        Every agent memory caches LLM judgments: which notes contradict, which facts are current, what a chart should say. Change the prompt or swap the model
-        and those judgments are either thrown away (expensive) or kept blindly (wrong). We attach a statistical certificate to GBrain's verdict cache so it keeps
-        exactly what it can prove, and we move the judge and the infographic writer onto models we own and trained on River.
+        When you change an AI judge, keep only the old answers you can prove are still right. Run it on models you own.
       </PageHeader>
       <div className="mx-auto w-full max-w-6xl space-y-14 px-4 py-8 sm:px-6">
         <section aria-label="Tour" className="grid gap-2 sm:grid-cols-3">
@@ -142,27 +140,22 @@ export default function HowItWorks() {
           ))}
         </section>
 
-        <Section eyebrow="01 · The numbers" title="One semantic prompt change to GBrain's contradiction judge">
+        <Section eyebrow="01 · The numbers" title="After one change to GBrain's judge">
           <div className="grid gap-3 sm:grid-cols-4">
-            <Stat label={`of ${int(sem.once.cells)} cached verdicts reused, with a certificate (α = 0.1)`} tone="signal" value={pct(sem.once.reused / sem.once.cells)} />
-            <Stat label={`judge calls, vs ${int(sem.once.cells)} for stock GBrain (${usd(certCalls * sem.costPerCall)} vs ${usd(sem.once.cells * sem.costPerCall)})`} value={int(certCalls)} />
-            <Stat label={`stale verdicts served, vs ${int(staleAll)} if you reuse everything`} tone="good" value={int(sem.once.presentedError * sem.once.cells)} />
-            <Stat label={`of ${int(sem.rep.runs)} replications exceeded the error budget`} tone="good" value={sem.rep.exceedances} />
+            <Stat label={`of ${int(sem.once.cells)} cached verdicts kept`} tone="signal" value={pct(sem.once.reused / sem.once.cells)} />
+            <Stat label={`judge calls instead of ${int(sem.once.cells)}`} value={int(certCalls)} />
+            <Stat label={`wrong answers served, vs ${int(staleAll)} if you keep everything`} tone="good" value={int(sem.once.presentedError * sem.once.cells)} />
+            <Stat label={`budget breaches in ${int(sem.rep.runs)} reruns`} tone="good" value={sem.rep.exceedances} />
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
-            <Stat label={`of the cache inherited by a Qwen 9B we trained on River, at ${pct(owned.once.presentedError, 2)} realized error. Untrained: 0%.`} tone="signal" value={pct(owned.once.reused / owned.once.cells)} />
-            <Stat label="self-flip floor when one gateway model id was served by three hosts; owned weights keep the floor fixed" tone="bad" value="3 hosts" />
-            <Stat label={`valid, fully grounded infographic specs from our River 9B on held-out companies (gateway model: ${spec.teacher!.validSpecs}/${spec.teacher!.prompts})`} tone="good" value={`${spec.trained!.validSpecs}/${spec.trained!.prompts}`} />
+            <Stat label="of the cache kept when we swap in our own 9B trained on River (untrained: 0%)" tone="signal" value={pct(owned.once.reused / owned.once.cells)} />
+            <Stat label="hosts behind one rented model id in a single run" tone="bad" value="3 hosts" />
+            <Stat label="valid infographic specs from our River 9B on unseen companies" tone="good" value={`${spec.trained!.validSpecs}/${spec.trained!.prompts}`} />
           </div>
         </Section>
 
-        <Section eyebrow="02 · The loop" title="The flywheel, on top of the infographic studio's">
-          <p className="max-w-3xl text-muted-foreground text-sm">
-            The infographic studio already fact-checks every render, then throws the review away when the session ends. The flywheel it needs has three missing
-            parts: a durable memory for outcomes, a model you can retrain on them, and a gate that stops stale lessons from shipping. GBrain is the memory, QM is the
-            agent that recalls it, River trains the owned judge and spec writer, and the certificate is the gate: when the prompt or the model changes, it keeps the
-            lessons it can prove and re-checks the rest, instead of discarding them all or trusting them all.
-          </p>
+        <Section eyebrow="02 · The loop" title="The flywheel">
+          <p className="max-w-3xl text-muted-foreground text-sm">GBrain remembers, QM recalls, River trains the models, and the certificate decides what survives each change.</p>
           <Flywheel />
         </Section>
 
@@ -176,19 +169,13 @@ export default function HowItWorks() {
               </a>
             ))}
           </div>
-          <p className="max-w-3xl text-muted-foreground text-sm">
-            Stack: GBrain (hosted at gbrain.io over MCP, with the demo company's 72 notes under northwind/), GBrain's own judge prompt and parser, River (LoRA SFT
-            of Qwen3.5-9B and DeepSeek-V4-Flash, served from checkpoints), Hy Image 3.5 preview on GMI Cloud, Neon Postgres as the mirror of every verdict,
-            certificate and render, DeepSeek V4 Flash via the Vercel AI Gateway as the teacher judge.
-          </p>
         </Section>
 
-        <Section eyebrow="04 · Limits" title="What this does not show">
-          <ul className="max-w-3xl list-disc space-y-2 pl-5 text-muted-foreground text-sm">
-            <li>The corpus is synthetic: 60 companies, 353 notes, 4,867 note pairs, generated for the demo. The judge and parser are GBrain's own.</li>
-            <li>The replay is recorded runs, not a live re-certification on stage. Speed is not measured head to head; judge calls and cost are.</li>
-            <li>QM with GBrain as its memory provider, and writing QA outcomes back into the brain, are designed and unblocked by the fork fix but not running live.</li>
-            <li>The infographic render comparisons are single images (n = 1 each). The spec-writer numbers are over 19 held-out prompts.</li>
+        <Section eyebrow="04 · Limits" title="Limits">
+          <ul className="max-w-3xl list-disc space-y-1 pl-5 text-muted-foreground text-sm">
+            <li>Synthetic company brain: 60 companies, 353 notes, 4,867 note pairs. GBrain's own judge.</li>
+            <li>The race is a replay of recorded runs. Calls and cost are measured, wall-clock time is not.</li>
+            <li>QM running live on GBrain is not wired yet; the fork fix unblocks it.</li>
           </ul>
         </Section>
       </div>

@@ -1,5 +1,6 @@
 // Ledger UI and Brain Chat at http://localhost:4173 (/ and /chat.html)
 import { ask, EDITS, entities } from "../src/ask.ts";
+import { generate, type Writer } from "../src/generate.ts";
 import { db, getPage } from "../src/store.ts";
 
 const TEACHER = "deepseek/deepseek-v4-flash-0731";
@@ -31,7 +32,7 @@ function flips(to: string, cached: string, changed: boolean, limit = 4) {
 const root = new URL("../ui/", import.meta.url).pathname;
 Bun.serve({
   port: Number(process.env.PORT ?? 4173),
-  idleTimeout: 120,
+  idleTimeout: 240,
   async fetch(req) {
     const url = new URL(req.url);
     if (url.pathname === "/api/entities") return Response.json({ entities: entities(), edits: EDITS });
@@ -39,6 +40,14 @@ Bun.serve({
       const b = (await req.json()) as { entity: string; question: string; edit?: string; alpha?: number };
       try {
         return Response.json(await ask(b.entity, b.question, b.edit, b.alpha));
+      } catch (e) {
+        return Response.json({ error: (e as Error).message }, { status: 500 });
+      }
+    }
+    if (url.pathname === "/api/generate" && req.method === "POST") {
+      const b = (await req.json()) as { entity?: string; brief?: string; writer: Writer };
+      try {
+        return Response.json(await generate(b));
       } catch (e) {
         return Response.json({ error: (e as Error).message }, { status: 500 });
       }

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { ArrowRightIcon } from "lucide-react";
 import { PageHeader, Section, Stat } from "@/components/page-header";
+import { Generator } from "./generator";
 import { Badge } from "@/components/ui/badge";
 import { int, pct } from "@/lib/fmt";
 import { type Render, RenderCard, Reveal } from "./render-card";
@@ -59,14 +60,16 @@ export default function InfographicPage() {
 
   return (
     <>
-      <PageHeader crumb="Infographics · A/B" kicker="Brain to picture · Hy Image 3.5 on GMI Cloud" title={<>Infographics · <span className="text-signal">A/B</span></>}>
-        Two experiments that turn the brain's knowledge into infographics. A model writes a spec from the notes, Hy Image 3.5
-        preview renders it on GMI Cloud, and a vision reviewer fact-checks every render against the spec's text contract: each
-        required string must appear, spelled right, and nothing else may be printed.
+      <PageHeader crumb="Infographics · A/B" kicker="Rented model vs owned model" title={<>Infographics · <span className="text-signal">A/B</span></>}>
+        Same prompt, two spec writers. Both specs go through the same image prompt compiler, Hy Image 3.5 render and label-by-label fact-check.
       </PageHeader>
 
       <div className="mx-auto w-full max-w-6xl space-y-12 px-4 py-8 sm:px-6">
-        <Section eyebrow={`A/B 1 · ${ig.entity}`} title="When the memory changes">
+        <Section eyebrow="Live" title="Generate both">
+          <Generator />
+        </Section>
+
+        <Section eyebrow={`Recorded · ${ig.entity}`} title="When the memory changes">
           <p className="max-w-3xl text-muted-foreground text-sm text-pretty">
             The spec for <span className="text-foreground">{entityName}</span> was first written from the notes the brain held
             before {ig.cutoff}. Later notes corrected it, and {ig.findings.length} cached judge verdicts for this entity

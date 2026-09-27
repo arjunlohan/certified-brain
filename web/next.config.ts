@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   typescript: { ignoreBuildErrors: true },
   agentRules: false,
+  experimental: { proxyTimeout: 240_000 },
   async rewrites() {
     return [
       { source: "/api/:path*", destination: "http://localhost:4173/api/:path*" },
