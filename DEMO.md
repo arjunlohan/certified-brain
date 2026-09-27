@@ -32,13 +32,17 @@ Scroll to "Judge floor".
 
 ## 2:00 · Own the judge (45 s)
 
-Switch to "Swap to owned 9B (trained)".
+Switch to "Swap to 9B (untrained)", then "Swap to owned 9B (trained)", then "Same model, owned weights (River)".
 
-> So we trained our own judge on River: Qwen3.5-9B, LoRA, on 1,500 of the teacher's verdicts, disjoint from the cells we certify. Then we treated the model swap as one more definition edit.
+> So we trained our own judge on River: Qwen3.5-9B, rank-32 LoRA, 60 steps on 1,500 of the teacher's verdicts, disjoint from the 2,000 cells we certify. Then we treated the model swap as one more definition edit.
 >
-> [read: agreement with the teacher, certified inheritance %, oracle calls, refused strata, and the owned model's floor]
+> The untrained 9B agrees with the teacher 78.8% of the time. The certifier refuses to hand it anything: 0% reuse.
 >
-> Weights you own do not change host under you, so the certificate does not expire. That is what "own your intelligence" means for a memory: the judge, the cache and the guarantee are all yours.
+> After training: 87% agreement, and **the certifier hands it 63.9% of the cache for 505 judge calls, at 0.70% realized error, zero violations in 1,000 replications.** That is the same fraction the teacher's own model gets when we run it on River.
+>
+> And look at what it refused: the three temporal strata. Training on an 80/20 imbalanced set made the 9B collapse on the rare classes, 29 to 34% agreement there. The certifier found that without being told.
+>
+> The floor: the trained 9B disagrees with itself 0.3% of the time on owned weights, against 3.0% for the provider model. Weights you own do not change host under you, so the certificate does not expire.
 
 ## 2:45 · Close (15 s)
 

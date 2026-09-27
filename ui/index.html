@@ -132,7 +132,9 @@ function render() {
     [
       ["Cache hits after the change", "0", o.reused.toLocaleString()],
       ["Judge calls to reach the new version", N.toLocaleString(), (N - o.reused).toLocaleString()],
-      ["Judge spend at measured $/call", "$" + stockCost.toFixed(3), "$" + certCost.toFixed(3)],
+      r.kind === "model"
+        ? ["Judge spend", "not metered (River credits)", "not metered (River credits)"]
+        : ["Judge spend at measured $/call", "$" + stockCost.toFixed(3), "$" + certCost.toFixed(3)],
       ["Error vs full recompute (presented)", "0 (recomputes all)", pct(o.presentedError, 2)],
       ["Reuse-all, no guarantee (error)", "", pct(o.populationFlipRate, 2)],
     ].map((row) => `<tr>${row.map((c, i) => (i ? `<td>${c}</td>` : `<td>${c}</td>`)).join("")}</tr>`).join("");
@@ -155,7 +157,7 @@ function render() {
 
 async function floors() {
   const rows = [];
-  for (const [mode, name] of [["pinned", "Provider model, pinned to one host"], ["unpinned", "Provider model, any host"], ["owned", "Owned 9B (River)"]]) {
+  for (const [mode, name] of [["pinned", "Provider model, pinned to one host"], ["unpinned", "Provider model, any host"], ["owned", "Owned 9B, trained (River)"], ["owned-dsv4", "Same model, owned weights (River)"]]) {
     const f = await fetch(`data/floor-${mode}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (!f) continue;
     const hosts = (f.hosts || []).map((h) => `${h.provider} ${h.n}`).join(", ");

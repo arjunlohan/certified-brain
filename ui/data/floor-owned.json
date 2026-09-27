@@ -1,0 +1,34 @@
+{
+ "mode": "owned",
+ "model": "river/qwen3.5-9b-sft",
+ "cells": 300,
+ "selfFlip": 0.0033333333333333335,
+ "hosts": [
+  {
+   "provider": "River checkpoint (owned weights)",
+   "n": 600
+  }
+ ],
+ "byStratum": {
+  "no_contradiction": {
+   "n": 272,
+   "selfFlip": 0.003676470588235294
+  },
+  "temporal_evolution": {
+   "n": 12,
+   "selfFlip": 0
+  },
+  "contradiction": {
+   "n": 5,
+   "selfFlip": 0
+  },
+  "temporal_regression": {
+   "n": 3,
+   "selfFlip": 0
+  },
+  "temporal_supersession": {
+   "n": 8,
+   "selfFlip": 0
+  }
+ }
+}
