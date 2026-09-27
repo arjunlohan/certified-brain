@@ -59,6 +59,23 @@ Same GBrain prompt, judge model swapped. Cells are 2,000 held-out pairs, disjoin
 - The trained 9B matches the teacher on `no_contradiction` (98.9%) but collapses on the rare temporal classes (29 to 34%); the certifier refuses exactly those strata.
 - The provider floor (3.0% pinned) equals the floor of the same model on River (3.0%), so the provider's residual is model nondeterminism, not host swaps alone. The trained 9B's floor is 0.33%.
 
+## From brain to infographic (Plate + Hy Image 3.5)
+
+`scripts/infographic.ts` turns one GBrain entity into a before/after infographic using [Plate](https://github.com/arjunlohan/gmi-hackathon-infographic-agent)'s spec compiler and GMI client, imported from the sibling repo:
+
+1. DeepSeek-V4-Flash **on River** writes a Plate spec from the notes the brain held before the correcting notes arrived (Continental Retail Group before 2025-12-01).
+2. It then updates that spec with all notes plus the 15 cached judge verdicts for this entity (supersessions, contradictions). The diff is the edit: 6 values, the headline and 2 callouts.
+3. Hy Image 3.5 preview renders **before** (text-to-image), **after as an image-to-image edit** of before (only the changed labels), and **after as a full re-render**.
+4. Plate's vision reviewer fact-checks each render against its spec's text contract (`scripts/review-infographic.ts`).
+
+| Render | Wrong or missing (of 19 required strings) | Stale text left over |
+|---|---|---|
+| Before, text-to-image | 1 | none |
+| After, image-to-image edit | 4 | "$1.2M", "5", "Pilot not renewed as originally planned." |
+| After, full re-render | 1 | none |
+
+The image edit is the cheap way to reuse, and it kept three stale facts from before the correction. Reuse without verification leaks stale facts, whether the thing reused is a verdict cache or a picture. Renders and specs are stored in Neon (`certified_brain.infographics`).
+
 ## Changes certified
 
 | Edit | What changes |

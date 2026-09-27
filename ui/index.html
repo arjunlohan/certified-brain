@@ -41,6 +41,9 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
 .ba figure{margin:0}.ba figcaption{font-size:13.5px;margin-bottom:6px}.ba canvas{width:100%;display:block}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:12.5px;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.ig{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:900px){.ig{grid-template-columns:1fr}}
+.ig figure{margin:0}.ig img{width:100%;border:1px solid var(--rule);border-radius:6px;display:block}
+.ig figcaption{font-size:13px;margin-top:8px;line-height:1.45}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.two{grid-template-columns:1fr}}
 </style>
 </head>
@@ -92,6 +95,16 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
       <div class="scroll"><table id="reps"></table></div>
     </div>
   </div>
+  <div class="panel" id="infographic" hidden>
+    <h2>From brain to infographic · before and after</h2>
+    <p class="muted" style="margin:0 0 12px;font-size:13.5px" id="igSub"></p>
+    <div class="ig">
+      <figure><img id="igBefore" alt="Infographic from the facts before the correction"><figcaption><b>Before</b> · text-to-image from pre-correction facts<br><span class="mono" id="igBeforeCheck"></span></figcaption></figure>
+      <figure><img id="igEdit" alt="The before infographic edited with image-to-image"><figcaption><b>After · image-to-image edit</b> of Before, only the changed labels<br><span class="mono" id="igEditCheck"></span></figcaption></figure>
+      <figure><img id="igFull" alt="Infographic re-rendered from the current facts"><figcaption><b>After · full re-render</b> from certified current facts<br><span class="mono" id="igFullCheck"></span></figcaption></figure>
+    </div>
+  </div>
+
   <div class="panel">
     <h2>Judge floor · does the judge agree with itself?</h2>
     <p class="muted" style="margin:0 0 10px;font-size:13.5px">Two draws of the same verdict under the same prompt, model id and T = 0. No stratum can certify below its own floor. A provider can change the host behind a model id without telling you; weights you own cannot.</p>
@@ -230,6 +243,23 @@ async function floors() {
     : "<tr><td class='muted'>No floor measured yet: bun run floor</td></tr>";
 }
 floors();
+fetch("data/infographic.json").then((r) => (r.ok ? r.json() : null)).then((g) => {
+  if (!g) return;
+  const check = (x) => (x?.review
+    ? `fact-check: ${x.review.wrongOrMissing.length} wrong or missing of ${x.review.contract}` +
+      (x.review.invented.length ? ` · stale or invented: ${x.review.invented.join(" | ")}` : "")
+    : x?.failed ?? "");
+  document.getElementById("igSub").textContent =
+    `${g.entity}: spec written by ${g.specModel} with Plate's compiler, rendered by ${g.imageModel} on GMI Cloud, checked by Plate's vision reviewer. ` +
+    `After uses ${g.findings.length} cached judge verdicts for this entity (supersessions and contradictions) to update the facts.`;
+  document.getElementById("igBefore").src = g.before.image;
+  document.getElementById("igBeforeCheck").textContent = check(g.before);
+  if (g.afterEdit.image) document.getElementById("igEdit").src = g.afterEdit.image;
+  document.getElementById("igEditCheck").textContent = check(g.afterEdit);
+  document.getElementById("igFull").src = g.afterFull.image;
+  document.getElementById("igFullCheck").textContent = check(g.afterFull);
+  document.getElementById("infographic").hidden = false;
+});
 fetch("data/report.json").then((r) => r.json()).then((j) => { R = j; render(); })
   .catch(() => (document.getElementById("sub").textContent = "No report yet: run bun run certify"));
 </script>

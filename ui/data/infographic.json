@@ -1,0 +1,212 @@
+{
+ "entity": "customers/continental-retail-group",
+ "cutoff": "2025-12-01",
+ "specModel": "river/deepseek-ai/DeepSeek-V4-Flash-0731",
+ "imageModel": "hy-image-v3.5-preview",
+ "findings": [
+  "- temporal_evolution: note-1 vs note-4 (Pilot contract status and decision ownership for Continental Retail Group)",
+  "- temporal_evolution: note-3 vs note-5 (Status of Continental Retail Group pilot and robotics expansion)",
+  "- temporal_evolution: note-5 vs note-6 (Operational status and metrics of Continental Retail Group over time)",
+  "- temporal_evolution: note-2 vs note-3 (Account status and performance metrics over time)",
+  "- temporal_supersession: note-3 vs note-6 (NPS, headcount, and pilot renewal status over time)",
+  "- contradiction: note-4 vs note-6 (Whether the Continental Retail Group pilot was renewed in December)",
+  "- temporal_regression: note-1 vs note-3 (NPS score and pilot status for Continental Retail Group)",
+  "- temporal_supersession: note-1 vs note-6 (Pilot status and NPS metric over time)",
+  "- temporal_evolution: note-3 vs note-4 (Pilot renewal status and decision ownership)",
+  "- temporal_evolution: note-2 vs note-4 (Contract renewal status and account ownership)",
+  "- temporal_evolution: note-1 vs note-5 (Deployment status and performance metrics of Continental Retail Group's Backroom Bots)",
+  "- temporal_supersession: note-4 vs note-5 (Contract renewal status and decision ownership for Continental Retail Group)",
+  "- temporal_evolution: note-2 vs note-6 (Account status and performance metrics over time)",
+  "- temporal_evolution: note-1 vs note-2 (Deployment status and performance metrics of Backroom Bots)",
+  "- temporal_supersession: note-2 vs note-5 (Continental Retail Group's fleet uptime, revenue forecast, and bot count)"
+ ],
+ "changes": [
+  "change the value \"93%\" for \"Uptime\" to \"96%\"",
+  "change the value \"42\" for \"NPS\" to \"72\"",
+  "change the value \"$1.2M\" for \"Revenue forecast\" to \"$1.8M\"",
+  "change the value \"5\" for \"Team headcount\" to \"7\"",
+  "change the value \"Not renewed\" for \"Contract status\" to \"Renewed\"",
+  "change the headline \"Continental Retail Group\" to \"Continental Turnaround\"",
+  "replace the note \"Uptime is below the contractual target of 98%\" with \"Uptime improved to 96% after navigation fix\"",
+  "replace the note \"NPS dropped to 42 after delays\" with \"NPS recovered to 72 in Q1\""
+ ],
+ "before": {
+  "spec": {
+   "format": "portrait",
+   "kicker": "ACCOUNT HEALTH",
+   "title": "Continental Retail Group",
+   "accentWord": "Continental",
+   "subtitle": "Q2–Q4 2025, pilot period",
+   "chart": {
+    "form": "column",
+    "data": [
+     {
+      "label": "Uptime",
+      "value": "93%",
+      "numeric": 93
+     },
+     {
+      "label": "NPS",
+      "value": "42",
+      "numeric": 42
+     },
+     {
+      "label": "Bots deployed",
+      "value": "12",
+      "numeric": 12
+     },
+     {
+      "label": "Revenue forecast",
+      "value": "$1.2M",
+      "numeric": 1.2
+     },
+     {
+      "label": "Team headcount",
+      "value": "5",
+      "numeric": 5
+     },
+     {
+      "label": "Contract status",
+      "value": "Not renewed",
+      "numeric": 0
+     }
+    ]
+   },
+   "callouts": [
+    {
+     "text": "Uptime is below the contractual target of 98%",
+     "anchor": "Uptime"
+    },
+    {
+     "text": "NPS dropped to 42 after delays",
+     "anchor": "NPS"
+    }
+   ],
+   "style": {
+    "preset": "clean_light"
+   },
+   "source": "Source: Northwind Robotics knowledge base",
+   "footnote": "Pilot not renewed as originally planned."
+  },
+  "image": "data/img/customers_continental-retail-group-before.png",
+  "url": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_dbf0521c-80bd-4f78-8db3-47cab738586a569df5a0-301f-4fa6-b43e-c26cf01497d7.png",
+  "review": {
+   "verdict": "fix",
+   "score": 4,
+   "contract": 19,
+   "wrongOrMissing": [
+    {
+     "expected": "Q2–Q4 2025, pilot period",
+     "found": "Q2-Q4 2025, pilot period"
+    }
+   ],
+   "invented": []
+  }
+ },
+ "afterEdit": {
+  "image": "data/img/customers_continental-retail-group-after-edit.png",
+  "url": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_8b6f287a-17df-4feb-b6f0-4348a931a0acc9919955-634c-4064-8d49-110d20f41d98.png",
+  "prompt": "Edit the reference infographic. Change the value \"93%\" for \"Uptime\" to \"96%\". Change the value \"42\" for \"NPS\" to \"72\". Change the value \"$1.2M\" for \"Revenue forecast\" to \"$1.8M\". Change the value \"5\" for \"Team headcount\" to \"7\". Change the value \"Not renewed\" for \"Contract status\" to \"Renewed\". Change the headline \"Continental Retail Group\" to \"Continental Turnaround\". Replace the note \"Uptime is below the contractual target of 98%\" with \"Uptime improved to 96% after navigation fix\". Replace the note \"NPS dropped to 42 after delays\" with \"NPS recovered to 72 in Q1\".\nKeep everything else identical: layout, canvas size, colors, typography, illustration, and every other piece of text, spelled exactly as it is. Do not add any new text.",
+  "review": {
+   "verdict": "fix",
+   "score": 3,
+   "contract": 19,
+   "wrongOrMissing": [
+    {
+     "expected": "Q2 2025–Q1 2026, pilot period",
+     "found": "Q2–Q4 2025, pilot period"
+    },
+    {
+     "expected": "$1.8M",
+     "found": "$1.2M"
+    },
+    {
+     "expected": "7",
+     "found": "5"
+    },
+    {
+     "expected": "Pilot renewed in December despite earlier cancellation notice.",
+     "found": "Pilot not renewed as originally planned."
+    }
+   ],
+   "invented": [
+    "$1.2M",
+    "5",
+    "Pilot not renewed as originally planned."
+   ]
+  }
+ },
+ "afterFull": {
+  "spec": {
+   "format": "portrait",
+   "kicker": "ACCOUNT HEALTH",
+   "title": "Continental Turnaround",
+   "accentWord": "Turnaround",
+   "subtitle": "Q2 2025–Q1 2026, pilot period",
+   "chart": {
+    "form": "column",
+    "data": [
+     {
+      "label": "Uptime",
+      "value": "96%",
+      "numeric": 96
+     },
+     {
+      "label": "NPS",
+      "value": "72",
+      "numeric": 72
+     },
+     {
+      "label": "Bots deployed",
+      "value": "12",
+      "numeric": 12
+     },
+     {
+      "label": "Revenue forecast",
+      "value": "$1.8M",
+      "numeric": 1.8
+     },
+     {
+      "label": "Team headcount",
+      "value": "7",
+      "numeric": 7
+     },
+     {
+      "label": "Contract status",
+      "value": "Renewed",
+      "numeric": 1
+     }
+    ]
+   },
+   "callouts": [
+    {
+     "text": "Uptime improved to 96% after navigation fix",
+     "anchor": "Uptime"
+    },
+    {
+     "text": "NPS recovered to 72 in Q1",
+     "anchor": "NPS"
+    }
+   ],
+   "style": {
+    "preset": "clean_light"
+   },
+   "source": "Source: Northwind Robotics knowledge base",
+   "footnote": "Pilot renewed in December despite earlier cancellation notice."
+  },
+  "image": "data/img/customers_continental-retail-group-after-full.png",
+  "url": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_7bd6b356-a627-4ab7-8282-ae59083445b78d327113-240b-460c-a8d4-7c88de574b8b.png",
+  "review": {
+   "verdict": "fix",
+   "score": 5,
+   "contract": 19,
+   "wrongOrMissing": [
+    {
+     "expected": "Continental Turnaround",
+     "found": "Turnatroun d"
+    }
+   ],
+   "invented": []
+  }
+ }
+}
