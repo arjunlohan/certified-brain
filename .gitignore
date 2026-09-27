@@ -4,3 +4,7 @@ node_modules/
 data/
 *.db
 *.db-*
+.venv/
+__pycache__/
+river/data/
+!ui/data/

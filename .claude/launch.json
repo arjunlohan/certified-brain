@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "ledger", "runtimeExecutable": "bun", "runtimeArgs": ["run", "scripts/serve-ui.ts"], "port": 4173 }
+  ]
+}

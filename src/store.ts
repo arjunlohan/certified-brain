@@ -4,7 +4,7 @@
 import { Database } from "bun:sqlite";
 
 export const db = new Database(new URL("../data/brain.db", import.meta.url).pathname, { create: true });
-db.exec("PRAGMA journal_mode = WAL;");
+db.exec("PRAGMA journal_mode = WAL; PRAGMA busy_timeout = 10000;");
 
 db.exec(`
 CREATE TABLE IF NOT EXISTS pages (

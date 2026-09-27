@@ -51,7 +51,12 @@ export async function chat(
       headers: { Authorization: `Bearer ${ep.apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    if ((res.status === 429 || res.status >= 500) && attempt < 5) {
+    if (res.status === 429 && attempt < 12) {
+      // Gateway asks for "retry after 10s" on per-minute team limits.
+      await Bun.sleep(10_000 + Math.random() * 2_000);
+      continue;
+    }
+    if (res.status >= 500 && attempt < 5) {
       await Bun.sleep(500 * 2 ** attempt);
       continue;
     }
