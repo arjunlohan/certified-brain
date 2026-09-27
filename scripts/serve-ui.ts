@@ -1,6 +1,7 @@
 // Ledger UI and Brain Chat at http://localhost:4173 (/ and /chat.html)
 import { ask, EDITS, entities } from "../src/ask.ts";
 import { generate, type Writer } from "../src/generate.ts";
+import { handleMcp } from "../src/mcp.ts";
 import { db, getPage } from "../src/store.ts";
 
 const TEACHER = "deepseek/deepseek-v4-flash-0731";
@@ -35,6 +36,7 @@ Bun.serve({
   idleTimeout: 240,
   async fetch(req) {
     const url = new URL(req.url);
+    if (url.pathname === "/mcp") return handleMcp(req);
     if (url.pathname === "/api/entities") return Response.json({ entities: entities(), edits: EDITS });
     if (url.pathname === "/api/ask" && req.method === "POST") {
       const b = (await req.json()) as { entity: string; question: string; edit?: string; alpha?: number };
