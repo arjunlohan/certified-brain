@@ -36,6 +36,7 @@ for (const e of edits) {
     for (const alpha of [0.05, 0.1, 0.2]) {
       const o: CertifyOpts = { from: e.from, to: e.to, alpha, delta: 0.1, estimand: "presented", stratifier, seed: 1 };
       const once = await certifyOnce(cells, o);
+      delete once.reusedIds;
       const rep = await replicate(cells, o, runs);
       const id = `${e.to.version}|${e.to.model}|${stratifier}|a=${alpha}`;
       insertCert.run(id, e.kind, e.from.version, e.to.version, e.from.model, e.to.model, alpha, 0.1, "presented", JSON.stringify(once));

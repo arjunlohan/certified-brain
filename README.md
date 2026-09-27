@@ -59,6 +59,18 @@ Same GBrain prompt, judge model swapped. Cells are 2,000 held-out pairs, disjoin
 - The trained 9B matches the teacher on `no_contradiction` (98.9%) but collapses on the rare temporal classes (29 to 34%); the certifier refuses exactly those strata.
 - The provider floor (3.0% pinned) equals the floor of the same model on River (3.0%), so the provider's residual is model nondeterminism, not host swaps alone. The trained 9B's floor is 0.33%.
 
+## Brain Chat: stock vs reuse-all vs certified
+
+`bun run ui`, then open `/chat.html`. Pick an entity and a change (semantic prompt edit, formatting edit, or judge swap to the River 9B) and ask a question. The brain answers three ways, each written by DeepSeek-V4-Flash on River from the verdicts that policy serves:
+
+- **Stock GBrain:** the cache key includes prompt_version and model, so every verdict is re-judged. Correct, full cost. This is GBrain's intended behavior, not a bug.
+- **Reuse all:** the obvious "fix", dropping the version from the key. Free, and silently wrong: after the semantic edit it serves 576 stale verdicts of 4,863.
+- **Certified:** 1,267 judge calls instead of 4,863 ($0.16 vs $0.63), 48 stale verdicts, bounded by α = 0.1.
+
+## Owning Plate's spec writer
+
+Qwen3.5-9B, LoRA-trained on River (40 steps, batch 8) on 89 specs written by Muse Spark 1.3, Plate's spec model. On 19 held-out prompts from 10 unseen entities: 19/19 valid Plate specs (untrained 9B: 16/19), 100% of printed numbers found in the notes, 52% label overlap with the teacher (untrained: 38%). One held-out render (Acme Logistics) fact-checked by Plate's reviewer: River 9B spec 8/10 with 0 of 14 strings wrong; Muse Spark spec 4/10 with 2 of 15 wrong (single render, not a benchmark).
+
 ## From brain to infographic (Plate + Hy Image 3.5)
 
 `scripts/infographic.ts` turns one GBrain entity into a before/after infographic using [Plate](https://github.com/arjunlohan/gmi-hackathon-infographic-agent)'s spec compiler and GMI client, imported from the sibling repo:

@@ -20,6 +20,10 @@ ap.add_argument("--lr", type=float, default=1e-4)
 ap.add_argument("--rank", type=int, default=32)
 ap.add_argument("--label-n", type=int, default=2000)
 ap.add_argument("--concurrency", type=int, default=32)
+ap.add_argument("--train", default="train.jsonl")
+ap.add_argument("--eval", default="certify.jsonl")
+ap.add_argument("--max-tokens", type=int, default=300)
+ap.add_argument("--base-eval", action="store_true", help="also label the eval set with the untrained base model")
 args = ap.parse_args()
 
 
@@ -32,7 +36,7 @@ train = [
     renderer.build_training_example(
         [{"role": "user", "content": r["prompt"]}, {"role": "assistant", "content": r["completion"]}]
     ).to_dict()
-    for r in load("train.jsonl")
+    for r in load(args.train)
 ]
 print(f"train examples: {len(train)}; base {args.base}; rank {args.rank}; lr {args.lr}", flush=True)
 
@@ -48,7 +52,9 @@ with client.session(project="certified-brain") as session:
     ckpt = model.save_weights(args.tag, mode="inference")
     print("checkpoint:", ckpt.path, flush=True)
 
-rows = load("certify.jsonl")[: args.label_n]
+rows = load(args.eval)[: args.label_n]
+for r in rows:
+    r.setdefault("pair_id", f"{r.get('entity')}|{r.get('variant')}")
 out = os.path.join(HERE, "data", f"{args.tag}-labels.jsonl")
 print(f"labeling {len(rows)} cells -> {out}", flush=True)
 
@@ -59,7 +65,7 @@ def one(r):
         try:
             res = client.chat_complete_from_checkpoint(
                 [{"role": "user", "content": r["prompt"]}], checkpoint_path=ckpt.path, base_model=args.base,
-                max_tokens=300, temperature=0.0)
+                max_tokens=args.max_tokens, temperature=0.0, chat_template_kwargs={"enable_thinking": False})
             j = res.response_json if isinstance(res.response_json, dict) else json.loads(res.response_json)
             return {"pair_id": r["pair_id"], "text": j["choices"][0]["message"].get("content") or "",
                     "latency_ms": int((time.time() - t) * 1000)}
@@ -75,4 +81,15 @@ with open(out, "w") as f, ThreadPoolExecutor(max_workers=args.concurrency) as ex
         f.flush()
         if i % 200 == 0:
             print(f"  {i}/{len(rows)}", flush=True)
+if args.base_eval:
+    out_b = os.path.join(HERE, "data", f"{args.tag}-base-labels.jsonl")
+    def base(r):
+        res = client.chat_complete([{"role": "user", "content": r["prompt"]}], base_model=args.base,
+                                   max_tokens=args.max_tokens, temperature=0.0,
+                                   chat_template_kwargs={"enable_thinking": False})
+        j = res.response_json if isinstance(res.response_json, dict) else json.loads(res.response_json)
+        return {"pair_id": r["pair_id"], "text": j["choices"][0]["message"].get("content") or ""}
+    with open(out_b, "w") as f, ThreadPoolExecutor(max_workers=args.concurrency) as ex:
+        for rec in ex.map(base, rows):
+            f.write(json.dumps(rec) + "\n")
 print("done", flush=True)

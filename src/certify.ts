@@ -47,6 +47,8 @@ export interface CertifyReport {
   opts: CertifyOpts; cells: number; populationFlipRate: number;
   oracleCalls: number; reused: number; recomputed: number; savings: number;
   presentedError: number; reuseSetError: number; strata: StratumReport[];
+  /** Cells served from the old cache under the certificate (not serialized into reports). */
+  reusedIds?: string[];
 }
 
 export async function certifyOnce(cells: Cell[], o: CertifyOpts): Promise<CertifyReport> {
@@ -57,6 +59,7 @@ export async function certifyOnce(cells: Cell[], o: CertifyOpts): Promise<Certif
   );
   const perStratumDelta = o.delta / Math.max(1, strata.length);
   const out: StratumReport[] = [];
+  const reusedIds: string[] = [];
   for (const [si, s] of strata.entries()) {
     const order = seededShuffle(s.rowIds, o.seed * 1000 + si);
     const flip = (id: string) => (byId.get(id)!.truth === byId.get(id)!.cached ? 0 : 1);
@@ -67,6 +70,7 @@ export async function certifyOnce(cells: Cell[], o: CertifyOpts): Promise<Certif
     );
     const unsampled = order.slice(res.sampled);
     const reused = res.certified ? unsampled.length : 0;
+    if (res.certified) reusedIds.push(...unsampled);
     out.push({
       id: s.id, size: s.rowIds.length, sampled: res.sampled, certified: res.certified, reused,
       looks: res.looks.map((l) => ({ n: l.n, flips: l.flips, upperBound: l.upperBound })),
@@ -82,7 +86,7 @@ export async function certifyOnce(cells: Cell[], o: CertifyOpts): Promise<Certif
     opts: o, cells: total,
     populationFlipRate: cells.filter((c) => c.truth !== c.cached).length / total,
     oracleCalls, reused, recomputed: total - reused - oracleCalls, savings: reused / total,
-    presentedError: wrong / total, reuseSetError: reused ? wrong / reused : 0, strata: out,
+    presentedError: wrong / total, reuseSetError: reused ? wrong / reused : 0, strata: out, reusedIds,
   };
 }
 

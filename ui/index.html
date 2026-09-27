@@ -52,6 +52,7 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
   <header>
     <div class="eyebrow">Certified Brain · GBrain contradiction-verdict cache</div>
     <h1>Which cached verdicts survive the change</h1>
+    <p style="margin:6px 0 0"><a href="chat.html" style="color:var(--accent);font-weight:600">Open Brain Chat →</a> <span class="muted">ask the brain a question and see stock, reuse-all and certified answers side by side</span></p>
     <p class="muted" id="sub">Loading report…</p>
   </header>
 
@@ -102,6 +103,16 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
       <figure><img id="igBefore" alt="Infographic from the facts before the correction"><figcaption><b>Before</b> · text-to-image from pre-correction facts<br><span class="mono" id="igBeforeCheck"></span></figcaption></figure>
       <figure><img id="igEdit" alt="The before infographic edited with image-to-image"><figcaption><b>After · image-to-image edit</b> of Before, only the changed labels<br><span class="mono" id="igEditCheck"></span></figcaption></figure>
       <figure><img id="igFull" alt="Infographic re-rendered from the current facts"><figcaption><b>After · full re-render</b> from certified current facts<br><span class="mono" id="igFullCheck"></span></figcaption></figure>
+    </div>
+  </div>
+
+  <div class="panel" id="specwriter" hidden>
+    <h2>Owning the spec writer · Muse Spark vs a 9B trained on River</h2>
+    <p class="muted" style="margin:0 0 12px;font-size:13.5px">Plate's spec writer (Muse Spark 1.3 through the gateway) replaced by Qwen3.5-9B LoRA-trained on River on 89 of Muse Spark's own specs. Scored on 19 held-out prompts from 10 entities never seen in training; one entity rendered by Hy Image 3.5 and fact-checked by Plate's reviewer.</p>
+    <div class="scroll"><table id="specTable"></table></div>
+    <div class="ig" style="grid-template-columns:1fr 1fr;margin-top:14px">
+      <figure><img id="swTeacher" alt="Infographic from the Muse Spark spec"><figcaption><b>Muse Spark spec</b> (gateway)<br><span class="mono" id="swTeacherCheck"></span></figcaption></figure>
+      <figure><img id="swTrained" alt="Infographic from the River-trained 9B spec"><figcaption><b>River 9B spec</b> (owned weights)<br><span class="mono" id="swTrainedCheck"></span></figcaption></figure>
     </div>
   </div>
 
@@ -243,6 +254,19 @@ async function floors() {
     : "<tr><td class='muted'>No floor measured yet: bun run floor</td></tr>";
 }
 floors();
+fetch("data/spec-render.json").then((r) => (r.ok ? r.json() : null)).then((s) => {
+  if (!s) return;
+  const e = s.eval, rows = [["teacher", "Muse Spark 1.3 (gateway, Plate today)"], ["trained", "Qwen3.5-9B, trained on River"], ["base", "Qwen3.5-9B, untrained"]];
+  document.getElementById("specTable").innerHTML =
+    "<tr><th>Spec writer</th><th>Valid Plate specs</th><th>Printed numbers found in the notes</th><th>Same data labels as teacher</th></tr>" +
+    rows.map(([k, n]) => `<tr><td>${n}</td><td>${e[k].validSpecs} / ${e[k].prompts}</td><td>${pct(e[k].groundedValuesPct, 0)}</td><td>${pct(e[k].labelOverlapWithTeacher, 0)}</td></tr>`).join("");
+  const chk = (x) => `fact-check ${x.review.score}/10 · ${x.review.wrongOrMissing.length} wrong or missing of ${x.review.contract}`;
+  document.getElementById("swTeacher").src = s.teacher.image;
+  document.getElementById("swTeacherCheck").textContent = chk(s.teacher);
+  document.getElementById("swTrained").src = s.trained.image;
+  document.getElementById("swTrainedCheck").textContent = chk(s.trained) + " · single render, n = 1";
+  document.getElementById("specwriter").hidden = false;
+});
 fetch("data/infographic.json").then((r) => (r.ok ? r.json() : null)).then((g) => {
   if (!g) return;
   const check = (x) => (x?.review

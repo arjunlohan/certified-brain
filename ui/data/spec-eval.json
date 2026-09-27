@@ -1,0 +1,26 @@
+{
+ "teacher": {
+  "prompts": 19,
+  "validSpecs": 19,
+  "validPct": 1,
+  "groundedValuesPct": 1,
+  "printedValues": 67,
+  "labelOverlapWithTeacher": 1
+ },
+ "trained": {
+  "prompts": 19,
+  "validSpecs": 19,
+  "validPct": 1,
+  "groundedValuesPct": 1,
+  "printedValues": 74,
+  "labelOverlapWithTeacher": 0.5176691729323308
+ },
+ "base": {
+  "prompts": 19,
+  "validSpecs": 16,
+  "validPct": 0.8421052631578947,
+  "groundedValuesPct": 1,
+  "printedValues": 50,
+  "labelOverlapWithTeacher": 0.378125
+ }
+}
