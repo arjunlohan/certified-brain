@@ -37,6 +37,10 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
 .bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:4px}
 .bar em{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--bad)}
 .muted{color:var(--muted)} .mono{font-family:var(--mono);font-size:12.5px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:18px}@media(max-width:760px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0}.ba figcaption{font-size:13.5px;margin-bottom:6px}.ba canvas{width:100%;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.two{grid-template-columns:1fr}}
 </style>
 </head>
@@ -52,6 +56,21 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
     <div><div class="eyebrow">Change</div><div class="seg" id="edit"></div></div>
     <div><div class="eyebrow">Error budget α</div><div class="seg" id="alpha"></div></div>
     <div><div class="eyebrow">Strata</div><div class="seg" id="strat"></div></div>
+  </div>
+
+  <div class="panel">
+    <h2>Before and after the change</h2>
+    <p class="muted" style="margin:0 0 12px;font-size:13.5px">One square per cached verdict, grouped by stratum. Before: stock GBrain misses the whole cache and re-judges every cell. After: the certifier samples each stratum, reuses what it certified, and recomputes only what it refused.</p>
+    <div class="ba">
+      <figure><figcaption><b>Before</b> · stock GBrain <span class="muted" id="beforeStat"></span></figcaption><canvas id="before" height="150"></canvas></figure>
+      <figure><figcaption><b>After</b> · Certified Brain <span class="muted" id="afterStat"></span></figcaption><canvas id="after" height="150"></canvas></figure>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--good)"></i>reused under certificate</span>
+      <span><i style="background:var(--accent)"></i>sampled (new judge call)</span>
+      <span><i style="background:var(--warn)"></i>refused stratum, recomputed</span>
+      <span><i style="background:var(--bad)"></i>re-judged (no reuse)</span>
+    </div>
   </div>
 
   <div class="kpis" id="kpis"></div>
@@ -107,6 +126,8 @@ function render() {
   const o = r.once, rep = r.rep, N = o.cells;
   const stockCost = N * r.costPerCall, certCost = (N - o.reused) * r.costPerCall;
 
+  drawBeforeAfter(o, r);
+
   document.getElementById("kpis").innerHTML = [
     [pct(o.savings), "cached verdicts certified for reuse"],
     [`${o.oracleCalls.toLocaleString()} / ${N.toLocaleString()}`, "new judge calls to certify"],
@@ -154,6 +175,45 @@ function render() {
     `${N.toLocaleString()} cached contradiction verdicts from GBrain's shipped judge prompt (PROMPT_VERSION 2). δ = 0.1, presented-cells estimand, n₀ = 45 doubling looks.`;
   document.getElementById("foot").textContent = `report generated ${R.generatedAt} · certifier: sIVM (Lohan 2026), unmodified`;
 }
+
+function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+// One square per cell, strata in order. Each stratum contributes sampled cells,
+// then either reused (certified) or recomputed (refused) cells.
+function drawGrid(canvas, cells) {
+  const w = canvas.clientWidth, dpr = window.devicePixelRatio || 1;
+  const n = cells.length, cols = Math.ceil(Math.sqrt(n * (w / 150)));
+  const size = w / cols, rows = Math.ceil(n / cols), h = rows * size;
+  canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.height = h + "px";
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+  const gap = size > 4 ? 1 : 0;
+  cells.forEach((c, i) => {
+    ctx.fillStyle = c;
+    ctx.fillRect((i % cols) * size, Math.floor(i / cols) * size, size - gap, size - gap);
+  });
+}
+
+function drawBeforeAfter(o, r) {
+  const good = cssVar("--good"), accent = cssVar("--accent"), warn = cssVar("--warn"), bad = cssVar("--bad");
+  const after = [];
+  for (const s of o.strata) {
+    for (let i = 0; i < s.sampled; i++) after.push(accent);
+    const rest = s.size - s.sampled;
+    for (let i = 0; i < rest; i++) after.push(s.certified ? good : warn);
+  }
+  const before = new Array(o.cells).fill(bad);
+  drawGrid(document.getElementById("before"), before);
+  drawGrid(document.getElementById("after"), after);
+  const calls = o.cells - o.reused;
+  const money = r.kind === "model" ? "" : ` · $${(o.cells * r.costPerCall).toFixed(3)}`;
+  const moneyAfter = r.kind === "model" ? "" : ` · $${(calls * r.costPerCall).toFixed(3)}`;
+  document.getElementById("beforeStat").textContent = `· ${o.cells.toLocaleString()} judge calls, 0 reused${money}`;
+  document.getElementById("afterStat").textContent =
+    `· ${calls.toLocaleString()} judge calls, ${o.reused.toLocaleString()} reused (${pct(o.savings)}), error ${pct(o.presentedError, 2)}${moneyAfter}`;
+}
+window.addEventListener("resize", () => R && render());
 
 async function floors() {
   const rows = [];
