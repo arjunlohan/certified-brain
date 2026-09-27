@@ -11,6 +11,7 @@ const LABELS: Record<string, string> = {
   owned: "river/qwen3.5-9b-sft",
   base: "river/qwen3.5-9b-base",
   dsv4: "river/deepseek-v4-flash-0731",
+  "dsv4-sft": "river/deepseek-v4-flash-sft",
 };
 const label = LABELS[which] ?? `river/${which}`;
 const path = new URL(`../river/data/${which}-labels${draw ? `-d${draw}` : ""}.jsonl`, import.meta.url).pathname;

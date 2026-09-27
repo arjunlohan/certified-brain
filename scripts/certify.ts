@@ -17,6 +17,7 @@ edits.push(
   { name: "Swap to owned 9B (trained)", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: OWNED ?? "river/qwen3.5-9b-sft" } },
   { name: "Swap to 9B (untrained)", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: "river/qwen3.5-9b-base" } },
   { name: "Same model, owned weights (River)", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: "river/deepseek-v4-flash-0731" } },
+  { name: "Same model, trained on River", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: "river/deepseek-v4-flash-sft" } },
 );
 
 const insertCert = db.query(

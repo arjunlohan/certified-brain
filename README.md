@@ -52,7 +52,9 @@ Same GBrain prompt, judge model swapped. Cells are 2,000 held-out pairs, disjoin
 | Qwen3.5-9B, untrained | 78.8% (n = 500) | 21.2% | 0% (all refused) | 135 / 500 | n/a | not measured |
 | **Qwen3.5-9B, LoRA SFT on River** | **87.0%** | 13.0% | **63.9%** | **505 / 2,000** | **0.70%** | **0.33%** |
 | DeepSeek-V4-Flash (teacher's model) on River | 96.2% | 3.9% | 63.9% | 550 / 2,000 | 1.05% | 3.0% |
+| DeepSeek-V4-Flash, LoRA SFT on River (30 steps) | 90.3% | 9.7% | 0% on seed 1; 35.4% mean over replications | 190 / 2,000 | n/a | not measured |
 
+- Fine-tuning DeepSeek-V4-Flash on the teacher's verdicts (rank 32, lr 1e-4, 30 steps; the loss never fell) made it worse: 96.2% to 90.3% agreement, with temporal_evolution falling from 84.5% to 50.7%. The certifier refused the promotion at α = 0.1, which is the intended behavior: certification doubles as a regression gate for judge swaps.
 - Training: rank-32 LoRA, 60 steps, batch 16, lr 2e-4, mean-normalized cross-entropy, thinking off. Loss 0.065 to about 0.003.
 - The trained 9B matches the teacher on `no_contradiction` (98.9%) but collapses on the rare temporal classes (29 to 34%); the certifier refuses exactly those strata.
 - The provider floor (3.0% pinned) equals the floor of the same model on River (3.0%), so the provider's residual is model nondeterminism, not host swaps alone. The trained 9B's floor is 0.33%.
