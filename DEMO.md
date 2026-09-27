@@ -41,4 +41,4 @@ Open http://localhost:8129 (QM web chat). Ask: "Use ask_brain for vendors/edge-c
 
 - A live stopwatch race. The replay is recorded data on a shared judge-call clock.
 - That owned weights lower the judge's self-disagreement floor. They keep it fixed.
-- That QM Loops run the infographic loop on a schedule. QM runs locally (sandbox backend Agent37) and its agent calls the brain through MCP; the scheduled loop is not set up.
+- That QM Loops run the infographic loop on a schedule. QM runs locally (sandbox backend Agent37, model Muse Spark 1.3 via the Vercel AI Gateway through scripts/gateway-shim.ts) and its agent calls the brain through MCP; the scheduled loop is not set up.
