@@ -26,6 +26,23 @@ With probability ≥ 1 − δ, every certified stratum's true flip rate is ≤ �
 
 The judge prompt, verdict parser and truncation are imported directly from GBrain (`src/core/eval-contradictions/judge.ts`), so every verdict is byte-compatible with GBrain's probe.
 
+## Results
+
+GBrain's contradiction judge over 4.8k cached verdicts on a synthetic company brain. δ = 0.1, presented-cells estimand, strata by cached verdict, 1,000 sampling replications per configuration.
+
+| Edit | Cells that changed | α | Certified reuse | Judge calls to certify | Realized error (presented) | Exceedances |
+|---|---|---|---|---|---|---|
+| Formatting only | 7.3% | 0.10 | 66.4% | 1,003 / 4,829 | 3.11% | 0 / 1,000 |
+| Formatting only | 7.3% | 0.20 | 77.6% | 773 / 4,829 | 3.60% | 0 / 1,000 |
+| Semantic | 11.8% | 0.05 | 51.7% | 1,607 / 4,863 | 0.56% | 0 / 1,000 |
+| Semantic | 11.8% | 0.10 | 73.9% | 527 / 4,863 | 0.99% | 0 / 1,000 |
+| Semantic | 11.8% | 0.20 | 77.6% | 347 / 4,863 | 1.03% | 0 / 1,000 |
+
+- The semantic edit flips 56 to 62% of the three temporal strata. Each is refused after its first 45-sample look; the `no_contradiction` stratum (1.4% flip) certifies.
+- **Judge self-flip floor** (same cell, same prompt, T = 0, 300 cells): 3.0% pinned to one host, 3.7% on any host, with `temporal_evolution` at 22 to 26%. The formatting edit's refused strata flip at their own floor: those flips are the judge's noise, not the edit.
+- Unpinned, one model id was served by three different hosts within one minute.
+- Stratifying further by judge confidence did not add savings, matching the preprint's finding that refinement costs power when within-stratum risk is homogeneous.
+
 ## Changes certified
 
 | Edit | What changes |

@@ -12,7 +12,11 @@ const edits: { name: string; kind: string; from: Side; to: Side }[] = [
   { name: "Formatting-only prompt edit", kind: "prompt", from: { version: "2", model: TEACHER }, to: { version: "2-fmt", model: TEACHER } },
   { name: "Semantic prompt edit", kind: "prompt", from: { version: "2", model: TEACHER }, to: { version: "3-sem", model: TEACHER } },
 ];
-if (OWNED) edits.push({ name: "Judge swap to owned model", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: OWNED } });
+// Model swaps: same prompt, judge M -> M'. Cells are those the new judge labeled.
+edits.push(
+  { name: "Swap to owned 9B (trained)", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: OWNED ?? "river/qwen3.5-9b-sft" } },
+  { name: "Swap to 9B (untrained)", kind: "model", from: { version: "2", model: TEACHER }, to: { version: "2", model: "river/qwen3.5-9b-base" } },
+);
 
 const insertCert = db.query(
   `INSERT OR REPLACE INTO certificates (id, edit_kind, from_version, to_version, from_model, to_model, alpha, delta, estimand, report)

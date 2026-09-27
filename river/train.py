@@ -25,6 +25,7 @@ ap.add_argument("--rank", type=int, default=32)
 ap.add_argument("--label-n", type=int, default=2000)
 ap.add_argument("--label-only", default=None, help="checkpoint path to label from")
 ap.add_argument("--base-only", action="store_true", help="label with the untrained base model (baseline)")
+ap.add_argument("--draw", type=int, default=0, help="draw index; >0 writes a separate file for floor measurement")
 args = ap.parse_args()
 
 tok = AutoTokenizer.from_pretrained(BASE)
@@ -60,7 +61,7 @@ def mean_normalize(batch):
 
 
 client = river.Client(api_key=os.environ["RIVER_API_KEY"])
-out_path = os.path.join(HERE, "data", "base-labels.jsonl" if args.base_only else "owned-labels.jsonl")
+out_path = os.path.join(HERE, "data", ("base" if args.base_only else "owned") + ("-labels.jsonl" if args.draw == 0 else f"-labels-d{args.draw}.jsonl"))
 
 
 def label(session, ckpt):
