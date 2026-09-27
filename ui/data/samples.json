@@ -1,4 +1,1404 @@
 {
+ "ceo": {
+  "title": "Highest-paid CEOs",
+  "detail": "Article data: America's highest-paid CEOs, 2025 (Equilar and The New York Times)",
+  "input": {
+   "brief": "Make an article infographic. America's highest-paid CEOs by total compensation awarded in 2025 (Equilar and The New York Times; grant-date value of salary, bonus, stock and option awards): Elon Musk, Tesla $132.3B; Dylan Field, Figma $864M; Shankh Mitra, Welltower $821M; Kasra Nejatian, Opendoor $741M; RJ Scaringe, Rivian $403M; Niraj Shah, Wayfair $281M; Hock Tan, Broadcom $205M; David Zaslav, Warner Bros. Discovery $165M; David Solomon, Goldman Sachs $119M; Nikesh Arora, Palo Alto Networks $100M; Christopher R. Britt, Chime Financial $99M; Satya Nadella, Microsoft $96M; Jane Fraser, Citigroup $96M; Charles W. Scharf, Wells Fargo $95M; Lip-Bu Tan, Intel $93M. Musk's award is a long-term stock grant that pays out only if Tesla hits market-cap and operational milestones. Median pay of the top 100 CEOs was $39.4M, up 35.8% from 2024."
+  },
+  "reference": {
+   "image": "/data/img/ref-ceo.webp",
+   "credit": "Reference: Visual Capitalist (Bruno Venditti, design Clayton Wadsworth)"
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "AMERICA'S",
+    "title": "Highest-Paid CEOs",
+    "accentWord": "CEOs",
+    "subtitle": "Total compensation awarded in 2025",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "in USD billions",
+     "data": [
+      {
+       "label": "Elon Musk",
+       "value": "$132.3B",
+       "numeric": 132.3,
+       "group": "Tesla",
+       "highlight": true
+      },
+      {
+       "label": "Dylan Field",
+       "value": "$864M",
+       "numeric": 0.864,
+       "group": "Figma",
+       "highlight": false
+      },
+      {
+       "label": "Shankh Mitra",
+       "value": "$821M",
+       "numeric": 0.821,
+       "group": "Welltower",
+       "highlight": false
+      },
+      {
+       "label": "Kasra Nejatian",
+       "value": "$741M",
+       "numeric": 0.741,
+       "group": "Opendoor",
+       "highlight": false
+      },
+      {
+       "label": "RJ Scaringe",
+       "value": "$403M",
+       "numeric": 0.403,
+       "group": "Rivian",
+       "highlight": false
+      },
+      {
+       "label": "Niraj Shah",
+       "value": "$281M",
+       "numeric": 0.281,
+       "group": "Wayfair",
+       "highlight": false
+      },
+      {
+       "label": "Hock Tan",
+       "value": "$205M",
+       "numeric": 0.205,
+       "group": "Broadcom",
+       "highlight": false
+      },
+      {
+       "label": "David Zaslav",
+       "value": "$165M",
+       "numeric": 0.165,
+       "group": "Warner Bros. Discovery",
+       "highlight": false
+      },
+      {
+       "label": "David Solomon",
+       "value": "$119M",
+       "numeric": 0.119,
+       "group": "Goldman Sachs",
+       "highlight": false
+      },
+      {
+       "label": "Nikesh Arora",
+       "value": "$100M",
+       "numeric": 0.1,
+       "group": "Palo Alto Networks",
+       "highlight": false
+      },
+      {
+       "label": "Christopher R. Britt",
+       "value": "$99M",
+       "numeric": 0.099,
+       "group": "Chime Financial",
+       "highlight": false
+      },
+      {
+       "label": "Satya Nadella",
+       "value": "$96M",
+       "numeric": 0.096,
+       "group": "Microsoft",
+       "highlight": false
+      },
+      {
+       "label": "Jane Fraser",
+       "value": "$96M",
+       "numeric": 0.096,
+       "group": "Citigroup",
+       "highlight": false
+      },
+      {
+       "label": "Charles W. Scharf",
+       "value": "$95M",
+       "numeric": 0.095,
+       "group": "Wells Fargo",
+       "highlight": false
+      },
+      {
+       "label": "Lip-Bu Tan",
+       "value": "$93M",
+       "numeric": 0.093,
+       "group": "Intel",
+       "highlight": false
+      }
+     ],
+     "benchmark": {
+      "label": "Median pay of the top 100 CEOs",
+      "numeric": 39.4
+     }
+    },
+    "callouts": [
+     {
+      "text": "Musk's award is a long-term stock grant",
+      "anchor": "Elon Musk"
+     },
+     {
+      "text": "Median pay of the top 100 CEOs was $39.4M",
+      "anchor": ""
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "sculpted from soil"
+    },
+    "source": "Equilar and The New York Times",
+    "footnote": "Grant-date value of salary, bonus, stock and option awards",
+    "fileName": "highest-paid-ceos",
+    "brandMark": "Morning Ledger"
+   },
+   "specAttempts": 2,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_7ca9e233-aa8c-487d-bc82-c0be96954a5dec324355-2248-4382-9440-13c653cc4356.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 52,
+     "passed": 50
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "severity": 3,
+      "expected": "Median pay of the top 100 CEOs",
+      "found": "missing"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Tesla"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Figma"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Welltower"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Opendoor"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Rivian"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Wayfair"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Broadcom"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Warner Bros. Discovery"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Goldman Sachs"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Palo Alto Networks"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Chime Financial"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Micrcsoft"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Citigroup"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Wells Fargo"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Intel"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/highest-paid-ceos-d4Gh5DGqcJ7Xo7NtWtJBjdOGJ1GIhT.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 52,
+     "passed": 52
+    },
+    "defects": []
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 11.368756249999999,
+    "loop": 262.99760137500004
+   }
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "RANKED: AMERICA'S",
+    "title": "Highest-Paid CEOs",
+    "accentWord": "CEOs",
+    "subtitle": "Total compensation awarded in 2025, grant-date value, US",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "",
+     "data": [
+      {
+       "label": "Elon Musk, Tesla",
+       "value": "$132.3B",
+       "numeric": 132.3,
+       "highlight": true
+      },
+      {
+       "label": "Dylan Field, Figma",
+       "value": "$864M",
+       "numeric": 0.864
+      },
+      {
+       "label": "Shankh Mitra, Welltower",
+       "value": "$821M",
+       "numeric": 0.821
+      },
+      {
+       "label": "Kasra Nejatian, Opendoor",
+       "value": "$741M",
+       "numeric": 0.741
+      },
+      {
+       "label": "RJ Scaringe, Rivian",
+       "value": "$403M",
+       "numeric": 0.403
+      },
+      {
+       "label": "Niraj Shah, Wayfair",
+       "value": "$281M",
+       "numeric": 0.281
+      },
+      {
+       "label": "Hock Tan, Broadcom",
+       "value": "$205M",
+       "numeric": 0.205
+      },
+      {
+       "label": "David Zaslav, WBD",
+       "value": "$165M",
+       "numeric": 0.165
+      },
+      {
+       "label": "David Solomon, Goldman Sachs",
+       "value": "$119M",
+       "numeric": 0.119
+      },
+      {
+       "label": "Nikesh Arora, Palo Alto",
+       "value": "$100M",
+       "numeric": 0.1
+      },
+      {
+       "label": "Christopher Britt, Chime",
+       "value": "$99M",
+       "numeric": 0.099
+      },
+      {
+       "label": "Satya Nadella, Microsoft",
+       "value": "$96M",
+       "numeric": 0.096
+      },
+      {
+       "label": "Jane Fraser, Citigroup",
+       "value": "$96M",
+       "numeric": 0.096
+      },
+      {
+       "label": "Charles Scharf, Wells Fargo",
+       "value": "$95M",
+       "numeric": 0.095
+      },
+      {
+       "label": "Lip-Bu Tan, Intel",
+       "value": "$93M",
+       "numeric": 0.093
+      }
+     ],
+     "layoutNotes": "Outlier first bar broken with // marker and drawn full-width, remaining bars to scale. Musk bar in accent gold, others in muted tone."
+    },
+    "callouts": [
+     {
+      "text": "Musk award pays only if Tesla hits market-cap goals",
+      "anchor": "Elon Musk, Tesla"
+     },
+     {
+      "text": "Median of top 100 was $39.4M, up 35.8% from 2024"
+     }
+    ],
+    "hero": "gold trophy under spotlight on dark stage, upper area behind headline",
+    "style": {
+     "preset": "dark_editorial",
+     "artDirection": "black-tie awards night, spotlight gold trophy, dark navy texture with gold accents"
+    },
+    "source": "Source: Equilar and The New York Times (2025)",
+    "footnote": "Grant-date value of salary, bonus, stock and option awards. Top bar not to scale.",
+    "fileName": "ceo-pay"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_baf8eff8-19f4-4bb2-8c02-92c252b9afd637f6df28-3f36-4873-b113-66e913120285.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 49,
+     "passed": 44
+    },
+    "defects": [
+     {
+      "kind": "misspelled",
+      "severity": 3,
+      "expected": "$99M",
+      "found": "$96M"
+     },
+     {
+      "kind": "misspelled",
+      "severity": 2,
+      "expected": "Niraj Shah, Wayfair",
+      "found": "Niraj Shab, Wayfair"
+     },
+     {
+      "kind": "misspelled",
+      "severity": 2,
+      "expected": "Hock Tan, Broadcom",
+      "found": "Nock Tan, Broadcom"
+     },
+     {
+      "kind": "misspelled",
+      "severity": 2,
+      "expected": "Musk award pays only if Tesla hits market-cap goals",
+      "found": "Musk award pays, only if Testa hits market-cap goals."
+     },
+     {
+      "kind": "misspelled",
+      "severity": 2,
+      "expected": "Elon Musk, Tesla",
+      "found": "Elon Musk, Testa"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/ceo-pay-yxz6nwItL0c34RT9Ego3LcEkX7m2I4.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 49,
+     "passed": 47
+    },
+    "defects": [
+     {
+      "kind": "callout",
+      "message": "The callout \"Musk award pays only if Tesla hits market-cap goals\" points at \"Shankh Mitra, Welltower\" instead of \"Elon Musk, Tesla\"."
+     },
+     {
+      "kind": "misspelled",
+      "expected": "Elon Musk, Tesla",
+      "found": "Elon Musk, Testa",
+      "message": "Expected \"Elon Musk, Tesla\", found \"Elon Musk, Testa\"."
+     }
+    ]
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 7.857554707999999,
+    "loop": 347.31170183300003
+   }
+  }
+ },
+ "math": {
+  "title": "Best at math",
+  "detail": "Article data: PISA 2025 average math scores of 15-year-olds (OECD)",
+  "input": {
+   "brief": "Make an article infographic. Average PISA 2025 mathematics scores of 15-year-olds (OECD): China* 612, Singapore 563, Macao 549, Taiwan 546, Japan 525, South Korea 522, Hong Kong 522, Estonia 508, Switzerland 499, UK 488, Canada 485, Poland 484, Netherlands 483, New Zealand 480, Ireland 480, Belgium 480, Australia 478, Austria 477, Germany 464, U.S. 463. OECD average: 463. *China represents Beijing, Shanghai, Jiangsu and Zhejiang."
+  },
+  "reference": {
+   "image": "/data/img/ref-math.webp",
+   "credit": "Reference: Visual Capitalist (Bruno Venditti, design Amy Kuo)"
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "THE WORLD'S TOP",
+    "title": "Mathematics Scores",
+    "accentWord": "Mathematics",
+    "subtitle": "Average PISA 2025 mathematics scores of 15-year-olds, OECD",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "in mathematics scores",
+     "data": [
+      {
+       "label": "China*",
+       "value": "612",
+       "numeric": 612,
+       "highlight": true
+      },
+      {
+       "label": "Singapore",
+       "value": "563",
+       "numeric": 563
+      },
+      {
+       "label": "Macao",
+       "value": "549",
+       "numeric": 549
+      },
+      {
+       "label": "Taiwan",
+       "value": "546",
+       "numeric": 546
+      },
+      {
+       "label": "Japan",
+       "value": "525",
+       "numeric": 525
+      },
+      {
+       "label": "South Korea",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Hong Kong",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Estonia",
+       "value": "508",
+       "numeric": 508
+      },
+      {
+       "label": "Switzerland",
+       "value": "499",
+       "numeric": 499
+      },
+      {
+       "label": "UK",
+       "value": "488",
+       "numeric": 488
+      },
+      {
+       "label": "Canada",
+       "value": "485",
+       "numeric": 485
+      },
+      {
+       "label": "Poland",
+       "value": "484",
+       "numeric": 484
+      },
+      {
+       "label": "Netherlands",
+       "value": "483",
+       "numeric": 483
+      },
+      {
+       "label": "New Zealand",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Ireland",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Belgium",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Australia",
+       "value": "478",
+       "numeric": 478
+      },
+      {
+       "label": "Austria",
+       "value": "477",
+       "numeric": 477
+      },
+      {
+       "label": "Germany",
+       "value": "464",
+       "numeric": 464
+      },
+      {
+       "label": "U.S.",
+       "value": "463",
+       "numeric": 463
+      }
+     ],
+     "benchmark": {
+      "label": "OECD average: 463",
+      "numeric": 463
+     }
+    },
+    "callouts": [
+     {
+      "text": "China* represents Beijing, Shanghai, Jiangsu and Zhejiang.",
+      "anchor": "China*"
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "sculpted from soil"
+    },
+    "source": "Source: OECD (2025)",
+    "footnote": "Grant-date value, not realized pay.",
+    "fileName": "pisa-mathematics-scores",
+    "brandMark": "Morning Ledger"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_9b463c76-f616-482b-afb1-d80daded29a8e464cd5c-c792-4bc6-bfe5-c07d41795e37.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 53,
+     "passed": 51
+    },
+    "defects": [
+     {
+      "kind": "misspelled",
+      "severity": 3,
+      "expected": "OECD average: 463",
+      "found": "OECD average:"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "612"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "563"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "549"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "546"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "526"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "522"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "522"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "508"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "499"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "488"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "485"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "484"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "483"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "480"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "480"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "478"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "477"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "477"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "464"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "463"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "3 tonnes of"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "sculpted"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "from soil"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "potatoes"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/pisa-mathematics-scores-jT3vh3L0l4NQIYaaMUiRHQTpjlFPCs.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 53,
+     "passed": 52
+    },
+    "defects": [
+     {
+      "kind": "misspelled",
+      "expected": "OECD average: 463",
+      "found": "OECD average: 462",
+      "message": "Expected \"OECD average: 463\", found \"OECD average: 462\"."
+     }
+    ]
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 6.607692833,
+    "loop": 322.111124625
+   }
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "RANKED: 15-YEAR-OLDS IN MATH",
+    "title": "Best at Math",
+    "accentWord": "Math",
+    "subtitle": "Average PISA mathematics score, OECD countries and partners, 2025",
+    "chart": {
+     "form": "ranked_bar",
+     "data": [
+      {
+       "label": "China*",
+       "value": "612",
+       "numeric": 612,
+       "highlight": true
+      },
+      {
+       "label": "Singapore",
+       "value": "563",
+       "numeric": 563,
+       "highlight": true
+      },
+      {
+       "label": "Macao",
+       "value": "549",
+       "numeric": 549
+      },
+      {
+       "label": "Taiwan",
+       "value": "546",
+       "numeric": 546
+      },
+      {
+       "label": "Japan",
+       "value": "525",
+       "numeric": 525
+      },
+      {
+       "label": "South Korea",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Hong Kong",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Estonia",
+       "value": "508",
+       "numeric": 508
+      },
+      {
+       "label": "Switzerland",
+       "value": "499",
+       "numeric": 499
+      },
+      {
+       "label": "UK",
+       "value": "488",
+       "numeric": 488
+      },
+      {
+       "label": "Canada",
+       "value": "485",
+       "numeric": 485
+      },
+      {
+       "label": "Poland",
+       "value": "484",
+       "numeric": 484
+      },
+      {
+       "label": "Netherlands",
+       "value": "483",
+       "numeric": 483
+      },
+      {
+       "label": "New Zealand",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Ireland",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Belgium",
+       "value": "480",
+       "numeric": 480
+      },
+      {
+       "label": "Australia",
+       "value": "478",
+       "numeric": 478
+      },
+      {
+       "label": "Austria",
+       "value": "477",
+       "numeric": 477
+      },
+      {
+       "label": "Germany",
+       "value": "464",
+       "numeric": 464
+      },
+      {
+       "label": "U.S.",
+       "value": "463",
+       "numeric": 463
+      }
+     ],
+     "benchmark": {
+      "label": "OECD average: 463",
+      "numeric": 463
+     }
+    },
+    "callouts": [
+     {
+      "text": "China leads by 49 points over Singapore",
+      "anchor": "China*"
+     },
+     {
+      "text": "Estonia is the highest-scoring European system",
+      "anchor": "Estonia"
+     },
+     {
+      "text": "U.S. matches the OECD average exactly",
+      "anchor": "U.S."
+     }
+    ],
+    "hero": "oversized brass compass and ruler arranged over faint graph-paper grid, top right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "clean classroom math aesthetic, graph-paper texture, chalk-black bars with gold accent for top two, oversized compass hero"
+    },
+    "source": "Source: OECD PISA 2025 Mathematics",
+    "footnote": "*China represents Beijing, Shanghai, Jiangsu and Zhejiang. Scores on 0-1000 PISA scale.",
+    "fileName": "pisa-math-2025"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_ecf6689d-3957-42c5-972f-43fe6228bbb328069b39-50a8-45cd-b851-f38145492531.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 55,
+     "passed": 52
+    },
+    "defects": [
+     {
+      "kind": "callout",
+      "severity": 3
+     },
+     {
+      "kind": "callout",
+      "severity": 3
+     },
+     {
+      "kind": "misspelled",
+      "severity": 2,
+      "expected": "South Korea",
+      "found": "South Koreo"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/pisa-math-2025-iWqYLtEkBwNsFCeHm0rOdRFiMqaQUC.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 55,
+     "passed": 55
+    },
+    "defects": []
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 6.189995583,
+    "loop": 346.65326845799996
+   }
+  }
+ },
+ "fertilizer": {
+  "title": "Fertilizer exporters",
+  "detail": "Article data: top fertilizer exporters, 2024 (FAO, nutrient content)",
+  "input": {
+   "brief": "Make an article infographic. World's top fertilizer exporters in 2024, million tonnes by nutrient content (FAO; nitrogen, phosphate and potash combined): Russia 23.2, Canada 14.4, Morocco 12.2, China 10.1, U.S. 6.4, Saudi Arabia 5.6, Germany 3.1, Israel 2.8, Qatar 2.5, Belarus 2.4, Netherlands 2.2, Egypt 1.9. Global exports were 113.3 million tonnes; the top four supplied 53%."
+  },
+  "reference": {
+   "image": "/data/img/ref-fertilizer.webp",
+   "credit": "Reference: Visual Capitalist (Gabriel Cohen)"
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "THE WORLD'S TOP",
+    "title": "Fertilizer Exporters",
+    "accentWord": "Fertilizer",
+    "subtitle": "Fertilizer exports by nutrient content, million tonnes, 2024",
+    "chart": {
+     "form": "ranked_bar",
+     "data": [
+      {
+       "label": "Russia",
+       "value": "23.2",
+       "numeric": 23.2,
+       "highlight": true
+      },
+      {
+       "label": "Canada",
+       "value": "14.4",
+       "numeric": 14.4
+      },
+      {
+       "label": "Morocco",
+       "value": "12.2",
+       "numeric": 12.2
+      },
+      {
+       "label": "China",
+       "value": "10.1",
+       "numeric": 10.1
+      },
+      {
+       "label": "U.S.",
+       "value": "6.4",
+       "numeric": 6.4
+      },
+      {
+       "label": "Saudi Arabia",
+       "value": "5.6",
+       "numeric": 5.6
+      },
+      {
+       "label": "Germany",
+       "value": "3.1",
+       "numeric": 3.1
+      },
+      {
+       "label": "Israel",
+       "value": "2.8",
+       "numeric": 2.8
+      },
+      {
+       "label": "Qatar",
+       "value": "2.5",
+       "numeric": 2.5
+      },
+      {
+       "label": "Belarus",
+       "value": "2.4",
+       "numeric": 2.4
+      },
+      {
+       "label": "Netherlands",
+       "value": "2.2",
+       "numeric": 2.2
+      },
+      {
+       "label": "Egypt",
+       "value": "1.9",
+       "numeric": 1.9
+      }
+     ],
+     "layoutNotes": "bars descending, Russia full-width"
+    },
+    "callouts": [
+     {
+      "text": "Top four supplied 53% of global exports"
+     },
+     {
+      "text": "Russia exports nearly double second-place Canada",
+      "anchor": "Russia"
+     }
+    ],
+    "hero": "pile of dark soil with fertilizer granules and green sprouts, lower edge",
+    "style": {
+     "preset": "material_texture",
+     "artDirection": "soil and mineral texture, sculpted granules, earthy browns with green sprout accents"
+    },
+    "source": "Source: FAO (2024)",
+    "footnote": "Nitrogen, phosphate and potash combined. Global exports 113.3 million tonnes.",
+    "fileName": "fertilizer-exporters"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_db1df4fd-7e8b-4c07-8c20-eaaab1006967367cc274-b3d9-4f6f-b5d9-644bc9eb8687.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 42,
+     "passed": 42
+    },
+    "defects": []
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/fertilizer-exporters-ZwZgVPLoIAWhdV6oghG4SNlkzZYlZ0.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 42,
+     "passed": 42
+    },
+    "defects": []
+   },
+   "passes": 1,
+   "seconds": {
+    "spec": 5.426540290999999,
+    "loop": 42.234346334
+   }
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "THE WORLD'S TOP",
+    "title": "Fertilizer Exporters",
+    "accentWord": "Exporters",
+    "subtitle": "Fertilizer exports by nutrient content, million tonnes, 2024",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "million tonnes",
+     "data": [
+      {
+       "label": "Russia",
+       "value": "23.2",
+       "numeric": 23.2
+      },
+      {
+       "label": "Canada",
+       "value": "14.4",
+       "numeric": 14.4
+      },
+      {
+       "label": "Morocco",
+       "value": "12.2",
+       "numeric": 12.2
+      },
+      {
+       "label": "China",
+       "value": "10.1",
+       "numeric": 10.1
+      },
+      {
+       "label": "U.S.",
+       "value": "6.4",
+       "numeric": 6.4
+      },
+      {
+       "label": "Saudi Arabia",
+       "value": "5.6",
+       "numeric": 5.6
+      },
+      {
+       "label": "Germany",
+       "value": "3.1",
+       "numeric": 3.1
+      },
+      {
+       "label": "Israel",
+       "value": "2.8",
+       "numeric": 2.8
+      },
+      {
+       "label": "Qatar",
+       "value": "2.5",
+       "numeric": 2.5
+      },
+      {
+       "label": "Belarus",
+       "value": "2.4",
+       "numeric": 2.4
+      },
+      {
+       "label": "Netherlands",
+       "value": "2.2",
+       "numeric": 2.2
+      },
+      {
+       "label": "Egypt",
+       "value": "1.9",
+       "numeric": 1.9
+      },
+      {
+       "label": "Other",
+       "value": "113.3",
+       "numeric": 113.3
+      }
+     ],
+     "benchmark": {
+      "label": "Global exports",
+      "numeric": 113.3
+     }
+    },
+    "callouts": [
+     {
+      "text": "Top four supplied 53% of output",
+      "anchor": "Other"
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "sculpted from soil"
+    },
+    "source": "Source: FAO (2024)",
+    "footnote": "Grant-date value, not realized pay",
+    "fileName": "fertilizer-exporters",
+    "brandMark": ""
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_1b6b8da4-fa62-4743-bf53-aa71f787328d372cd8e3-915e-4588-a809-f8cecfc856f8.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 45,
+     "passed": 43
+    },
+    "defects": [
+     {
+      "kind": "misspelled",
+      "severity": 3,
+      "expected": "Top four supplied 53% of output",
+      "found": "Top four supplied 50% of output"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "by nutrient content"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/fertilizer-exporters-eLQ7cShvFSPCtfqY6RBv7IarHmZOtD.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 45,
+     "passed": 45
+    },
+    "defects": []
+   },
+   "passes": 3,
+   "seconds": {
+    "spec": 6.375231542000001,
+    "loop": 145.88383224999998
+   }
+  }
+ },
+ "acme": {
+  "title": "Acme Logistics",
+  "detail": "Account health from the brain's notes",
+  "input": {
+   "entity": "customers/acme-logistics"
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "ACCOUNT WATCH:",
+    "title": "Acme Logistics",
+    "accentWord": "Logistics",
+    "subtitle": "Fleet, uptime, loyalty and contract status, Sept 2025",
+    "chart": {
+     "form": "stat_cards",
+     "data": [
+      {
+       "label": "Pallet movers",
+       "value": "64",
+       "numeric": 64,
+       "highlight": true
+      },
+      {
+       "label": "Fleet uptime",
+       "value": "94%",
+       "numeric": 94
+      },
+      {
+       "label": "NPS score",
+       "value": "58",
+       "numeric": 58
+      },
+      {
+       "label": "Service contract",
+       "value": "Not renewed",
+       "numeric": 0
+      }
+     ],
+     "layoutNotes": "four stat cards in 2x2 grid, contract card styled as alert"
+    },
+    "callouts": [
+     {
+      "text": "Fleet grew 52 to 64 before uptime fell 97% to 94%",
+      "anchor": "Fleet uptime"
+     },
+     {
+      "text": "NPS fell 72 to 58 on slow ticket response",
+      "anchor": "NPS score"
+     },
+     {
+      "text": "Switched to third-party maintenance in Sept",
+      "anchor": "Service contract"
+     }
+    ],
+    "hero": "warehouse aisle with pallet movers, one with warning tag, upper area",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "logistics warehouse palette, steel blue and amber alert, pallet and forklift geometric shapes, clean type"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
+    "fileName": "acme-logistics"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_4e2f49cf-ae3c-48d9-a0a7-d1acefaefc8228f62739-509c-4cee-a296-3c2873094250.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 20,
+     "passed": 18
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "severity": 3,
+      "expected": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
+      "found": "missing"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "Current values only; outdated 52-unit, 72 NPS and active-"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "contract notes superseded. Owner: Tom Novak."
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-PrE8s5hdRsO3h3H9YDE6ex5ThVDlAp.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 20,
+     "passed": 20
+    },
+    "defects": []
+   },
+   "passes": 4,
+   "seconds": {
+    "spec": 16.627928708,
+    "loop": 182.042699083
+   }
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "Service Renewal Status",
+    "title": "Acme Logistics",
+    "accentWord": "Logistics",
+    "subtitle": "Fleet of 52 pallet movers, NPS score of 58, September 2025",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "pallet movers",
+     "data": [
+      {
+       "label": "pallet movers",
+       "value": "52",
+       "numeric": 52
+      },
+      {
+       "label": "NPS score",
+       "value": "58",
+       "numeric": 58
+      },
+      {
+       "label": "uptime",
+       "value": "94%",
+       "numeric": 94
+      },
+      {
+       "label": "downtime",
+       "value": "3",
+       "numeric": 3
+      }
+     ]
+    },
+    "callouts": [
+     {
+      "text": "They opted to switch to a third-party maintenance provider.",
+      "anchor": "uptime"
+     },
+     {
+      "text": "Despite earlier discussions, we did NOT renew the service contract",
+      "anchor": "pallet movers"
+     },
+     {
+      "text": "Their overall fleet uptime dropped to 94% this month, down from 97% last quarter.",
+      "anchor": "uptime"
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "material_texture"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "Grant-date value, not realized pay",
+    "fileName": "acme-logistics",
+    "brandMark": ""
+   },
+   "specAttempts": 2,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_a90e74db-ecbf-486f-89a2-47f1de45298a72e85a31-d1ba-44ef-b12b-5e1bfcf446dc.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 25,
+     "passed": 24
+    },
+    "defects": [
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "0, 20, 40, 60, 80, 90, 100"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-SLSTf8fglVJfL1F2N8l5BKUKEE40bv.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 25,
+     "passed": 24
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "expected": "pallet movers",
+      "found": "missing",
+      "message": "Missing \"pallet movers\"."
+     }
+    ]
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 10.722113499999999,
+    "loop": 332.551928333
+   }
+  }
+ },
  "continental": {
   "title": "Continental Retail",
   "detail": "Notes that contradict each other",
@@ -264,497 +1664,6 @@
    "seconds": {
     "spec": 5.7075010829999995,
     "loop": 304.07630100000006
-   }
-  }
- },
- "pisa": {
-  "title": "Best at math",
-  "detail": "Pasted data: PISA 2025",
-  "input": {
-   "brief": "Make a newsletter infographic. Average PISA 2025 mathematics scores of 15-year-olds (OECD): Singapore 563, Macao 549, Taiwan 546, Japan 525, South Korea 522, Estonia 508, Switzerland 499, UK 488, Canada 485, U.S. 463. OECD average: 463."
-  },
-  "muse": {
-   "writer": "muse",
-   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
-   "spec": {
-    "format": "square",
-    "kicker": "RANKED:",
-    "title": "Best at Math",
-    "accentWord": "Math",
-    "subtitle": "Average PISA mathematics score of 15-year-olds, OECD 2025",
-    "chart": {
-     "form": "ranked_bar",
-     "data": [
-      {
-       "label": "Singapore",
-       "value": "563",
-       "numeric": 563,
-       "highlight": true
-      },
-      {
-       "label": "Macao",
-       "value": "549",
-       "numeric": 549
-      },
-      {
-       "label": "Taiwan",
-       "value": "546",
-       "numeric": 546
-      },
-      {
-       "label": "Japan",
-       "value": "525",
-       "numeric": 525
-      },
-      {
-       "label": "South Korea",
-       "value": "522",
-       "numeric": 522
-      },
-      {
-       "label": "Estonia",
-       "value": "508",
-       "numeric": 508
-      },
-      {
-       "label": "Switzerland",
-       "value": "499",
-       "numeric": 499
-      },
-      {
-       "label": "UK",
-       "value": "488",
-       "numeric": 488
-      },
-      {
-       "label": "Canada",
-       "value": "485",
-       "numeric": 485
-      },
-      {
-       "label": "U.S.",
-       "value": "463",
-       "numeric": 463
-      }
-     ],
-     "benchmark": {
-      "label": "OECD average: 463",
-      "numeric": 463
-     }
-    },
-    "callouts": [
-     {
-      "text": "Singapore leads by 14 points over nearest rival",
-      "anchor": "Singapore"
-     },
-     {
-      "text": "Top five are all in East Asia"
-     }
-    ],
-    "hero": "oversized brass compass and protractor arranged over faint graph paper, lower right",
-    "style": {
-     "preset": "clean_light",
-     "artDirection": "classroom chalk-meets-editorial concept, crisp navy bars with gold highlight for leader, subtle grid-paper texture"
-    },
-    "source": "Source: OECD PISA 2025",
-    "footnote": "Scores for mathematics, 15-year-old students. OECD average 463.",
-    "fileName": "best-at-math"
-   },
-   "specAttempts": 1,
-   "before": {
-    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_e36bc919-7ce0-478d-b4d7-d4916eb9610af51063d9-8713-4f57-aa09-d18421788ed9.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 33,
-     "passed": 32
-    },
-    "defects": [
-     {
-      "kind": "callout",
-      "severity": 3
-     }
-    ]
-   },
-   "after": {
-    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/best-at-math-qaF3WWeUnfTaJXTNoRPKbkPdZ4yInR.png",
-    "verdict": "publish",
-    "checks": {
-     "total": 33,
-     "passed": 33
-    },
-    "defects": []
-   },
-   "passes": 2,
-   "seconds": {
-    "spec": 5.2510221249999995,
-    "loop": 118.78395058299999
-   }
-  },
-  "river": {
-   "writer": "river",
-   "writerLabel": "Our trained model · River",
-   "spec": {
-    "format": "square",
-    "kicker": "RANKED:",
-    "title": "Mathematics Scores",
-    "accentWord": "Scores",
-    "subtitle": "Average PISA 2025 mathematics scores of 15-year-olds, OECD",
-    "chart": {
-     "form": "ranked_bar",
-     "unit": "in mathematics scores",
-     "data": [
-      {
-       "label": "Singapore",
-       "value": "563",
-       "numeric": 563,
-       "highlight": true
-      },
-      {
-       "label": "Macao",
-       "value": "549",
-       "numeric": 549
-      },
-      {
-       "label": "Taiwan",
-       "value": "546",
-       "numeric": 546
-      },
-      {
-       "label": "Japan",
-       "value": "525",
-       "numeric": 525
-      },
-      {
-       "label": "South Korea",
-       "value": "522",
-       "numeric": 522
-      },
-      {
-       "label": "Estonia",
-       "value": "508",
-       "numeric": 508
-      },
-      {
-       "label": "Switzerland",
-       "value": "499",
-       "numeric": 499
-      },
-      {
-       "label": "UK",
-       "value": "488",
-       "numeric": 488
-      },
-      {
-       "label": "Canada",
-       "value": "485",
-       "numeric": 485
-      },
-      {
-       "label": "U.S.",
-       "value": "463",
-       "numeric": 463,
-       "highlight": true
-      },
-      {
-       "label": "OECD average",
-       "value": "463",
-       "numeric": 463
-      }
-     ],
-     "benchmark": {
-      "label": "OECD average",
-      "numeric": 463
-     }
-    },
-    "callouts": [
-     {
-      "text": "Top five supply 68% of output",
-      "anchor": "Singapore"
-     },
-     {
-      "text": "U.S. matches OECD average",
-      "anchor": "U.S."
-     }
-    ],
-    "hero": "pile of dark soil with green sprouts, lower right",
-    "style": {
-     "preset": "clean_light",
-     "artDirection": "sculpted from soil"
-    },
-    "source": "Source: OECD (2025)",
-    "footnote": "Grant-date value, not realized pay.",
-    "fileName": "pisa-mathematics-scores",
-    "brandMark": "Morning Ledger"
-   },
-   "specAttempts": 1,
-   "before": {
-    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_5eebd562-fa1a-4ca2-b907-13e5c8621cfbe875d7c4-0f6f-4a85-8c32-4ce4f536e8c6.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 37,
-     "passed": 31
-    },
-    "defects": [
-     {
-      "kind": "misplaced",
-      "severity": 3,
-      "expected": "463"
-     },
-     {
-      "kind": "order",
-      "severity": 3
-     },
-     {
-      "kind": "callout",
-      "severity": 3
-     },
-     {
-      "kind": "encoding",
-      "severity": 3
-     },
-     {
-      "kind": "missing",
-      "severity": 2,
-      "expected": "U.S. matches OECD average",
-      "found": "missing"
-     },
-     {
-      "kind": "invented",
-      "severity": 2,
-      "found": "U.S. matches"
-     }
-    ]
-   },
-   "after": {
-    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/pisa-mathematics-scores-TngaODhqpe8qekD2wkLshamqiIF1Zm.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 37,
-     "passed": 35
-    },
-    "defects": [
-     {
-      "kind": "missing",
-      "expected": "U.S. matches OECD average",
-      "found": "missing",
-      "message": "Missing \"U.S. matches OECD average\"."
-     },
-     {
-      "kind": "invented",
-      "found": "U.S. matches",
-      "message": "Not in the brief: \"U.S. matches\"."
-     }
-    ]
-   },
-   "passes": 5,
-   "seconds": {
-    "spec": 6.274405625,
-    "loop": 258.493292834
-   }
-  }
- },
- "acme": {
-  "title": "Acme Logistics",
-  "detail": "Account health from the brain's notes",
-  "input": {
-   "entity": "customers/acme-logistics"
-  },
-  "muse": {
-   "writer": "muse",
-   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
-   "spec": {
-    "format": "portrait",
-    "kicker": "ACCOUNT WATCH:",
-    "title": "Acme Logistics",
-    "accentWord": "Logistics",
-    "subtitle": "Fleet, uptime, loyalty and contract status, Sept 2025",
-    "chart": {
-     "form": "stat_cards",
-     "data": [
-      {
-       "label": "Pallet movers",
-       "value": "64",
-       "numeric": 64,
-       "highlight": true
-      },
-      {
-       "label": "Fleet uptime",
-       "value": "94%",
-       "numeric": 94
-      },
-      {
-       "label": "NPS score",
-       "value": "58",
-       "numeric": 58
-      },
-      {
-       "label": "Service contract",
-       "value": "Not renewed",
-       "numeric": 0
-      }
-     ],
-     "layoutNotes": "four stat cards in 2x2 grid, contract card styled as alert"
-    },
-    "callouts": [
-     {
-      "text": "Fleet grew 52 to 64 before uptime fell 97% to 94%",
-      "anchor": "Fleet uptime"
-     },
-     {
-      "text": "NPS fell 72 to 58 on slow ticket response",
-      "anchor": "NPS score"
-     },
-     {
-      "text": "Switched to third-party maintenance in Sept",
-      "anchor": "Service contract"
-     }
-    ],
-    "hero": "warehouse aisle with pallet movers, one with warning tag, upper area",
-    "style": {
-     "preset": "clean_light",
-     "artDirection": "logistics warehouse palette, steel blue and amber alert, pallet and forklift geometric shapes, clean type"
-    },
-    "source": "Source: Northwind Robotics knowledge base",
-    "footnote": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
-    "fileName": "acme-logistics"
-   },
-   "specAttempts": 1,
-   "before": {
-    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_4e2f49cf-ae3c-48d9-a0a7-d1acefaefc8228f62739-509c-4cee-a296-3c2873094250.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 20,
-     "passed": 18
-    },
-    "defects": [
-     {
-      "kind": "missing",
-      "severity": 3,
-      "expected": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
-      "found": "missing"
-     },
-     {
-      "kind": "invented",
-      "severity": 3,
-      "found": "Current values only; outdated 52-unit, 72 NPS and active-"
-     },
-     {
-      "kind": "invented",
-      "severity": 2,
-      "found": "contract notes superseded. Owner: Tom Novak."
-     }
-    ]
-   },
-   "after": {
-    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-PrE8s5hdRsO3h3H9YDE6ex5ThVDlAp.png",
-    "verdict": "publish",
-    "checks": {
-     "total": 20,
-     "passed": 20
-    },
-    "defects": []
-   },
-   "passes": 4,
-   "seconds": {
-    "spec": 16.627928708,
-    "loop": 182.042699083
-   }
-  },
-  "river": {
-   "writer": "river",
-   "writerLabel": "Our trained model · River",
-   "spec": {
-    "format": "portrait",
-    "kicker": "Service Renewal Status",
-    "title": "Acme Logistics",
-    "accentWord": "Logistics",
-    "subtitle": "Fleet of 52 pallet movers, NPS score of 58, September 2025",
-    "chart": {
-     "form": "ranked_bar",
-     "unit": "pallet movers",
-     "data": [
-      {
-       "label": "pallet movers",
-       "value": "52",
-       "numeric": 52
-      },
-      {
-       "label": "NPS score",
-       "value": "58",
-       "numeric": 58
-      },
-      {
-       "label": "uptime",
-       "value": "94%",
-       "numeric": 94
-      },
-      {
-       "label": "downtime",
-       "value": "3",
-       "numeric": 3
-      }
-     ]
-    },
-    "callouts": [
-     {
-      "text": "They opted to switch to a third-party maintenance provider.",
-      "anchor": "uptime"
-     },
-     {
-      "text": "Despite earlier discussions, we did NOT renew the service contract",
-      "anchor": "pallet movers"
-     },
-     {
-      "text": "Their overall fleet uptime dropped to 94% this month, down from 97% last quarter.",
-      "anchor": "uptime"
-     }
-    ],
-    "hero": "pile of dark soil with green sprouts, lower right",
-    "style": {
-     "preset": "clean_light",
-     "artDirection": "material_texture"
-    },
-    "source": "Source: Northwind Robotics knowledge base",
-    "footnote": "Grant-date value, not realized pay",
-    "fileName": "acme-logistics",
-    "brandMark": ""
-   },
-   "specAttempts": 2,
-   "before": {
-    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_a90e74db-ecbf-486f-89a2-47f1de45298a72e85a31-d1ba-44ef-b12b-5e1bfcf446dc.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 25,
-     "passed": 24
-    },
-    "defects": [
-     {
-      "kind": "invented",
-      "severity": 3,
-      "found": "0, 20, 40, 60, 80, 90, 100"
-     }
-    ]
-   },
-   "after": {
-    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-SLSTf8fglVJfL1F2N8l5BKUKEE40bv.png",
-    "verdict": "fix",
-    "checks": {
-     "total": 25,
-     "passed": 24
-    },
-    "defects": [
-     {
-      "kind": "missing",
-      "expected": "pallet movers",
-      "found": "missing",
-      "message": "Missing \"pallet movers\"."
-     }
-    ]
-   },
-   "passes": 6,
-   "seconds": {
-    "spec": 10.722113499999999,
-    "loop": 332.551928333
    }
   }
  }

@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 type Checks = { passed: number; total: number } | null;
 type Side = { image?: string; verdict?: string; checks: Checks };
 export type Run = { before: Side; after: Side; passes: number; specAttempts: number; seconds: { spec: number; loop: number } };
-export type Sample = { title: string; detail: string; input: { entity?: string; brief?: string }; muse?: Run; river?: Run };
+export type Sample = { title: string; detail: string; input: { entity?: string; brief?: string }; reference?: { image: string; credit: string }; muse?: Run; river?: Run };
 
 const WRITERS = [
   { key: "muse", name: "Muse Spark", sub: "rented, via Vercel AI Gateway", dot: "bg-muted-foreground" },
@@ -124,6 +124,25 @@ export function Generator({ samples }: { samples: Record<string, Sample> }) {
       </div>
       {key !== "live" && samples[key] ? <p className="text-muted-foreground text-sm">{samples[key]!.detail}</p> : null}
       {live?.error && key === "live" ? <p className="text-destructive text-sm">{live.error}</p> : null}
+      {key !== "live" && samples[key]?.reference ? (
+        <figure className="m-0 flex items-center gap-4 overflow-hidden rounded-2xl border bg-card p-3 shadow-[var(--card-shadow)]">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="h-40 w-32 shrink-0 cursor-zoom-in overflow-hidden rounded-lg bg-muted" type="button">
+                <img alt="Reference infographic" className="size-full object-cover object-top" src={samples[key]!.reference!.image} />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="flex max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] flex-col items-center border-none bg-transparent p-0 shadow-none sm:max-w-[calc(100vw-4rem)]">
+              <DialogTitle className="sr-only">Reference infographic</DialogTitle>
+              <img alt="Reference infographic" className="max-h-[calc(100dvh-4rem)] w-auto rounded-lg object-contain" src={samples[key]!.reference!.image} />
+            </DialogContent>
+          </Dialog>
+          <figcaption className="space-y-1">
+            <p className="font-display text-base uppercase tracking-wide">The bar we are aiming for</p>
+            <p className="text-muted-foreground text-xs">{samples[key]!.reference!.credit}. Made by human designers, shown for comparison only.</p>
+          </figcaption>
+        </figure>
+      ) : null}
       <div className="grid gap-4 lg:grid-cols-2">
         {WRITERS.map((w) => (
           <WriterCard key={w.key} pending={key === "live" ? live?.started : undefined} run={shown?.[w.key]} w={w} />
