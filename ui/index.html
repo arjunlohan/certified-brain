@@ -73,6 +73,11 @@ th{font:500 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color
       <div class="scroll"><table id="reps"></table></div>
     </div>
   </div>
+  <div class="panel">
+    <h2>Judge floor · does the judge agree with itself?</h2>
+    <p class="muted" style="margin:0 0 10px;font-size:13.5px">Two draws of the same verdict under the same prompt, model id and T = 0. No stratum can certify below its own floor. A provider can change the host behind a model id without telling you; weights you own cannot.</p>
+    <div class="scroll"><table id="floors"></table></div>
+  </div>
   <p class="muted mono" id="foot"></p>
 </div>
 <script>
@@ -148,6 +153,21 @@ function render() {
   document.getElementById("foot").textContent = `report generated ${R.generatedAt} · certifier: sIVM (Lohan 2026), unmodified`;
 }
 
+async function floors() {
+  const rows = [];
+  for (const [mode, name] of [["pinned", "Provider model, pinned to one host"], ["unpinned", "Provider model, any host"], ["owned", "Owned 9B (River)"]]) {
+    const f = await fetch(`data/floor-${mode}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!f) continue;
+    const hosts = (f.hosts || []).map((h) => `${h.provider} ${h.n}`).join(", ");
+    const strata = Object.entries(f.byStratum).sort((a, b) => b[1].n - a[1].n).slice(0, 3)
+      .map(([k, v]) => `${k} ${pct(v.selfFlip)} (n=${v.n})`).join(" · ");
+    rows.push(`<tr><td>${name}</td><td><b>${pct(f.selfFlip)}</b></td><td>${f.cells}</td><td class="mono">${hosts}</td><td class="mono">${strata}</td></tr>`);
+  }
+  document.getElementById("floors").innerHTML = rows.length
+    ? "<tr><th>Judge</th><th>Self-flip</th><th>Cells</th><th>Hosts that served it</th><th>By cached verdict</th></tr>" + rows.join("")
+    : "<tr><td class='muted'>No floor measured yet: bun run floor</td></tr>";
+}
+floors();
 fetch("data/report.json").then((r) => r.json()).then((j) => { R = j; render(); })
   .catch(() => (document.getElementById("sub").textContent = "No report yet: run bun run certify"));
 </script>

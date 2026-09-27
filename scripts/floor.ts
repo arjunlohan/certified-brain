@@ -30,6 +30,11 @@ for (const p of pairs) {
   const s = byStratum.get(a.verdict) ?? { n: 0, flips: 0 };
   s.n++; s.flips += f; byStratum.set(a.verdict, s);
 }
-const hosts = db.query("SELECT provider, count(*) AS n FROM verdicts WHERE model=? GROUP BY provider").all(label);
-console.log(JSON.stringify({ mode, model: label, cells: counted, selfFlip: flips / counted, hosts,
-  byStratum: Object.fromEntries([...byStratum].map(([k, v]) => [k, { n: v.n, selfFlip: v.flips / v.n }])) }, null, 1));
+const ids = pairs.map((p) => p.pair_id);
+const hosts = db
+  .query(`SELECT provider, count(*) AS n FROM verdicts WHERE model=? AND prompt_version='2' AND pair_id IN (${ids.map(() => "?").join(",")}) GROUP BY provider`)
+  .all(label, ...ids);
+const result = { mode, model: label, cells: counted, selfFlip: flips / counted, hosts,
+  byStratum: Object.fromEntries([...byStratum].map(([k, v]) => [k, { n: v.n, selfFlip: v.flips / v.n }])) };
+console.log(JSON.stringify(result, null, 1));
+await Bun.write(new URL(`../ui/data/floor-${mode}.json`, import.meta.url).pathname, JSON.stringify(result, null, 1));

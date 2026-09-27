@@ -1,0 +1,34 @@
+{
+ "mode": "pinned",
+ "model": "deepseek/deepseek-v4-flash-0731",
+ "cells": 300,
+ "selfFlip": 0.03,
+ "hosts": [
+  {
+   "provider": "baseten",
+   "n": 600
+  }
+ ],
+ "byStratum": {
+  "no_contradiction": {
+   "n": 241,
+   "selfFlip": 0.004149377593360996
+  },
+  "temporal_evolution": {
+   "n": 23,
+   "selfFlip": 0.21739130434782608
+  },
+  "temporal_supersession": {
+   "n": 26,
+   "selfFlip": 0.11538461538461539
+  },
+  "temporal_regression": {
+   "n": 6,
+   "selfFlip": 0
+  },
+  "contradiction": {
+   "n": 4,
+   "selfFlip": 0
+  }
+ }
+}
