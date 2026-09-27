@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenIcon, ImageIcon, MessagesSquareIcon, ShieldCheckIcon } from "lucide-react";
+import { ImageIcon, MessagesSquareIcon, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -19,16 +19,9 @@ import {
 } from "@/components/ui/sidebar";
 
 const PAGES = [
-  { href: "/", label: "How it works", icon: BookOpenIcon },
-  { href: "/reuse", label: "Certified reuse", icon: ShieldCheckIcon },
+  { href: "/", label: "Certified reuse", icon: ShieldCheckIcon },
   { href: "/ask", label: "Ask the brain · A/B", icon: MessagesSquareIcon },
   { href: "/infographic", label: "Infographics · A/B", icon: ImageIcon },
-] as const;
-
-const REPOS = [
-  { href: "https://github.com/arjunlohan/certified-brain", label: "certified-brain" },
-  { href: "https://github.com/arjunlohan/gbrain/tree/cycle-contradiction-probe", label: "gbrain fork" },
-  { href: "https://github.com/arjunlohan/qm/tree/fix-1452-recall-providers", label: "qm fork" },
 ] as const;
 
 export function AppNav() {
@@ -55,22 +48,6 @@ export function AppNav() {
                       <p.icon />
                       <span>{p.label}</span>
                     </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Verify it</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {REPOS.map((r) => (
-                <SidebarMenuItem key={r.href}>
-                  <SidebarMenuButton asChild>
-                    <a href={r.href} rel="noreferrer" target="_blank">
-                      <span className="font-mono text-xs">{r.label}</span>
-                    </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

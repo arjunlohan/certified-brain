@@ -37,44 +37,61 @@ type Brain = {
 type AskResponse = { entity: string; question: string; edit: string; alpha: number; pairs: number; results: Lane[]; brain: Brain };
 type Turn = { id: number; question: string; entity: string; editLabel: string; result?: AskResponse; error?: string };
 
-const DEFAULT_ENTITY = "customers/acme-logistics";
+const DEFAULT_ENTITY = "vendors/edge-compute-partners";
 const DEFAULT_EDIT = "3-sem";
 /** Demo labels for the edit keys served by /api/entities. */
 const EDIT_LABELS: Record<string, string> = {
-  "3-sem": "New judge prompt (rule change)",
-  "2-fmt": "New judge prompt (formatting only)",
-  "swap-9b": "New judge model (our 9B on River)",
+  "3-sem": "New judge instructions (a rule change)",
+  "2-fmt": "New judge instructions (reworded only)",
+  "swap-9b": "New judge model (our own trained model)",
 };
+/** Picked by scripts/find-showcase.ts: rule change, reuse everything serves several wrong answers, certified serves none for a fraction of the calls. */
 const STARTERS = [
   {
     kicker: "Rule change",
-    title: "Acme Logistics status",
-    detail: "New judge prompt",
-    entity: "customers/acme-logistics",
+    title: "Edge Compute Partners",
+    detail: "Reuse everything serves 4 wrong answers here. Certified: 0 wrong, 5 of 15 calls.",
+    entity: "vendors/edge-compute-partners",
     edit: "3-sem",
-    question: "What is the current status?",
+    question: "Is our contract with Edge Compute Partners still on the original pricing, and when will the 500 units arrive?",
   },
   {
-    kicker: "Formatting only",
-    title: "Who owns Continental?",
-    detail: "Same rules, new wording",
-    entity: "customers/continental-retail-group",
-    edit: "2-fmt",
-    question: "Who owns this account right now, and has that changed?",
+    kicker: "Rule change",
+    title: "Fleet Manager uptime",
+    detail: "Reuse everything serves 3 wrong answers here. Certified: 0 wrong, 4 of 15 calls.",
+    entity: "products/northwind-fleet-manager",
+    edit: "3-sem",
+    question: "What is Fleet Manager's real uptime now, and who owns the product?",
   },
   {
-    kicker: "Model swap",
-    title: "Open risks at Bluewave",
-    detail: "Our 9B on River",
-    entity: "customers/bluewave-warehousing",
-    edit: "swap-9b",
-    question: "What are the open risks or disputed facts?",
+    kicker: "Rule change",
+    title: "What does Sofia run?",
+    detail: "Reuse everything serves 4 wrong answers here. Certified: 0 wrong, 7 of 15 calls.",
+    entity: "people/sofia-rossi",
+    edit: "3-sem",
+    question: "What is Sofia Rossi responsible for now, and what was Q4 revenue?",
   },
 ] as const;
-const LANES: Record<Lane["name"], { title: string; dot: string }> = {
-  stock: { title: "Stock GBrain", dot: "bg-muted-foreground/60" },
-  reuse_all: { title: "Reuse everything", dot: "bg-destructive" },
-  certified: { title: "Certified", dot: "bg-emerald-600 dark:bg-emerald-400" },
+const LANES: Record<Lane["name"], { title: string; blurb: string; dot: string; bar: string }> = {
+  stock: {
+    title: "Stock GBrain",
+    blurb: "Throws away every saved answer and asks the AI judge again. Always right, pays for every call.",
+    dot: "bg-muted-foreground/60",
+    bar: "bg-muted-foreground/50",
+  },
+  reuse_all: {
+    title: "Reuse everything",
+    blurb: "Keeps every saved answer from before the change, no checking. Free, but some answers are now wrong (stale).",
+    dot: "bg-destructive",
+    bar: "bg-destructive",
+  },
+  certified: {
+    title: "Certified",
+    blurb:
+      "Re-checks a random sample of each group of saved answers; keeps a group only if the sample proves it still holds, re-asks the rest. Near-free, and wrong answers stay under a 10% budget.",
+    dot: "bg-emerald-600 dark:bg-emerald-400",
+    bar: "bg-emerald-600 dark:bg-emerald-400",
+  },
 };
 const GOOD = "text-emerald-600 dark:text-emerald-400";
 const SHIMMER_CSS = `
@@ -191,8 +208,8 @@ export default function AskPage() {
                   Ask the <span className="text-signal">brain</span>
                 </h2>
                 <p className="max-w-xl text-muted-foreground text-pretty">
-                  The judge just changed. See the same question answered three ways: re-judge everything, reuse everything, or reuse only
-                  what&apos;s certified.
+                  The AI judge just changed. Ask one question and see it answered three ways: ask the judge again for everything, reuse every
+                  saved answer, or reuse only the saved answers a sample proves are still right.
                 </p>
               </header>
               {composer}
@@ -331,10 +348,11 @@ function TurnView({ turn }: { turn: Turn }) {
           <MarkerIcon>
             <Spinner />
           </MarkerIcon>
-          <MarkerContent className="ask-shimmer">Re-judging, reusing and certifying…</MarkerContent>
+          <MarkerContent className="ask-shimmer">Asking again, reusing and checking samples…</MarkerContent>
         </Marker>
       ) : (
         <div className="flex flex-col gap-3">
+          <CostCompare lanes={r.results} metered={r.brain.metered} />
           <div className="grid gap-6 md:grid-cols-3 md:gap-4">
             {r.results.map((lane) => (
               <LaneMessage key={lane.name} lane={lane} metered={r.brain.metered} />
@@ -361,9 +379,10 @@ function LaneMessage({ lane, metered }: { lane: Lane; metered: boolean }) {
             variant="outline"
             className={cn("ml-auto shrink-0", stale ? "border-destructive/50 text-destructive" : cn("border-emerald-600/50 dark:border-emerald-400/50", GOOD))}
           >
-            {stale ? `${int(stale)} stale` : "0 stale"}
+            {int(stale)} wrong
           </Badge>
         </MessageHeader>
+        <p className="px-1 text-muted-foreground text-xs leading-snug text-pretty">{meta.blurb}</p>
         <Bubble variant="muted" className="w-full max-w-full">
           <BubbleContent className="w-full rounded-2xl px-4 py-3">
             <p className="whitespace-pre-wrap leading-relaxed">{renderBold(lane.answer)}</p>
@@ -375,7 +394,7 @@ function LaneMessage({ lane, metered }: { lane: Lane; metered: boolean }) {
         <Collapsible className="px-1">
           <CollapsibleTrigger className="group flex items-center gap-1 text-left text-muted-foreground text-xs hover:text-foreground">
             <ChevronDownIcon className="size-3.5 transition-transform group-data-[state=open]:rotate-180" />
-            {n} flagged pair{n === 1 ? "" : "s"}
+            {n} conflict{n === 1 ? "" : "s"} flagged
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2">
             <ul className="space-y-1 font-mono text-xs">
@@ -383,7 +402,7 @@ function LaneMessage({ lane, metered }: { lane: Lane; metered: boolean }) {
                 lane.findings.map((f, i) => (
                   <li key={i} className={cn("flex items-baseline justify-between gap-2", f.stale && "text-destructive")}>
                     <span className="break-words">{f.text}</span>
-                    {f.stale ? <span className="shrink-0 font-semibold uppercase">stale</span> : null}
+                    {f.stale ? <span className="shrink-0 font-semibold uppercase">wrong</span> : null}
                   </li>
                 ))
               ) : (
@@ -404,14 +423,38 @@ function LaneMessage({ lane, metered }: { lane: Lane; metered: boolean }) {
   );
 }
 
+/** One compact row per approach: judge calls as a bar, then cost and wrong answers. */
+function CostCompare({ lanes, metered }: { lanes: Lane[]; metered: boolean }) {
+  const max = Math.max(1, ...lanes.map((l) => l.calls));
+  return (
+    <div role="table" aria-label="Cost comparison" className="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-1.5 rounded-xl border bg-card/60 px-3 py-2.5 text-xs tabular-nums">
+      {lanes.map((l) => {
+        const meta = LANES[l.name];
+        return (
+          <div key={l.name} role="row" className="contents">
+            <span role="cell" className="font-medium">{meta.title}</span>
+            <span role="cell" className="h-1.5 overflow-hidden rounded-full bg-muted">
+              <span className={cn("block h-full rounded-full", meta.bar)} style={{ width: `${(l.calls / max) * 100}%` }} />
+            </span>
+            <span role="cell" className="text-right text-muted-foreground">
+              {int(l.calls)} calls · {metered ? usd(l.costUsd, 4) : "not metered"} ·{" "}
+              <span className={cn("font-semibold", l.staleCount ? "text-destructive" : GOOD)}>{int(l.staleCount)} wrong</span>
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function BrainLine({ r }: { r: AskResponse }) {
   const b = r.brain;
   return (
     <p className="px-1 text-muted-foreground text-xs tabular-nums">
-      Whole brain · {int(b.cells)} verdicts: stock {int(b.stock.calls)} calls{b.metered ? `, ${usd(b.stock.costUsd, 4)}` : ""}, 0 stale ·
-      reuse everything 0 calls, <span className="font-semibold text-destructive">{int(b.reuse_all.stale)} stale</span> · certified{" "}
+      Whole brain · {int(b.cells)} saved answers: stock {int(b.stock.calls)} calls{b.metered ? `, ${usd(b.stock.costUsd, 4)}` : ""}, 0 wrong ·
+      reuse everything 0 calls, <span className="font-semibold text-destructive">{int(b.reuse_all.stale)} wrong</span> · certified{" "}
       {int(b.certified.calls)} calls{b.metered ? `, ${usd(b.certified.costUsd, 4)}` : ""},{" "}
-      <span className={cn("font-semibold", b.certified.stale ? "text-destructive" : GOOD)}>{int(b.certified.stale)} stale</span>,{" "}
+      <span className={cn("font-semibold", b.certified.stale ? "text-destructive" : GOOD)}>{int(b.certified.stale)} wrong</span>,{" "}
       <span className={cn("font-semibold", GOOD)}>{pct(b.certified.reusedPct)}</span> reused
     </p>
   );

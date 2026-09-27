@@ -1,0 +1,124 @@
+{
+ "continental": {
+  "title": "Continental Retail",
+  "detail": "Notes that contradict each other",
+  "input": {
+   "entity": "customers/continental-retail-group"
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "ACCOUNT SPOTLIGHT",
+    "title": "Continental Comeback",
+    "accentWord": "Comeback",
+    "subtitle": "Continental Retail Group pilot status, Q1 2026",
+    "chart": {
+     "form": "stat_cards",
+     "data": [
+      {
+       "label": "Backroom Bots",
+       "value": "12",
+       "numeric": 12,
+       "highlight": true
+      },
+      {
+       "label": "Uptime",
+       "value": "96%",
+       "numeric": 96,
+       "highlight": true
+      },
+      {
+       "label": "NPS",
+       "value": "72",
+       "numeric": 72,
+       "highlight": true
+      },
+      {
+       "label": "Robotics team",
+       "value": "7",
+       "numeric": 7
+      },
+      {
+       "label": "Forecast revenue",
+       "value": "$1.8M",
+       "numeric": 1.8
+      },
+      {
+       "label": "Pilot status",
+       "value": "Renewed",
+       "numeric": 1
+      }
+     ],
+     "layoutNotes": "6 stat cards in 2-column grid, hero on top"
+    },
+    "callouts": [
+     {
+      "text": "Pilot renewed in December after earlier cancellation notice",
+      "anchor": "Pilot status"
+     },
+     {
+      "text": "Navigation fix live; expansion to 20 bots targeted mid-year"
+     }
+    ],
+    "hero": "warehouse aisle with small backroom robot carrying boxes, upper area",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "retail warehouse theme, cardboard and steel textures, navy and orange accents, clean cards with robot icon motif"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "Current values only; earlier targets and interim dips superseded. Expansion to 20 bots planned.",
+    "fileName": "continental-retail"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_874930dc-ea7e-467f-8033-e1c5acb461d0c7ffa190-1e1b-4ec7-8562-32e65bcf3c19.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 22,
+     "passed": 18
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "severity": 3,
+      "expected": "7",
+      "found": "missing"
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Backroom Bots",
+      "found": "missing"
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Robotics team",
+      "found": "missing"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "Bots"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/continental-retail-rHn3sAThody1T7JZp3ixzSfbfTrXva.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 22,
+     "passed": 22
+    },
+    "defects": []
+   },
+   "passes": 2,
+   "seconds": {
+    "spec": 6.8796803330000005,
+    "loop": 71.302541125
+   }
+  }
+ }
+}

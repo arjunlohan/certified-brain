@@ -68,10 +68,9 @@ bun run ui                          # API + legacy ledger on :4173 (bun:sqlite, 
 cd web && pnpm install && pnpm dev  # the demo on http://localhost:3000
 ```
 
-- `/` How it works: the numbers, the flywheel over the infographic studio (GBrain memory, QM recall, River-trained judge and spec writer, the certificate as the gate), and where each piece of code lives.
-- `/reuse` Certified reuse: a three-lane replay (reuse everything, stock GBrain, certified) of a recorded certification on a shared judge-call clock, the per-group bound table with a drill-down into real flipped pairs, "guess which edit is safer", and the judge swaps to River models with their self-flip floors.
-- `/ask` Ask the brain A/B: one question answered under the three cache policies.
-- `/infographic` Infographics A/B: image-to-image edit vs full re-render after the brain changed, and the gateway spec writer vs the 9B trained on River.
+- `/` Certified reuse: the paper, a three-lane replay (reuse everything, stock GBrain, certified) of a recorded certification on a shared judge-call clock, the kept or re-checked groups with a drill-down into real flipped pairs, and the judge swaps to models trained on River.
+- `/ask` Ask the brain A/B: one question answered under the three cache policies, with showcase queries found by `scripts/find-showcase.ts`.
+- `/infographic` Infographics A/B: Muse Spark vs our River-trained spec writer, both prompted with the infographic studio's planner instructions and run through the studio's own quality loop (render, blind fact-check, fix by edit or re-render). Before is the first render, after is what the loop ships. `scripts/samples.ts` precomputes the samples; QA runs are logged to the studio's store so its learned render policy improves.
 
 `DEMO.md` is the script for the demo video.
 

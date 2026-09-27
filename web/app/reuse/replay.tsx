@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 const CHANGES = [
   { edit: "Semantic prompt edit", short: "Rule change", group: "Change the judge's prompt", to: "3-sem", what: "The judge's instructions gain a new rule about dates and small metric drops." },
   { edit: "Formatting-only prompt edit", short: "Formatting only", group: "Change the judge's prompt", to: "2-fmt", what: "Same rules, just reworded and numbered. Looks harmless." },
-  { edit: "Swap to owned 9B (trained)", short: "Our 9B, trained", group: "Change the judge's model", to: "9b-sft", what: "Replace the judge with a small Qwen 9B we fine-tuned on River." },
-  { edit: "Swap to 9B (untrained)", short: "9B, untrained", group: "Change the judge's model", to: "9b-base", what: "The same small model before any training." },
+  { edit: "Swap to owned 9B (trained)", short: "Our trained model", group: "Change the judge's model", to: "9b-sft", what: "Replace the judge with a small model we trained on River." },
+  { edit: "Swap to 9B (untrained)", short: "Same model, untrained", group: "Change the judge's model", to: "9b-base", what: "Our small model before any training." },
   { edit: "Same model, owned weights (River)", short: "Same model, our weights", group: "Change the judge's model", to: "dsv4", what: "The same DeepSeek model, but weights we host on River." },
-  { edit: "Same model, trained on River", short: "Same model, fine-tuned", group: "Change the judge's model", to: "dsv4-sft", what: "The same DeepSeek model after our fine-tune on River." },
+  { edit: "Same model, trained on River", short: "DeepSeek, fine-tuned", group: "Change the judge's model", to: "dsv4-sft", what: "The same DeepSeek model after our fine-tune on River." },
 ] as const;
 const ALPHAS = [0.05, 0.1, 0.2];
 const LANES = [
@@ -219,7 +219,7 @@ function Drilldown({ to, stratum, onClose }: { to: string; stratum: Stratum | nu
   );
 }
 
-export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Floor[] }) {
+export function ReuseReplay({ configs }: { configs: Config[]; floors?: Floor[] }) {
   const [change, setChange] = useState<(typeof CHANGES)[number]>(CHANGES[0]);
   const [alpha, setAlpha] = useState(0.1);
   const [clock, setClock] = useState(0);
@@ -358,136 +358,69 @@ export function ReuseReplay({ configs, floors }: { configs: Config[]; floors: Fl
         </div>
       </Section>
 
-      <Section eyebrow="02 · Inside the certificate" title="Sample each group, keep it only if it passes">
-        <div className="overflow-x-auto rounded-2xl border bg-card shadow-[var(--card-shadow)]">
-          <table className="w-full min-w-[720px] text-sm">
-            <thead className="text-left font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
-              <tr className="border-b">
-                <th className="px-4 py-3">Group (old verdict)</th>
-                <th className="px-4 py-3 text-right">Cells</th>
-                <th className="px-4 py-3">Worst-case share that changed vs budget</th>
-                <th className="px-4 py-3 text-right">Sampled</th>
-                <th className="px-4 py-3 text-right">Actually changed</th>
-                <th className="px-4 py-3">Decision</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cfg.once.strata.map((st, i) => {
-                const j = lookAt(i);
-                const look = j >= 0 ? st.looks[j]! : null;
-                const decided = j === st.looks.length - 1;
-                const w = (x: number) => `${Math.min(100, (x / 0.5) * 100)}%`;
-                return (
-                  <tr className="cursor-pointer border-b last:border-0 hover:bg-muted/50" key={st.id} onClick={() => setDrill(st)}>
-                    <td className="px-4 py-3 font-mono text-xs">{label(st.id)}</td>
-                    <td className="px-4 py-3 text-right tabular-nums">{int(st.size)}</td>
-                    <td className="px-4 py-3">
-                      <div className="relative h-3 w-56 rounded-full bg-muted">
-                        {look ? <div className={cn("h-3 rounded-full transition-[width] duration-[var(--duration-base)]", look.upperBound <= alpha ? "bg-emerald-500" : "bg-signal")} style={{ width: w(look.upperBound) }} /> : null}
-                        <div className="absolute -top-1 h-5 w-0.5 bg-destructive" style={{ left: w(alpha) }} title={`budget ${alpha * 100}%`} />
-                      </div>
-                      <div className="mt-1 font-mono text-[11px] text-muted-foreground">
-                        {look ? `look ${j + 1}/${st.looks.length} · n=${look.n} · ${look.flips} flips · bound ${look.upperBound >= 0.999 ? "stopped (futility)" : look.upperBound.toFixed(3)}` : "waiting"}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-right tabular-nums">{int(st.looks.at(-1)?.n ?? 0)}</td>
-                    <td className="px-4 py-3 text-right tabular-nums">{pct(st.trueFlipRate)}</td>
-                    <td className="px-4 py-3">
-                      {!decided ? <span className="text-muted-foreground text-xs">sampling</span> : st.certified ? (
-                        <Badge className="border-emerald-600 text-emerald-700 dark:text-emerald-400" variant="outline">certified · reuse {int(st.reused)}</Badge>
-                      ) : (
-                        <Badge className="border-signal text-signal" variant="outline">refused · re-judge</Badge>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      <Section eyebrow="02 · Per group" title="Kept or re-checked">
+        <div className="divide-y overflow-hidden rounded-2xl border bg-card shadow-[var(--card-shadow)]">
+          {cfg.once.strata.map((st, i) => {
+            const j = lookAt(i);
+            const look = j >= 0 ? st.looks[j]! : null;
+            const decided = j === st.looks.length - 1;
+            const w = (x: number) => `${Math.min(100, (x / 0.5) * 100)}%`;
+            return (
+              <button
+                className="flex w-full items-center gap-4 px-4 py-2.5 text-left transition-colors duration-[var(--duration-fast)] hover:bg-muted/50"
+                key={st.id}
+                onClick={() => setDrill(st)}
+                type="button"
+              >
+                <span className="w-44 shrink-0 truncate text-sm">{label(st.id).replace(/_/g, " ")}</span>
+                <span className="relative h-1.5 flex-1 rounded-full bg-muted">
+                  {look ? <span className={cn("block h-1.5 rounded-full transition-[width] duration-[var(--duration-base)]", look.upperBound <= alpha ? "bg-emerald-500" : "bg-signal")} style={{ width: w(look.upperBound) }} /> : null}
+                  <span className="absolute -top-1 h-3.5 w-0.5 bg-destructive" style={{ left: w(alpha) }} />
+                </span>
+                <span className="w-24 shrink-0 text-right">
+                  {!decided ? (
+                    <span className="text-muted-foreground text-xs">sampling</span>
+                  ) : st.certified ? (
+                    <Badge className="border-emerald-600 text-emerald-700 dark:text-emerald-400" variant="outline">kept</Badge>
+                  ) : (
+                    <Badge className="border-signal text-signal" variant="outline">re-checked</Badge>
+                  )}
+                </span>
+              </button>
+            );
+          })}
         </div>
-        <p className="text-muted-foreground text-xs">
-          Red tick = the error budget. Click a row to see real verdicts that flipped.
-        </p>
       </Section>
 
-      <Section eyebrow="03 · Guess" title="Which change breaks fewer verdicts?">
-        <div className="grid gap-3 sm:grid-cols-2">
+      <Section eyebrow="03 · Guess" title="Which change breaks more answers?">
+        <div className="flex flex-wrap gap-2">
           {[
-            { key: "fmt", name: "Formatting only", desc: "Same rules, reworded and numbered.", c: fmt },
-            { key: "sem", name: "Rule change", desc: "A new rule about dates and small metric drops.", c: sem },
+            { key: "fmt", name: "Formatting only" },
+            { key: "sem", name: "Rule change" },
           ].map((o) => (
-            <button
-              className={cn("space-y-2 rounded-2xl border bg-card p-4 text-left shadow-[var(--card-shadow)] transition-[background-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-standard)] active:scale-[0.99]", guess === o.key && "ring-2 ring-ring")}
-              key={o.key}
-              onClick={() => setGuess(o.key)}
-              type="button"
-            >
-              <p className="font-display text-lg uppercase tracking-wide">{o.name}</p>
-              <p className="text-muted-foreground text-sm">{o.desc}</p>
-              {guess ? (
-                <p className="font-mono text-xs tabular-nums">
-                  flips {pct(o.c.once.populationFlipRate)} overall · {pct(ncFlip(o.c))} of the big no_contradiction group · certified reuse {pct(o.c.once.reused / o.c.once.cells)} · {int(o.c.once.oracleCalls)} certification calls · realized error {pct(o.c.once.presentedError, 2)}
-                </p>
-              ) : null}
-            </button>
+            <Button key={o.key} onClick={() => setGuess(o.key)} size="lg" variant={guess === o.key ? "default" : "outline"}>
+              {o.name}
+            </Button>
           ))}
         </div>
         {guess ? (
           <p className="max-w-3xl text-sm">
-            <b>{guess === "sem" ? "Right." : "Most people pick this one."}</b> The "harmless" edit changed {pct(ncFlip(fmt))} of verdicts in the biggest group, the rule change only {pct(ncFlip(sem))}. You can't eyeball it. You have to measure.
+            <b>{guess === "fmt" ? "Right." : "Most people pick this."}</b> The harmless-looking reformat flipped {pct(ncFlip(fmt))} of the biggest group, the rule change only {pct(ncFlip(sem))}.
           </p>
-        ) : (
-          <p className="text-muted-foreground text-sm">Pick one.</p>
-        )}
+        ) : null}
       </Section>
 
-      <Section eyebrow="04 · Own the judge" title="Swap GBrain's judge for a model you trained on River">
-        <div className="overflow-x-auto rounded-2xl border bg-card shadow-[var(--card-shadow)]">
-          <table className="w-full min-w-[720px] text-sm">
-            <thead className="text-left font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
-              <tr className="border-b">
-                <th className="px-4 py-3">New judge (budget 10%)</th>
-                <th className="px-4 py-3 text-right">Agrees with old</th>
-                <th className="px-4 py-3 text-right">Reused (seed 1)</th>
-                <th className="px-4 py-3 text-right">Avg reuse, 1,000 reruns</th>
-                <th className="px-4 py-3 text-right">Judge calls</th>
-                <th className="px-4 py-3 text-right">Wrong served</th>
-                <th className="px-4 py-3 text-right">Breaches</th>
-              </tr>
-            </thead>
-            <tbody>
-              {swaps.map((s) => (
-                <tr className="cursor-pointer border-b last:border-0 hover:bg-muted/50" key={s.edit} onClick={() => setChange(s)}>
-                  <td className="px-4 py-3">{s.short}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{pct(1 - s.cfg.once.populationFlipRate)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{pct(s.cfg.once.reused / s.cfg.once.cells)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{pct(s.cfg.rep.savingsMean)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{int(s.cfg.once.cells - s.cfg.once.reused)} / {int(s.cfg.once.cells)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{pct(s.cfg.once.presentedError, 2)}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{s.cfg.rep.exceedances}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <Section eyebrow="04 · Own the judge" title="Swap in a model you trained">
+        <div className="grid gap-3 sm:grid-cols-3">
+          {swaps
+            .filter((s) => s.to !== "dsv4")
+            .sort((x, y) => ["9b-sft", "9b-base", "dsv4-sft"].indexOf(x.to) - ["9b-sft", "9b-base", "dsv4-sft"].indexOf(y.to))
+            .map((s) => {
+              const r = s.cfg.rep.savingsMean;
+              const name = s.to === "9b-sft" ? "Our trained model" : s.to === "9b-base" ? "Same model, untrained" : "Big model after our fine-tune";
+              return <Stat key={s.edit} label={`${name} keeps this much of the cache (average of 1,000 reruns)`} tone={s.to === "9b-sft" ? "signal" : r === 0 ? "bad" : undefined} value={pct(r)} />;
+            })}
         </div>
-        <p className="max-w-3xl text-muted-foreground text-sm">Untrained: nothing carries over. Trained on River: most of the cache does. Fine-tuning DeepSeek made it worse, and the certificate noticed.</p>
-        <div className="grid gap-3 sm:grid-cols-4">
-          {floors.map((f) => (
-            <Stat
-              key={f.mode}
-              label={
-                <>
-                  self-flip floor · {f.model.replace("@any-host", " (any host)")} · {f.hosts.length} host{f.hosts.length > 1 ? "s" : ""}: {f.hosts.map((h) => h.provider).join(", ")}
-                </>
-              }
-              tone={f.hosts.length > 1 ? "bad" : undefined}
-              value={pct(f.selfFlip)}
-            />
-          ))}
-        </div>
-        <p className="max-w-3xl text-muted-foreground text-sm">
-          Floor = how often a judge disagrees with itself on the same question. A rented model id moved across three hosts in one run; weights you own stay put.
-        </p>
       </Section>
 
       <Drilldown onClose={() => setDrill(null)} stratum={drill} to={change.to} />
