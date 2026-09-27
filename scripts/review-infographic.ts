@@ -1,5 +1,5 @@
 // Fact-check each rendered infographic against its spec's text contract with
-// Plate's vision reviewer, and store the verdicts in ui/data/infographic.json.
+// the studio's vision reviewer, and store the verdicts in ui/data/infographic.json.
 // Usage: bun run scripts/review-infographic.ts
 import { compileInfographic } from "../../gmi-hackathon-infographic-agent/agent/lib/infographic.ts";
 import { reviewInfographic } from "../../gmi-hackathon-infographic-agent/agent/lib/review.ts";

@@ -1,7 +1,7 @@
-// Teacher data for the River spec writer: Muse Spark 1.3 (Plate's spec model)
-// writes a Plate spec for every GBrain entity, twice (notes before the entity's
+// Teacher data for the River spec writer: Muse Spark 1.3 (the studio's spec model)
+// writes an infographic spec for every GBrain entity, twice (notes before the entity's
 // median date, and all notes with the cached judge verdicts). Only specs that
-// pass Plate's schema are kept. Writes river/data/spec-{train,eval}.jsonl.
+// pass the studio's schema are kept. Writes river/data/spec-{train,eval}.jsonl.
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chat, pool } from "../src/llm.ts";
 import { parseSpec, specPrompt } from "../src/spec.ts";

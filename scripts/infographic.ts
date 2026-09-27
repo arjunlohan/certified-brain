@@ -1,4 +1,4 @@
-// Before/after infographic of one GBrain entity, built with Plate's spec compiler
+// Before/after infographic of one GBrain entity, built with the studio's spec compiler
 // and Hy Image 3.5 (GMI Cloud), with the spec written by DeepSeek-V4-Flash on River.
 //
 //   before: spec from what the brain held before the correcting notes arrived
@@ -59,7 +59,7 @@ async function writeSpec(prompt: string): Promise<InfographicSpec> {
   await proc.exited;
   const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
   const raw = JSON.parse(json);
-  delete raw.fileName; // optional download name; the model often exceeds Plate's 3-word limit
+  delete raw.fileName; // optional download name; the model often exceeds the studio's 3-word limit
   if (raw.chart?.unit === "optional") delete raw.chart.unit; // placeholder echoed from an earlier template
   return infographicSpecSchema.parse(raw);
 }

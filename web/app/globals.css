@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./typeset.css";
+
+@custom-variant dark (&:is(.dark *));
+
+
+.typeset-docs {
+  --typeset-font-body: var(--font-geist);
+  --typeset-font-heading: var(--font-geist);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-display: var(--font-oswald), "Oswald", "Arial Narrow", sans-serif;
+  --color-signal: var(--signal);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+}
+
+:root {
+  /* Newsroom palette: paper and ink with one signal-yellow accent (the heat-scale yellow from
+     the reference infographics). Light is newsprint; dark is the ink canvas. */
+  color-scheme: light;
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.2 0.01 270);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.01 270);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.01 270);
+  --primary: oklch(0.88 0.17 98);
+  --primary-foreground: oklch(0.2 0.01 270);
+  --secondary: oklch(0.955 0.006 85);
+  --secondary-foreground: oklch(0.2 0.01 270);
+  --muted: oklch(0.955 0.006 85);
+  --muted-foreground: oklch(0.48 0.012 270);
+  --accent: oklch(0.94 0.008 85);
+  --accent-foreground: oklch(0.2 0.01 270);
+  --destructive: oklch(0.55 0.21 27);
+  --border: oklch(0.2 0.01 270 / 12%);
+  --input: oklch(0.2 0.01 270 / 16%);
+  --ring: oklch(0.72 0.16 85 / 70%);
+  /* Signal as text or stroke: darkened on paper so it keeps contrast. */
+  --signal: oklch(0.6 0.13 78);
+  --radius: 0.75rem;
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --sidebar: oklch(0.97 0.005 85);
+  --sidebar-foreground: oklch(0.28 0.01 270);
+  --sidebar-primary: oklch(0.88 0.17 98);
+  --sidebar-primary-foreground: oklch(0.2 0.01 270);
+  --sidebar-accent: oklch(0.925 0.008 85);
+  --sidebar-accent-foreground: oklch(0.2 0.01 270);
+  --sidebar-border: oklch(0.2 0.01 270 / 9%);
+  --sidebar-ring: oklch(0.72 0.16 85 / 70%);
+  --card-shadow: 0 1px 2px oklch(0.2 0.01 270 / 0.06), 0 12px 32px -16px oklch(0.2 0.01 270 / 0.18);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.155 0.006 270);
+  --foreground: oklch(0.96 0.008 85);
+  --card: oklch(0.2 0.008 270);
+  --card-foreground: oklch(0.96 0.008 85);
+  --popover: oklch(0.22 0.008 270);
+  --popover-foreground: oklch(0.96 0.008 85);
+  --primary: oklch(0.9 0.17 100);
+  --primary-foreground: oklch(0.18 0.01 270);
+  --secondary: oklch(0.26 0.008 270);
+  --secondary-foreground: oklch(0.96 0.008 85);
+  --muted: oklch(0.26 0.008 270);
+  --muted-foreground: oklch(0.7 0.01 85);
+  --accent: oklch(0.28 0.008 270);
+  --accent-foreground: oklch(0.96 0.008 85);
+  --destructive: oklch(0.68 0.19 25);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.9 0.17 100 / 60%);
+  --signal: oklch(0.9 0.17 100);
+  --sidebar: oklch(0.135 0.006 270);
+  --sidebar-foreground: oklch(0.9 0.008 85);
+  --sidebar-primary: oklch(0.9 0.17 100);
+  --sidebar-primary-foreground: oklch(0.18 0.01 270);
+  --sidebar-accent: oklch(0.24 0.008 270);
+  --sidebar-accent-foreground: oklch(0.96 0.008 85);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.9 0.17 100 / 60%);
+  --card-shadow: 0 1px 2px oklch(0 0 0 / 0.3), 0 12px 32px -12px oklch(0 0 0 / 0.6);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+/* Render-in-progress texture: a slow scanline sweep so a 30s wait reads as work, not a hang. */
+.studio-scan {
+  background:
+    linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--signal) 10%, transparent) 50%, transparent 100%) 0 0 / 100% 40% no-repeat,
+    repeating-linear-gradient(0deg, color-mix(in oklch, var(--foreground) 4%, transparent) 0 1px, transparent 1px 12px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .studio-scan {
+    animation: studio-scan 2.4s linear infinite;
+  }
+}
+@keyframes studio-scan {
+  from {
+    background-position: 0 -40%, 0 0;
+  }
+  to {
+    background-position: 0 140%, 0 0;
+  }
+}
+
+
+/* Frosted controls that float over the dark image viewer: visible edge, top highlight, soft
+   drop shadow, and enough fill that white text stays readable over any image. */
+.glass-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  border: 1px solid oklch(1 0 0 / 0.28);
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.2), oklch(1 0 0 / 0.1));
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.35),
+    0 8px 24px -8px oklch(0 0 0 / 0.7);
+  backdrop-filter: blur(18px) saturate(1.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  color: oklch(0.99 0 0);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px oklch(0 0 0 / 0.4);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+.glass-button:active {
+  transform: scale(0.96);
+}
+.glass-button:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.35),
+    0 0 0 2px var(--ring);
+}
+@media (hover: hover) {
+  .glass-button:hover {
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.28), oklch(1 0 0 / 0.16));
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-button {
+    background: oklch(0.32 0.008 270);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

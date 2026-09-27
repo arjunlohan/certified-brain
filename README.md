@@ -59,26 +59,42 @@ Same GBrain prompt, judge model swapped. Cells are 2,000 held-out pairs, disjoin
 - The trained 9B matches the teacher on `no_contradiction` (98.9%) but collapses on the rare temporal classes (29 to 34%); the certifier refuses exactly those strata.
 - The provider floor (3.0% pinned) equals the floor of the same model on River (3.0%), so the provider's residual is model nondeterminism, not host swaps alone. The trained 9B's floor is 0.33%.
 
+## The demo app (localhost)
+
+A Next.js app in `web/` (shadcn components and the design system of the infographic studio) is the demo. It reads the recorded results in `ui/data/` and proxies live calls to the Bun API.
+
+```bash
+bun run ui                          # API + legacy ledger on :4173 (bun:sqlite, River)
+cd web && pnpm install && pnpm dev  # the demo on http://localhost:3000
+```
+
+- `/` How it works: the numbers, the flywheel over the infographic studio (GBrain memory, QM recall, River-trained judge and spec writer, the certificate as the gate), and where each piece of code lives.
+- `/reuse` Certified reuse: a three-lane replay (reuse everything, stock GBrain, certified) of a recorded certification on a shared judge-call clock, the per-group bound table with a drill-down into real flipped pairs, "guess which edit is safer", and the judge swaps to River models with their self-flip floors.
+- `/ask` Ask the brain A/B: one question answered under the three cache policies.
+- `/infographic` Infographics A/B: image-to-image edit vs full re-render after the brain changed, and the gateway spec writer vs the 9B trained on River.
+
+`DEMO.md` is the script for the demo video.
+
 ## Brain Chat: stock vs reuse-all vs certified
 
-`bun run ui`, then open `/chat.html`. Pick an entity and a change (semantic prompt edit, formatting edit, or judge swap to the River 9B) and ask a question. The brain answers three ways, each written by DeepSeek-V4-Flash on River from the verdicts that policy serves:
+In the app at `/ask` (or the legacy page `/chat.html` on :4173). Pick an entity and a change (semantic prompt edit, formatting edit, or judge swap to the River 9B) and ask a question. The brain answers three ways, each written by DeepSeek-V4-Flash on River from the verdicts that policy serves:
 
 - **Stock GBrain:** the cache key includes prompt_version and model, so every verdict is re-judged. Correct, full cost. This is GBrain's intended behavior, not a bug.
 - **Reuse all:** the obvious "fix", dropping the version from the key. Free, and silently wrong: after the semantic edit it serves 576 stale verdicts of 4,863.
 - **Certified:** 1,267 judge calls instead of 4,863 ($0.16 vs $0.63), 48 stale verdicts, bounded by α = 0.1.
 
-## Owning Plate's spec writer
+## Owning the infographic studio's spec writer
 
-Qwen3.5-9B, LoRA-trained on River (40 steps, batch 8) on 89 specs written by Muse Spark 1.3, Plate's spec model. On 19 held-out prompts from 10 unseen entities: 19/19 valid Plate specs (untrained 9B: 16/19), 100% of printed numbers found in the notes, 52% label overlap with the teacher (untrained: 38%). One held-out render (Acme Logistics) fact-checked by Plate's reviewer: River 9B spec 8/10 with 0 of 14 strings wrong; Muse Spark spec 4/10 with 2 of 15 wrong (single render, not a benchmark).
+Qwen3.5-9B, LoRA-trained on River (40 steps, batch 8) on 89 specs written by Muse Spark 1.3, the studio's spec model. On 19 held-out prompts from 10 unseen entities: 19/19 valid specs (untrained 9B: 16/19), 100% of printed numbers found in the notes, 52% label overlap with the teacher (untrained: 38%). One held-out render (Acme Logistics) fact-checked by the studio's reviewer: River 9B spec 8/10 with 0 of 14 strings wrong; Muse Spark spec 4/10 with 2 of 15 wrong (single render, not a benchmark).
 
-## From brain to infographic (Plate + Hy Image 3.5)
+## From brain to infographic (infographic studio + Hy Image 3.5)
 
-`scripts/infographic.ts` turns one GBrain entity into a before/after infographic using [Plate](https://github.com/arjunlohan/gmi-hackathon-infographic-agent)'s spec compiler and GMI client, imported from the sibling repo:
+`scripts/infographic.ts` turns one GBrain entity into a before/after infographic using the [infographic studio](https://github.com/arjunlohan/gmi-hackathon-infographic-agent)'s spec compiler and GMI client, imported from the sibling repo:
 
-1. DeepSeek-V4-Flash **on River** writes a Plate spec from the notes the brain held before the correcting notes arrived (Continental Retail Group before 2025-12-01).
+1. DeepSeek-V4-Flash **on River** writes an infographic spec from the notes the brain held before the correcting notes arrived (Continental Retail Group before 2025-12-01).
 2. It then updates that spec with all notes plus the 15 cached judge verdicts for this entity (supersessions, contradictions). The diff is the edit: 6 values, the headline and 2 callouts.
 3. Hy Image 3.5 preview renders **before** (text-to-image), **after as an image-to-image edit** of before (only the changed labels), and **after as a full re-render**.
-4. Plate's vision reviewer fact-checks each render against its spec's text contract (`scripts/review-infographic.ts`).
+4. The studio's vision reviewer fact-checks each render against its spec's text contract (`scripts/review-infographic.ts`).
 
 | Render | Wrong or missing (of 19 required strings) | Stale text left over |
 |---|---|---|

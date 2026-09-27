@@ -1,4 +1,4 @@
-// Shared prompt for writing a Plate infographic spec from GBrain notes, so the
+// Shared prompt for writing an infographic spec from GBrain notes, so the
 // teacher (Muse Spark), the River-trained student and scripts/infographic.ts
 // all see identical inputs.
 import { infographicSpecSchema, type InfographicSpec } from "../../gmi-hackathon-infographic-agent/agent/lib/infographic.ts";
@@ -26,7 +26,7 @@ export function specPrompt(pages: Page[], findings: string[] = []): string {
   );
 }
 
-/** Parse a model reply into a validated Plate spec (drops the optional download name). */
+/** Parse a model reply into a validated infographic spec (drops the optional download name). */
 export function parseSpec(text: string): InfographicSpec {
   const raw = JSON.parse(text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1));
   delete raw.fileName;

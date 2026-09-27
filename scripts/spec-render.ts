@@ -1,5 +1,5 @@
 // Render one held-out entity from the teacher's spec (Muse Spark) and from the
-// River-trained 9B's spec with Hy Image 3.5, then fact-check both with Plate's
+// River-trained 9B's spec with Hy Image 3.5, then fact-check both with the studio's
 // reviewer. Writes ui/data/spec-render.json and images.
 // Usage: bun run scripts/spec-render.ts [entity|variant=customers/acme-logistics|current]
 import { readFileSync } from "node:fs";

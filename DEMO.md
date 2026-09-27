@@ -1,55 +1,53 @@
-# Demo script (3 minutes)
+# Demo video script (about 3 minutes)
 
-**Open on:** the ledger UI (`bun run ui`, http://localhost:4173), "Semantic prompt edit", α = 0.1.
+Run it locally: `bun run ui` (API on :4173), then `cd web && pnpm install && pnpm dev`, and open http://localhost:3000.
+Record at a wide window (1440 px or more) so the three lanes sit side by side.
 
-## 0:00 · The problem (30 s)
+## 0:00 · How it works (20 s)
 
-> GBrain caches every judge verdict keyed on the prompt version and model. The schema comment says the key exists "so any prompt edit cleanly invalidates prior verdicts." So every judge-prompt release, and every model swap, throws the whole cache away and re-judges the brain. The only alternative today is reusing stale verdicts with no bound on how wrong they are.
+Open `/`. Read the headline and point at the four numbers for the semantic prompt change:
+73.9% of 4,863 cached verdicts reused with a certificate, 1,267 judge calls instead of 4,863, 48 stale verdicts served instead of 576, 0 of 1,000 replications over budget.
 
-## 0:30 · The certificate (60 s)
+> Every agent memory caches LLM judgments. Change the prompt or the model and you either throw them all away or keep them blindly. We keep exactly what we can prove.
 
-Point at the KPI row and the strata table.
+## 0:20 · The problem, in one picture (20 s)
 
-> This is GBrain's own contradiction judge, imported from the repo, over 4,863 cached verdicts on a company brain. We shipped a semantic rule change. Instead of re-judging all 4,863, we froze the cache into strata by cached verdict and sampled each one on a doubling schedule.
->
-> **527 new judge calls certified 73.9% of the cache for reuse, at 0.99% realized error, against a 10% budget.** The "no contradiction" stratum certified. The three temporal strata were refused after their first 45 samples, because the new rule flips 56 to 62% of them. The certifier found exactly the slice the edit touched.
+Open `/infographic`, section A/B 1. Point at the middle image: editing the old infographic in place (image-to-image) kept "$1.2M", "5" and "Pilot not renewed", facts the brain had already corrected. The full re-render has none of them.
 
-Toggle to "Formatting-only prompt edit".
+> Reuse without checking leaks stale facts. That is true for pixels, and it is true for a memory's cached verdicts.
 
-> A formatting-only edit: 66.4% reused for 1,003 calls, 3.1% error.
+## 0:40 · The race (60 s)
 
-Scroll to "Does the guarantee hold?"
+Open `/reuse`. Semantic rule change, α = 0.1, press Play.
 
-> Same labels, 1,000 sampling replications per configuration, 12 configurations: zero guarantee violations.
+- Left lane, reuse everything: instant, free, and 576 red squares: stale verdicts served.
+- Middle lane, stock GBrain: re-judges all 4,863, the call counter climbs.
+- Right lane, certified: yellow samples first; when the big no_contradiction group's bound clears α, 3,596 squares turn green at once; the temporal groups are refused and re-judged. Done at 1,267 calls, 48 stale (0.99%, inside the 10% budget).
 
-## 1:30 · Refusal is a diagnosis (30 s)
+Scroll to the certificate table. Click the `temporal_evolution` row and read one flipped pair: two notes, the cached verdict, the new verdict.
 
-Scroll to "Judge floor".
+## 1:40 · Guess which edit is safer (30 s)
 
-> Why were the temporal strata refused even on a formatting edit? Ask the judge the same question twice. It disagrees with itself 22 to 26% of the time on temporal_evolution. The "flips" there are the judge's own noise. The refusal is telling you which slice of your brain the judge cannot reproduce.
->
-> And look at the hosts column: one model id, served by three different hosts in the same minute. The provider can swap what is behind a model id without telling you, and every certificate you issued silently expires.
+Section 03. Ask the room: the formatting-only edit or the semantic rule change? Click Formatting-only.
 
-## 2:00 · Own the judge (45 s)
+> The harmless-looking edit flipped 4.6% of the biggest group. The rule change flipped 1.4%. You cannot eyeball which edit is safe; you have to measure it.
 
-Switch to "Swap to 9B (untrained)", then "Swap to owned 9B (trained)", then "Same model, owned weights (River)".
+## 2:10 · Own the judge (40 s)
 
-> So we trained our own judge on River: Qwen3.5-9B, rank-32 LoRA, 60 steps on 1,500 of the teacher's verdicts, disjoint from the 2,000 cells we certify. Then we treated the model swap as one more definition edit.
->
-> The untrained 9B agrees with the teacher 78.8% of the time. The certifier refuses to hand it anything: 0% reuse.
->
-> After training: 87% agreement, and **the certifier hands it 63.9% of the cache for 505 judge calls, at 0.70% realized error, zero violations in 1,000 replications.** That is the same fraction the teacher's own model gets when we run it on River.
->
-> And look at what it refused: the three temporal strata. Training on an 80/20 imbalanced set made the 9B collapse on the rare classes, 29 to 34% agreement there. The certifier found that without being told.
->
-> The floor: the trained 9B disagrees with itself 0.3% of the time on owned weights, against 3.0% for the provider model. Weights you own do not change host under you, so the certificate does not expire.
+Section 04, or pick "Qwen 9B, untrained" then "Qwen 9B, trained on River" in the replay.
 
-## 2:45 · Close (15 s)
+- Untrained 9B: every group refused, 0% reuse.
+- Trained on River on 1,500 of the teacher's verdicts: 87% agreement, 505 judge calls, 0.70% realized error.
+- DeepSeek V4 Flash fine-tuned on River got worse; the certifier handed it far less (nothing on this seed, 35.4% on average).
+- Compare judges on calls and error. Equal reuse percentages come from reuse moving in whole-group steps, not from the judges being equally good.
+- The floor tiles: one gateway model id was served by three hosts in one run. Owned weights keep the floor stationary, so a certificate does not silently expire. They do not make it lower by themselves: DeepSeek on River has the same 3.0% floor as the provider.
 
-> Also shipped: the contradiction probe now runs in GBrain's nightly dream cycle (issue #5559), default off, $1 cap, tests passing. Certified Brain makes running it nightly affordable, because most verdicts carry over.
+## 2:50 · Close (10 s)
 
----
+`/ask` if time allows: one question, three answers. Then the sidebar links: certified-brain, the GBrain fork (contradiction probe in the nightly dream cycle, #5559) and the QM fork (external memory providers were never consulted, #1452).
 
-**Backup:** the demo reads `ui/data/report.json`, committed; no API calls needed. Record a 2-minute screen capture of the flow above by 4:15.
+## Do not claim
 
-**If asked about the certifier:** it is the sIVM procedure from my preprint *Reuse, but Verify* (doi:10.5281/zenodo.21833641), vendored unmodified. What is new today: GBrain's verdict caches as the target, the model swap as a definition edit, the owned judge, and the #5559 phase.
+- A live stopwatch race. The replay is recorded data on a shared judge-call clock.
+- That owned weights lower the floor.
+- That QM or the write-back to the brain runs live. Both are designed and unblocked by the fork fix.

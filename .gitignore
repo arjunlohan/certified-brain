@@ -9,3 +9,5 @@ __pycache__/
 river/data/
 !ui/data/
 brain/
+.next/
+next-env.d.ts

@@ -1,8 +1,8 @@
 // Compare infographic spec writers on held-out entities:
-//   teacher  Muse Spark 1.3 (Plate's spec model, via the gateway)
+//   teacher  Muse Spark 1.3 (the studio's spec model, via the gateway)
 //   trained  Qwen3.5-9B LoRA on River, trained on the teacher's specs
 //   base     Qwen3.5-9B untrained
-// Metrics: valid Plate spec, grounding (printed values that appear in the notes),
+// Metrics: valid infographic spec, grounding (printed values that appear in the notes),
 // label overlap with the teacher. Writes ui/data/spec-eval.json.
 import { readFileSync } from "node:fs";
 import { parseSpec } from "../src/spec.ts";
