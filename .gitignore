@@ -8,5 +8,4 @@ data/
 __pycache__/
 river/data/
 !ui/data/
-.gbrain-home/
 brain/
