@@ -119,6 +119,643 @@
     "spec": 6.8796803330000005,
     "loop": 71.302541125
    }
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "Continental Retail Group",
+    "title": "Uptime Improved to 96%",
+    "accentWord": "Uptime",
+    "subtitle": "Midwest distribution centers, Q1 NPS 72",
+    "chart": {
+     "form": "column",
+     "data": [
+      {
+       "label": "Q1 NPS",
+       "value": "72",
+       "numeric": 72
+      },
+      {
+       "label": "Uptime",
+       "value": "96%",
+       "numeric": 96
+      },
+      {
+       "label": "Headcount",
+       "value": "7",
+       "numeric": 7
+      },
+      {
+       "label": "Revenue",
+       "value": "$1.8M",
+       "numeric": 1.8
+      },
+      {
+       "label": "Backroom Bots",
+       "value": "12",
+       "numeric": 12
+      }
+     ],
+     "benchmark": {
+      "label": "target uptime",
+      "numeric": 98
+     }
+    },
+    "callouts": [
+     {
+      "text": "Early data shows uptime improved to 96%",
+      "anchor": "Uptime"
+     },
+     {
+      "text": "Revenue forecast updated to $1.8M",
+      "anchor": "Revenue"
+     },
+     {
+      "text": "Headcount is back to 7",
+      "anchor": "Headcount"
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "material_texture"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "The navigation fix for Continental's 12 bots went live last week.",
+    "fileName": "continental-retail-group",
+    "brandMark": "Northwind Robotics"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_30244290-2773-4636-ad7e-4bee8b18b4754ab36a65-ceba-4b67-b39e-d08982e0b015.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 29,
+     "passed": 22
+    },
+    "defects": [
+     {
+      "kind": "misplaced",
+      "severity": 3,
+      "expected": "72"
+     },
+     {
+      "kind": "encoding",
+      "severity": 3
+     },
+     {
+      "kind": "magnitude",
+      "severity": 3
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Uptime",
+      "found": "missing"
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Headcount",
+      "found": "missing"
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Revenue",
+      "found": "missing"
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "Backroom Bots",
+      "found": "missing"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/continental-retail-group-Tdym0WnNvBUNvQS6pvA1iVBjhSUMwI.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 30,
+     "passed": 27
+    },
+    "defects": [
+     {
+      "kind": "misspelled",
+      "expected": "Uptime Improved to 96%",
+      "found": "Improved to 96%",
+      "message": "Expected \"Uptime Improved to 96%\", found \"Improved to 96%\"."
+     },
+     {
+      "kind": "encoding",
+      "message": "The render draws its own horizontal average or threshold line (at the top of the Uptime column at the target uptime level), not placed by the data."
+     },
+     {
+      "kind": "invented",
+      "found": "Uptime",
+      "message": "\"Uptime\" is printed twice."
+     }
+    ]
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 5.7075010829999995,
+    "loop": 304.07630100000006
+   }
+  }
+ },
+ "pisa": {
+  "title": "Best at math",
+  "detail": "Pasted data: PISA 2025",
+  "input": {
+   "brief": "Make a newsletter infographic. Average PISA 2025 mathematics scores of 15-year-olds (OECD): Singapore 563, Macao 549, Taiwan 546, Japan 525, South Korea 522, Estonia 508, Switzerland 499, UK 488, Canada 485, U.S. 463. OECD average: 463."
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "square",
+    "kicker": "RANKED:",
+    "title": "Best at Math",
+    "accentWord": "Math",
+    "subtitle": "Average PISA mathematics score of 15-year-olds, OECD 2025",
+    "chart": {
+     "form": "ranked_bar",
+     "data": [
+      {
+       "label": "Singapore",
+       "value": "563",
+       "numeric": 563,
+       "highlight": true
+      },
+      {
+       "label": "Macao",
+       "value": "549",
+       "numeric": 549
+      },
+      {
+       "label": "Taiwan",
+       "value": "546",
+       "numeric": 546
+      },
+      {
+       "label": "Japan",
+       "value": "525",
+       "numeric": 525
+      },
+      {
+       "label": "South Korea",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Estonia",
+       "value": "508",
+       "numeric": 508
+      },
+      {
+       "label": "Switzerland",
+       "value": "499",
+       "numeric": 499
+      },
+      {
+       "label": "UK",
+       "value": "488",
+       "numeric": 488
+      },
+      {
+       "label": "Canada",
+       "value": "485",
+       "numeric": 485
+      },
+      {
+       "label": "U.S.",
+       "value": "463",
+       "numeric": 463
+      }
+     ],
+     "benchmark": {
+      "label": "OECD average: 463",
+      "numeric": 463
+     }
+    },
+    "callouts": [
+     {
+      "text": "Singapore leads by 14 points over nearest rival",
+      "anchor": "Singapore"
+     },
+     {
+      "text": "Top five are all in East Asia"
+     }
+    ],
+    "hero": "oversized brass compass and protractor arranged over faint graph paper, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "classroom chalk-meets-editorial concept, crisp navy bars with gold highlight for leader, subtle grid-paper texture"
+    },
+    "source": "Source: OECD PISA 2025",
+    "footnote": "Scores for mathematics, 15-year-old students. OECD average 463.",
+    "fileName": "best-at-math"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_e36bc919-7ce0-478d-b4d7-d4916eb9610af51063d9-8713-4f57-aa09-d18421788ed9.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 33,
+     "passed": 32
+    },
+    "defects": [
+     {
+      "kind": "callout",
+      "severity": 3
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/best-at-math-qaF3WWeUnfTaJXTNoRPKbkPdZ4yInR.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 33,
+     "passed": 33
+    },
+    "defects": []
+   },
+   "passes": 2,
+   "seconds": {
+    "spec": 5.2510221249999995,
+    "loop": 118.78395058299999
+   }
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "square",
+    "kicker": "RANKED:",
+    "title": "Mathematics Scores",
+    "accentWord": "Scores",
+    "subtitle": "Average PISA 2025 mathematics scores of 15-year-olds, OECD",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "in mathematics scores",
+     "data": [
+      {
+       "label": "Singapore",
+       "value": "563",
+       "numeric": 563,
+       "highlight": true
+      },
+      {
+       "label": "Macao",
+       "value": "549",
+       "numeric": 549
+      },
+      {
+       "label": "Taiwan",
+       "value": "546",
+       "numeric": 546
+      },
+      {
+       "label": "Japan",
+       "value": "525",
+       "numeric": 525
+      },
+      {
+       "label": "South Korea",
+       "value": "522",
+       "numeric": 522
+      },
+      {
+       "label": "Estonia",
+       "value": "508",
+       "numeric": 508
+      },
+      {
+       "label": "Switzerland",
+       "value": "499",
+       "numeric": 499
+      },
+      {
+       "label": "UK",
+       "value": "488",
+       "numeric": 488
+      },
+      {
+       "label": "Canada",
+       "value": "485",
+       "numeric": 485
+      },
+      {
+       "label": "U.S.",
+       "value": "463",
+       "numeric": 463,
+       "highlight": true
+      },
+      {
+       "label": "OECD average",
+       "value": "463",
+       "numeric": 463
+      }
+     ],
+     "benchmark": {
+      "label": "OECD average",
+      "numeric": 463
+     }
+    },
+    "callouts": [
+     {
+      "text": "Top five supply 68% of output",
+      "anchor": "Singapore"
+     },
+     {
+      "text": "U.S. matches OECD average",
+      "anchor": "U.S."
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "sculpted from soil"
+    },
+    "source": "Source: OECD (2025)",
+    "footnote": "Grant-date value, not realized pay.",
+    "fileName": "pisa-mathematics-scores",
+    "brandMark": "Morning Ledger"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_5eebd562-fa1a-4ca2-b907-13e5c8621cfbe875d7c4-0f6f-4a85-8c32-4ce4f536e8c6.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 37,
+     "passed": 31
+    },
+    "defects": [
+     {
+      "kind": "misplaced",
+      "severity": 3,
+      "expected": "463"
+     },
+     {
+      "kind": "order",
+      "severity": 3
+     },
+     {
+      "kind": "callout",
+      "severity": 3
+     },
+     {
+      "kind": "encoding",
+      "severity": 3
+     },
+     {
+      "kind": "missing",
+      "severity": 2,
+      "expected": "U.S. matches OECD average",
+      "found": "missing"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "U.S. matches"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/pisa-mathematics-scores-TngaODhqpe8qekD2wkLshamqiIF1Zm.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 37,
+     "passed": 35
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "expected": "U.S. matches OECD average",
+      "found": "missing",
+      "message": "Missing \"U.S. matches OECD average\"."
+     },
+     {
+      "kind": "invented",
+      "found": "U.S. matches",
+      "message": "Not in the brief: \"U.S. matches\"."
+     }
+    ]
+   },
+   "passes": 5,
+   "seconds": {
+    "spec": 6.274405625,
+    "loop": 258.493292834
+   }
+  }
+ },
+ "acme": {
+  "title": "Acme Logistics",
+  "detail": "Account health from the brain's notes",
+  "input": {
+   "entity": "customers/acme-logistics"
+  },
+  "muse": {
+   "writer": "muse",
+   "writerLabel": "Muse Spark 1.3 · Vercel AI Gateway",
+   "spec": {
+    "format": "portrait",
+    "kicker": "ACCOUNT WATCH:",
+    "title": "Acme Logistics",
+    "accentWord": "Logistics",
+    "subtitle": "Fleet, uptime, loyalty and contract status, Sept 2025",
+    "chart": {
+     "form": "stat_cards",
+     "data": [
+      {
+       "label": "Pallet movers",
+       "value": "64",
+       "numeric": 64,
+       "highlight": true
+      },
+      {
+       "label": "Fleet uptime",
+       "value": "94%",
+       "numeric": 94
+      },
+      {
+       "label": "NPS score",
+       "value": "58",
+       "numeric": 58
+      },
+      {
+       "label": "Service contract",
+       "value": "Not renewed",
+       "numeric": 0
+      }
+     ],
+     "layoutNotes": "four stat cards in 2x2 grid, contract card styled as alert"
+    },
+    "callouts": [
+     {
+      "text": "Fleet grew 52 to 64 before uptime fell 97% to 94%",
+      "anchor": "Fleet uptime"
+     },
+     {
+      "text": "NPS fell 72 to 58 on slow ticket response",
+      "anchor": "NPS score"
+     },
+     {
+      "text": "Switched to third-party maintenance in Sept",
+      "anchor": "Service contract"
+     }
+    ],
+    "hero": "warehouse aisle with pallet movers, one with warning tag, upper area",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "logistics warehouse palette, steel blue and amber alert, pallet and forklift geometric shapes, clean type"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
+    "fileName": "acme-logistics"
+   },
+   "specAttempts": 1,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_4e2f49cf-ae3c-48d9-a0a7-d1acefaefc8228f62739-509c-4cee-a296-3c2873094250.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 20,
+     "passed": 18
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "severity": 3,
+      "expected": "Current values only; outdated 52-unit, 72 NPS and active-contract notes superseded. Owner: Tom Novak.",
+      "found": "missing"
+     },
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "Current values only; outdated 52-unit, 72 NPS and active-"
+     },
+     {
+      "kind": "invented",
+      "severity": 2,
+      "found": "contract notes superseded. Owner: Tom Novak."
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-PrE8s5hdRsO3h3H9YDE6ex5ThVDlAp.png",
+    "verdict": "publish",
+    "checks": {
+     "total": 20,
+     "passed": 20
+    },
+    "defects": []
+   },
+   "passes": 4,
+   "seconds": {
+    "spec": 16.627928708,
+    "loop": 182.042699083
+   }
+  },
+  "river": {
+   "writer": "river",
+   "writerLabel": "Our trained model · River",
+   "spec": {
+    "format": "portrait",
+    "kicker": "Service Renewal Status",
+    "title": "Acme Logistics",
+    "accentWord": "Logistics",
+    "subtitle": "Fleet of 52 pallet movers, NPS score of 58, September 2025",
+    "chart": {
+     "form": "ranked_bar",
+     "unit": "pallet movers",
+     "data": [
+      {
+       "label": "pallet movers",
+       "value": "52",
+       "numeric": 52
+      },
+      {
+       "label": "NPS score",
+       "value": "58",
+       "numeric": 58
+      },
+      {
+       "label": "uptime",
+       "value": "94%",
+       "numeric": 94
+      },
+      {
+       "label": "downtime",
+       "value": "3",
+       "numeric": 3
+      }
+     ]
+    },
+    "callouts": [
+     {
+      "text": "They opted to switch to a third-party maintenance provider.",
+      "anchor": "uptime"
+     },
+     {
+      "text": "Despite earlier discussions, we did NOT renew the service contract",
+      "anchor": "pallet movers"
+     },
+     {
+      "text": "Their overall fleet uptime dropped to 94% this month, down from 97% last quarter.",
+      "anchor": "uptime"
+     }
+    ],
+    "hero": "pile of dark soil with green sprouts, lower right",
+    "style": {
+     "preset": "clean_light",
+     "artDirection": "material_texture"
+    },
+    "source": "Source: Northwind Robotics knowledge base",
+    "footnote": "Grant-date value, not realized pay",
+    "fileName": "acme-logistics",
+    "brandMark": ""
+   },
+   "specAttempts": 2,
+   "before": {
+    "image": "https://storage.googleapis.com/gmi-video-assests-prod/user-assets/a39d2d2c-a5b4-4ed6-8cf8-fa4654f0fe3b/aacbfb3c-cffc-4af9-af74-a4c43cd3df54/gmi-videogen/generated/source_image_a90e74db-ecbf-486f-89a2-47f1de45298a72e85a31-d1ba-44ef-b12b-5e1bfcf446dc.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 25,
+     "passed": 24
+    },
+    "defects": [
+     {
+      "kind": "invented",
+      "severity": 3,
+      "found": "0, 20, 40, 60, 80, 90, 100"
+     }
+    ]
+   },
+   "after": {
+    "image": "https://mdh8f8cdozlvfube.public.blob.vercel-storage.com/renders/acme-logistics-SLSTf8fglVJfL1F2N8l5BKUKEE40bv.png",
+    "verdict": "fix",
+    "checks": {
+     "total": 25,
+     "passed": 24
+    },
+    "defects": [
+     {
+      "kind": "missing",
+      "expected": "pallet movers",
+      "found": "missing",
+      "message": "Missing \"pallet movers\"."
+     }
+    ]
+   },
+   "passes": 6,
+   "seconds": {
+    "spec": 10.722113499999999,
+    "loop": 332.551928333
+   }
   }
  }
 }
