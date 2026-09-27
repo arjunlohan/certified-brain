@@ -33,8 +33,12 @@ Tiles at the bottom: our trained model keeps most of the cache; the same model u
 
 `/infographic`. Click through the samples. For each model: before (first render) and after (what the fix loop ships), with the fact-check score. Same planner instructions, same Hy Image 3.5 render and the studio's own fix loop for both; only the spec writer differs (rented Muse Spark vs our trained model on River).
 
+## 2:50 · QM drives the brain (optional, 20 s)
+
+Open http://localhost:8129 (QM web chat). Ask: "Use ask_brain for vendors/edge-compute-partners, question 'Is the pricing agreement renewed?', change 3-sem, and compare the three policies." QM's agent calls our MCP tool and summarizes: reuse everything 4 wrong, certified 5 calls with 0 wrong, stock 15 calls.
+
 ## Do not claim
 
 - A live stopwatch race. The replay is recorded data on a shared judge-call clock.
 - That owned weights lower the judge's self-disagreement floor. They keep it fixed.
-- That QM runs live. Its local sandbox needs Docker; QM Loops are the target home for the render, check, fix and remember loop.
+- That QM Loops run the infographic loop on a schedule. QM runs locally (sandbox backend Agent37) and its agent calls the brain through MCP; the scheduled loop is not set up.
