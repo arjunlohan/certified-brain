@@ -29,15 +29,9 @@ export default function Home() {
           </a>
           <div className="min-w-0 space-y-3">
             <p className="font-mono text-muted-foreground text-xs uppercase tracking-[0.08em]">The paper</p>
-            <a className="block font-display text-xl uppercase leading-tight tracking-wide hover:underline" href={PDF} rel="noreferrer" target="_blank">
-              Reuse, but Verify: Certified Maintenance of LLM-Computed Table Cells under Prompt Edits
+            <a className="inline-flex items-center gap-1.5 font-display text-xl uppercase leading-tight tracking-wide hover:underline" href={DOI} rel="noreferrer" target="_blank">
+              doi.org/10.5281/zenodo.21833641 <ArrowUpRightIcon className="size-4" />
             </a>
-            <p className="flex flex-wrap items-center gap-x-3 text-muted-foreground text-sm">
-              <span>Lohan, 2026</span>
-              <a className="inline-flex items-center gap-1 font-mono text-xs hover:text-foreground" href={DOI} rel="noreferrer" target="_blank">
-                doi.org/10.5281/zenodo.21833641 <ArrowUpRightIcon className="size-3" />
-              </a>
-            </p>
             <dl className="space-y-1 text-sm">
               {LINES.map(([k, v]) => (
                 <div className="flex gap-3" key={k}>

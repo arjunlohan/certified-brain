@@ -251,11 +251,30 @@ export function ReuseReplay({ configs }: { configs: Config[]; floors?: Floor[] }
     cancelAnimationFrame(raf.current);
     setPlaying(false);
   };
+  // Picking a change (or the first load) replays it from the start, so the race runs without a click.
   useEffect(() => {
     cancelAnimationFrame(raf.current);
-    setPlaying(false);
     setClock(0);
-  }, [cfg]);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setPlaying(false);
+      setClock(cells);
+      return;
+    }
+    setPlaying(true);
+    let start = 0;
+    const tick = (now: number) => {
+      if (!start) start = now;
+      const k = Math.min(cells, ((now - start) / 9000) * cells);
+      setClock(Math.floor(k));
+      if (k < cells) raf.current = requestAnimationFrame(tick);
+      else setPlaying(false);
+    };
+    const t = setTimeout(() => (raf.current = requestAnimationFrame(tick)), 600);
+    return () => {
+      clearTimeout(t);
+      cancelAnimationFrame(raf.current);
+    };
+  }, [cfg, cells]);
   useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   const metered = cfg.costPerCall > 0;
