@@ -12,3 +12,4 @@ brain/
 .next/
 next-env.d.ts
 *.tsbuildinfo
+ui/data/img/gen-*
