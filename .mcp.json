@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "gbrain": {
+      "type": "http",
+      "url": "https://gbrain.io/mcp"
+    },
+    "gbrain-local": {
+      "type": "stdio",
+      "command": "bun",
+      "args": [
+        "run",
+        "/Users/lohan/Downloads/GitHub/gbrain/src/cli.ts",
+        "serve"
+      ],
+      "env": {
+        "GBRAIN_HOME": "/Users/lohan/Downloads/GitHub/certified-brain/.gbrain-home"
+      }
+    }
+  }
+}
