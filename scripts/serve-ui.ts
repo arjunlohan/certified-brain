@@ -31,6 +31,7 @@ function flips(to: string, cached: string, changed: boolean, limit = 4) {
 
 
 const root = new URL("../ui/", import.meta.url).pathname;
+const jobs = new Map<string, { status: string; result?: unknown; error?: string }>();
 Bun.serve({
   port: Number(process.env.PORT ?? 4173),
   idleTimeout: 240,
@@ -46,13 +47,22 @@ Bun.serve({
         return Response.json({ error: (e as Error).message }, { status: 500 });
       }
     }
+    // A render loop can run past any HTTP timeout, so generation is a job the page polls.
     if (url.pathname === "/api/generate" && req.method === "POST") {
       const b = (await req.json()) as { entity?: string; brief?: string; writer: Writer };
-      try {
-        return Response.json(await generate(b));
-      } catch (e) {
-        return Response.json({ error: (e as Error).message }, { status: 500 });
-      }
+      if (b.brief !== undefined && !/\d/.test(b.brief))
+        return Response.json({ error: "Paste the numbers too. This demo has no web research step, so the brief needs its data." }, { status: 400 });
+      const id = crypto.randomUUID();
+      const job: { status: string; result?: unknown; error?: string } = { status: "running" };
+      jobs.set(id, job);
+      generate(b)
+        .then((r) => Object.assign(job, { status: "done", result: r }))
+        .catch((e) => Object.assign(job, { status: "error", error: (e as Error).message }));
+      return Response.json({ job: id });
+    }
+    if (url.pathname === "/api/job") {
+      const job = jobs.get(url.searchParams.get("id") ?? "");
+      return job ? Response.json(job) : Response.json({ status: "error", error: "unknown job" }, { status: 404 });
     }
     if (url.pathname === "/api/flips") {
       const q = url.searchParams;

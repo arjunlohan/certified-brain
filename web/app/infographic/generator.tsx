@@ -45,7 +45,7 @@ function Shot({ side, label }: { side: Side; label: string }) {
   );
 }
 
-function WriterCard({ w, run, pending }: { w: (typeof WRITERS)[number]; run?: Run; pending?: number }) {
+function WriterCard({ w, run, pending, error }: { w: (typeof WRITERS)[number]; run?: Run; pending?: number; error?: string }) {
   return (
     <figure className="m-0 overflow-hidden rounded-2xl border bg-card text-card-foreground shadow-[var(--card-shadow)]">
       <figcaption className="flex items-center justify-between gap-3 border-b px-4 py-3">
@@ -65,7 +65,9 @@ function WriterCard({ w, run, pending }: { w: (typeof WRITERS)[number]; run?: Ru
         </div>
       ) : (
         <div className="relative flex aspect-[3/2] items-center justify-center bg-muted dark:bg-black/40">
-          {pending ? (
+          {error ? (
+            <p className="px-6 text-center text-destructive text-sm">{error}</p>
+          ) : pending ? (
             <>
               <div aria-hidden className="studio-scan absolute inset-0" />
               <Elapsed since={pending} />
@@ -93,7 +95,7 @@ function Elapsed({ since }: { since: number }) {
 export function Generator({ samples }: { samples: Record<string, Sample> }) {
   const keys = Object.keys(samples);
   const [key, setKey] = useState(keys[0] ?? "live");
-  const [live, setLive] = useState<{ muse?: Run; river?: Run; started?: number; error?: string } | null>(null);
+  const [live, setLive] = useState<{ muse?: Run; river?: Run; museError?: string; riverError?: string; started?: number } | null>(null);
   const [brief, setBrief] = useState("");
   const shown = key === "live" ? live : samples[key];
 
@@ -103,10 +105,19 @@ export function Generator({ samples }: { samples: Record<string, Sample> }) {
     setKey("live");
     setLive({ started });
     for (const w of WRITERS) {
+      const fail = (error: string) => setLive((l) => ({ ...l, [`${w.key}Error`]: error }));
       fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ brief, writer: w.key }) })
         .then((r) => r.json())
-        .then((x) => setLive((l) => ({ ...l, ...(x.error ? { error: x.error } : { [w.key]: x }) })))
-        .catch((e) => setLive((l) => ({ ...l, error: String(e) })));
+        .then(async (x) => {
+          if (x.error) return fail(x.error);
+          for (;;) {
+            await new Promise((r) => setTimeout(r, 3000));
+            const j = await fetch(`/api/job?id=${x.job}`).then((r) => r.json());
+            if (j.status === "done") return setLive((l) => ({ ...l, [w.key]: j.result }));
+            if (j.status === "error") return fail(j.error);
+          }
+        })
+        .catch((e) => fail(String(e)));
     }
   };
 
@@ -123,29 +134,17 @@ export function Generator({ samples }: { samples: Record<string, Sample> }) {
         ) : null}
       </div>
       {key !== "live" && samples[key] ? <p className="text-muted-foreground text-sm">{samples[key]!.detail}</p> : null}
-      {live?.error && key === "live" ? <p className="text-destructive text-sm">{live.error}</p> : null}
-      {key !== "live" && samples[key]?.reference ? (
-        <figure className="m-0 flex items-center gap-4 overflow-hidden rounded-2xl border bg-card p-3 shadow-[var(--card-shadow)]">
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="h-40 w-32 shrink-0 cursor-zoom-in overflow-hidden rounded-lg bg-muted" type="button">
-                <img alt="Reference infographic" className="size-full object-cover object-top" src={samples[key]!.reference!.image} />
-              </button>
-            </DialogTrigger>
-            <DialogContent className="flex max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] flex-col items-center border-none bg-transparent p-0 shadow-none sm:max-w-[calc(100vw-4rem)]">
-              <DialogTitle className="sr-only">Reference infographic</DialogTitle>
-              <img alt="Reference infographic" className="max-h-[calc(100dvh-4rem)] w-auto rounded-lg object-contain" src={samples[key]!.reference!.image} />
-            </DialogContent>
-          </Dialog>
-          <figcaption className="space-y-1">
-            <p className="font-display text-base uppercase tracking-wide">The bar we are aiming for</p>
-            <p className="text-muted-foreground text-xs">{samples[key]!.reference!.credit}. Made by human designers, shown for comparison only.</p>
-          </figcaption>
-        </figure>
+      {key !== "live" && samples[key] ? (
+        <div className="space-y-1.5 rounded-2xl border bg-card px-4 py-3 shadow-[var(--card-shadow)]">
+          <p className="font-mono text-muted-foreground text-xs uppercase tracking-[0.08em]">Input prompt</p>
+          <p className="text-sm leading-relaxed">
+            {samples[key]!.input.brief ?? `Make an infographic from the brain's notes on ${samples[key]!.input.entity}.`}
+          </p>
+        </div>
       ) : null}
       <div className="grid gap-4 lg:grid-cols-2">
         {WRITERS.map((w) => (
-          <WriterCard key={w.key} pending={key === "live" ? live?.started : undefined} run={shown?.[w.key]} w={w} />
+          <WriterCard error={key === "live" ? live?.[`${w.key}Error`] : undefined} key={w.key} pending={key === "live" ? live?.started : undefined} run={shown?.[w.key]} w={w} />
         ))}
       </div>
 
@@ -159,7 +158,7 @@ export function Generator({ samples }: { samples: Record<string, Sample> }) {
         <Textarea
           className="min-h-14 resize-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent"
           onChange={(e) => setBrief(e.target.value)}
-          placeholder="Try your own: paste data for an infographic"
+          placeholder="Try your own: paste the data (with numbers), e.g. world population by country: India 1.46B, China 1.42B, U.S. 347M..."
           value={brief}
         />
         <div className="flex items-center gap-2 pt-2">
